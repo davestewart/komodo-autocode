@@ -1,0 +1,17 @@
+description,
+groupbox{
+	 padding-top:5px;
+}
+
+description{
+	line-height:1.3em;
+}
+
+
+strong{
+	font-weight:bold;
+}
+
+.indented{
+	margin-left:22px;
+}

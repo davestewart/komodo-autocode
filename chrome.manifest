@@ -1,0 +1,6 @@
+content		autocode								content/
+
+overlay		chrome://komodo/content/komodo.xul		chrome://autocode/content/autocode.xul
+
+overlay		chrome://komodo/content/pref/pref.xul	chrome://autocode/content/pref/autocode-pref.xul
+
