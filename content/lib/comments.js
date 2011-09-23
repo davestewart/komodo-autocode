@@ -12,8 +12,7 @@
  *  - Supports fixed and auto-sizing columns
  *  - Preferences panel
  *
- * Based on original idea and code by Nathan Rijksen (http://naatan.com/), with contributions by
- * Todd Whiteman, Michal Kocarek (http://brainbox.cz/) and Alexander Kavoun (http://takkmoil.com/)
+ * Based on original code by Nathan Rijksen (http://naatan.com/)
  *  
  */
 autocode.comments =
