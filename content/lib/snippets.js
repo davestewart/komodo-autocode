@@ -1,6 +1,12 @@
 /**
- * @contributor		Dave Stewart (http://davestewart.co.uk/)
- * @version			0.3
+ * Auto-Snippet
+ *
+ * Allows the user to auto-complete abbreviations by pressing tab
+ * 
+ * Based on TAB trigger for Abbreviations by Stan Angeloff
+ *
+ * @author	Dave Stewart (www.davestewart.co.uk)
+ * @date	23rd September 2011
  */
 autocode.snippets =
 {
@@ -75,7 +81,6 @@ autocode.snippets =
 				var line				= scimoz.getTextRange(lineStart, lineEnd);
 
 			// don't add abbreviation if there are any other words on the line
-				//if(/^\s*(\*|\/\/)/.test(line))
 				if( ! /^\s*\w+$/.test(line))
 				{
 					return false;

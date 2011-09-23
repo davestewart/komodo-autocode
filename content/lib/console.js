@@ -1,4 +1,11 @@
-autocode.console =
+/**
+ * Console
+ * 
+ * Allows the user to run JavaScript directly in the Komodo Editor by pressing CTL+Enter
+ *
+ * @author	Dave Stewart (www.davestewart.co.uk)
+ * @date	23rd September 2011
+ */autocode.console =
 {
 	// ----------------------------------------------------------------------------------------------------
 	// Events

@@ -1,11 +1,20 @@
 /**
- * @fileoverview	Enter trigger for PHPdoc (code based on TAB trigger for Abbreviations by Stan Angeloff)
- * @author 			Nathan Rijksen (http://naatan.com/)
- * @contributor		Todd Whiteman
- * @contributor		Michal Kocarek (http://brainbox.cz/)
- * @contributor		Alexander Kavoun (http://takkmoil.com/)
- * @contributor		Dave Stewart (http://davestewart.co.uk/)
- * @version			0.3
+ * Auto-Comment
+ * @author	Dave Stewart (www.davestewart.co.uk)
+ * @date	23rd September 2011
+ * 
+ * Comments PHP, JavaScript and ActionScript code by typing /** above classes, functions and variables
+ *
+ * Features:
+ * 
+ *  - Supports PHP, JavaScript and ActionScript
+ *  - Guesses parameter types
+ *  - Supports fixed and auto-sizing columns
+ *  - Preferences panel
+ *
+ * Based on original idea and code by Nathan Rijksen (http://naatan.com/), with contributions by
+ * Todd Whiteman, Michal Kocarek (http://brainbox.cz/) and Alexander Kavoun (http://takkmoil.com/)
+ *  
  */
 autocode.comments =
 {
