@@ -14,10 +14,6 @@ autocode.snippets =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-	// ----------------------------------------------------------------------------------------------------
-	// Events
-	// ----------------------------------------------------------------------------------------------------
-
 		events:
 		{
 			
@@ -29,7 +25,7 @@ autocode.snippets =
 
 			remove:function(type, scope, handler)
 			{
-				if (autocode && autocode.onKeyPress)
+				if (autocode && this.onKeyPress)
 				{
 					ko.views.manager.topView.removeEventListener('keypress', this.onKeyPress, true);
 				}

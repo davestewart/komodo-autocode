@@ -42,13 +42,13 @@
 
         <groupbox orient="vertical" style="padding:10px 4px;">
             <caption label="AutoCode"/>
-            <description>AutoCode adds features to make in-editor development quicker and more productive (all options require a restart). </description>
+            <description>AutoCode adds features to make in-editor development quicker and more productive. Note that checking/unchecking options will require a restart.</description>
         </groupbox>
 
 
 		<groupbox orient="vertical">
 			<caption label="Abbreviations"/>
-			<checkbox id="chkAbbreviations" label="Enable auto-abbreviations" checked="true"/>
+			<checkbox id="chkAbbreviations" label="Enable auto-abbreviations"/>
 			<vbox class="indented">
 				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's abbreviations folder will automatically
 				trigger it to be entered in the document.</description>
@@ -58,13 +58,13 @@
 		<groupbox orient="vertical">
 			<caption label="Comments"/>
 
-			<checkbox id="chkComments" label="Enable auto-commenting" checked="true"/>
+			<checkbox id="chkComments" label="Enable auto-commenting"/>
 			<vbox class="indented">
 				<description>Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> in the edtor window immediately
 				above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window.</description>
 			</vbox>
 
-			<checkbox id="chkColumns" label="Use fixed column widths" checked="true" />
+			<checkbox id="chkColumns" label="Use fixed column widths" />
 			<vbox id="boxColumns" class="indented">
 
 				<description>Comment blocks will laid out automatically in columns, the widths of each you can optionally override below.
@@ -90,10 +90,17 @@
 
 		<groupbox orient="vertical">
 			<caption label="Console"/>
-			<checkbox id="chkConsole" label="Enable Komodo to be used as a JavaScript console" checked="true"/>
+			<checkbox id="chkConsole" label="Enable Komodo to be used as a JavaScript console"/>
 			<vbox class="indented">
 				<description>Pressing CTRL+Enter will execute the current JavaScript file (or current selection) within
 				Komodo; useful for both JavaScript prototyping and extension development.</description>
+				<description>The following functions will also be available when the console is enabled:</description>
+				<vbox class="indent nopadding">
+					<description>&#8226; trace(value): Traces the value to the command output</description>
+					<description>&#8226; inspect(value): Traces a hierarchical representation of the value to the command output</description>
+					<description>&#8226; clear(): Clears the command output</description>
+				</vbox>
+				<description>For more information about these commands, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page.</description>
 			</vbox>
 
 		</groupbox>

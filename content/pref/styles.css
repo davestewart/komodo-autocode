@@ -3,6 +3,11 @@ groupbox{
 	 padding-top:5px;
 }
 
+.nopadding description,
+.nopadding groupbox{
+	 padding-top:0px;
+}
+
 description{
 	line-height:1.3em;
 }

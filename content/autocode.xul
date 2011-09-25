@@ -1,16 +1,17 @@
 <?xml version="1.0"?>
 <!DOCTYPE overlay PUBLIC "-//MOZILLA//DTD XUL V1.0//EN" "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<overlay id="%extension_name%Overlay"
+<overlay id="autocodeBaseOverlay"
          xmlns:html="http://www.w3.org/1999/xhtml"
          xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
 	<script type="application/x-javascript" src="chrome://autocode/content/utils/prefs.js" />
+	
 	<script type="application/x-javascript" src="chrome://autocode/content/autocode.js" />
-	<script type="application/x-javascript" src="chrome://autocode/content/lib/console.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/comments.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/snippets.js" />
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/console.js" />
 
 	<commandset id="allcommands">
 		<command id="Tasks:HelloWorld" oncommand="alert('Hello World');"/>

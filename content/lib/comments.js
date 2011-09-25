@@ -31,7 +31,7 @@ autocode.comments =
 
 			remove:function()
 			{
-				if (autocode && autocode.comments.onKeyPress)
+				if (autocode && this.onKeyPress)
 				{
 					ko.views.manager.topView.removeEventListener('keypress', this.onKeyPress, true);
 				}
@@ -71,6 +71,7 @@ autocode.comments =
 				js:		[/^(js\w*|as)$/i]
 			},
 			pref:		'php',
+			current:null,
 			associate:function(rx, style)
 			{
 				if(/^(php|js)$/i.test(style))
@@ -90,9 +91,7 @@ autocode.comments =
 			// variables
 				var view			= ko.views.manager.currentView;
 
-				/**
-				 * @type {Components.interfaces.ISciMoz}
-				 */
+				/** @type {Components.interfaces.ISciMoz} */
 				var scimoz			= view.scimoz;
 
 			// Don't do anything if there is a selection within the document
@@ -181,6 +180,36 @@ autocode.comments =
 					// return
 						return str + output;
 				}
+				
+				function getType(value, style)
+				{
+					// variables
+						style	= style || 'js';
+						value	= String(value).toLowerCase();
+						
+					// process
+						var type = 'Object';
+						if(value == undefined)
+						{
+							type = 'Object';
+						}
+						else if(/^true|false$/.test(value))
+						{
+							type = 'Boolean';
+						}
+						else if( ! isNaN(parseInt(value)))
+						{
+							type = 'Number';
+						}
+						else if(/["']/.test(value))
+						{
+							type = 'String';
+						}
+						
+					// return
+						return style === 'php' ? type.toLowerCase() : type;
+				}
+
 
 			// --------------------------------------------------------------------------------
 			// Objects
@@ -272,28 +301,6 @@ autocode.comments =
 					// --------------------------------------------------------------------------------
 					// function components
 
-						function getType(value)
-						{
-							value = String(value).toLowerCase();
-							if(value == undefined)
-							{
-								return 'Object';
-							}
-							if(/^true|false$/.test(value))
-							{
-								return 'Boolean';
-							}
-							if( ! isNaN(parseInt(value)))
-							{
-								return 'Number';
-							}
-							if(/["']/.test(value))
-							{
-								return 'String';
-							}
-							return 'Object';
-						}
-
 						function processParams(strParams)
 						{
 							// rx
@@ -315,7 +322,7 @@ autocode.comments =
 									// attempt to determine data type of optional parameters
 										if(parts[3])
 										{
-											type = getType(parts[3].replace(/^[\s=]*/, ''));
+											type = getType(parts[3].replace(/^[\s=]*/, ''), style);
 										}
 										
 									// create Param object
@@ -440,8 +447,6 @@ autocode.comments =
 									var param = new Line(line);
 								}
 								params.push(param);
-							/*
-						*/
 							}
 							return params;
 						}
@@ -456,7 +461,7 @@ autocode.comments =
 
 				// matching parameters
 					var rxClass			= /^\s*?class/i;
-					var rxVariable		= /^\s*?(?:var|private|public|protected)/;
+					var rxVariable		= /^\s*?(?:var|private|public|protected)/;	//TODO capture value so type can be determined
 					var rxFunction		= /\bfunction\b\s*(?:\w*)\s*\((.*)\):?([\w\*]+)?/
 					
 				// grab prefs
@@ -470,7 +475,7 @@ autocode.comments =
 					var useFixedWidths	= prefs.get('boolean', 'AutoCodeColumns');
 					
 				// variables
-					var tabWidth		= this.prefs.tabWidth;
+					var tabWidth		= scimoz.tabWidth;
 					var widths			= useFixedWidths ? fixedWidths : {tag:0, type:0, name:0};
 					var matches			= null;
 					var snippet			= '';
@@ -526,6 +531,11 @@ autocode.comments =
 
 				// return
 					return true;
+		},
+		
+		toString:function()
+		{
+			return '[class AutoCodeComments]';
 		}
 		
 		/*
