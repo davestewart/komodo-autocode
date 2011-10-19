@@ -6,10 +6,10 @@
 
         <em:id>autocode@xjsfl.com</em:id>
         <em:name>AutoCode</em:name>
-        <em:version>0.3</em:version>
-        <em:description>Adds autocompleting features for abbreviations and doc comments</em:description>
+        <em:version>0.5</em:version>
+        <em:description>Adds JavaScript console and autocompleting features for abbreviations and doc comments</em:description>
         <em:creator>Dave Stewart</em:creator>
-        <em:homepageURL>http://www.xjsfl.com/support/setup/komodo/autocode-extension</em:homepageURL>
+        <em:homepageURL>http://www.xjsfl.com/support/setup/komodo/autocode</em:homepageURL>
         <em:type>2</em:type> <!-- type=extension -->
 
         <em:targetApplication>
