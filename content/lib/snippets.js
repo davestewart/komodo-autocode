@@ -2,7 +2,7 @@
  * Auto-Snippet
  *
  * Allows the user to auto-complete abbreviations by pressing tab
- * 
+ *
  * Based on TAB trigger for Abbreviations by Stan Angeloff
  *
  * @author	Dave Stewart (www.davestewart.co.uk)
@@ -14,33 +14,15 @@ autocode.snippets =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-		events:
+		onKeyPress:function(event)
 		{
-			
-			add:function(type, scope, handler)
+			// Only trap when ENTER pressed with no modifiers
+			if (event.keyCode === 9 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
-				this.remove();
-				ko.views.manager.topView.addEventListener('keypress', this.onKeyPress, true);
-			},
-
-			remove:function(type, scope, handler)
-			{
-				if (autocode && this.onKeyPress)
+				if(autocode.snippets.processInput())
 				{
-					ko.views.manager.topView.removeEventListener('keypress', this.onKeyPress, true);
-				}
-			},
-
-			onKeyPress:function(event)
-			{
-				// Only trap when ENTER pressed with no modifiers
-				if (event.keyCode === 9 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
-				{
-					if(autocode.snippets.processInput())
-					{
-						event.preventDefault();
-						event.stopPropagation();
-					}
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			}
 		},
@@ -49,7 +31,7 @@ autocode.snippets =
 	// Input
 	// ----------------------------------------------------------------------------------------------------
 
-		processInput:function(a, bcdefgasasasasds)
+		processInput:function()
 		{
 			// variables
 				var view				= ko.views.manager.currentView;
@@ -62,7 +44,7 @@ autocode.snippets =
 				{
 					return false;
 				}
-				
+
 			// Exit if the autocomplete box is already showing
 				if(scimoz.autoCActive())
 				{
@@ -105,7 +87,7 @@ autocode.snippets =
 
 		/*
 				class
-		
+
 		*/
 
 

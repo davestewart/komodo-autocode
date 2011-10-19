@@ -2,18 +2,18 @@
  * Auto-Comment
  * @author	Dave Stewart (www.davestewart.co.uk)
  * @date	23rd September 2011
- * 
+ *
  * Comments PHP, JavaScript and ActionScript code by typing /** above classes, functions and variables
  *
  * Features:
- * 
+ *
  *  - Supports PHP, JavaScript and ActionScript
  *  - Guesses parameter types
  *  - Supports fixed and auto-sizing columns
  *  - Preferences panel
  *
  * Based on original code by Nathan Rijksen (http://naatan.com/)
- *  
+ *
  */
 autocode.comments =
 {
@@ -21,32 +21,15 @@ autocode.comments =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-		events:
+		onKeyPress:function(event)
 		{
-			add:function()
+			// Only trap when ENTER pressed with no modifiers
+			if (event.keyCode === 13 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
-				this.remove();
-				ko.views.manager.topView.addEventListener('keypress', this.onKeyPress, true);
-			},
-
-			remove:function()
-			{
-				if (autocode && this.onKeyPress)
+				if(autocode.comments.processInput())
 				{
-					ko.views.manager.topView.removeEventListener('keypress', this.onKeyPress, true);
-				}
-			},
-
-			onKeyPress:function(event)
-			{
-				// Only trap when ENTER pressed with no modifiers
-				if (event.keyCode === 13 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
-				{
-					if(autocode.comments.processInput())
-					{
-						event.preventDefault();
-						event.stopPropagation();
-					}
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			}
 		},
@@ -153,7 +136,7 @@ autocode.comments =
 				{
 					return '[[%tabstop:' +text+ ']]';
 				}
-				
+
 				function pad(str, strWidth, width, tabWidth, padding)
 				{
 					// set virtual width to the initial string width
@@ -180,13 +163,13 @@ autocode.comments =
 					// return
 						return str + output;
 				}
-				
+
 				function getType(value, style)
 				{
 					// variables
 						style	= style || 'js';
 						value	= String(value).toLowerCase();
-						
+
 					// process
 						var type = 'Object';
 						if(value == undefined)
@@ -205,7 +188,7 @@ autocode.comments =
 						{
 							type = 'String';
 						}
-						
+
 					// return
 						return style === 'php' ? type.toLowerCase() : type;
 				}
@@ -219,10 +202,10 @@ autocode.comments =
 					// values
 						this.tag		= tag;
 						this.value		= value;
-					
+
 					// update global column widths (declared in createOutput()) to the widest widths
 						widths.tag		= Math.max(this.tag.length, widths.tag);
-					
+
 					// to string
 						this.toString = function()
 						{
@@ -232,7 +215,7 @@ autocode.comments =
 							return output;
 						}
 				}
-				
+
 				function Line(value)
 				{
 					this.value	= value;
@@ -256,7 +239,7 @@ autocode.comments =
 						this.tag		= tag;
 						this.type		= type || '';
 						this.name		= name || '';
-						
+
 					// grab the text without any [[%tabstop:]] code
 						this.tagWidth	= this.tag.replace(/\[\[%tabstop:|\]\]/g, '').length;
 						this.typeWidth	= this.type.replace(/\[\[%tabstop:|\]\]/g, '').length;
@@ -266,7 +249,7 @@ autocode.comments =
 						widths.tag		= Math.max(this.tagWidth, widths.tag);
 						widths.type		= Math.max(this.typeWidth, widths.type);
 						widths.name		= Math.max(this.nameWidth, widths.name);
-						
+
 					// ensure no width is a multiple of a tab width, because there will be no gutter
 						for (var width in widths)
 						{
@@ -318,13 +301,13 @@ autocode.comments =
 										var name;
 										var type	= 'Object';
 										var parts	= match.match(rxParam);
-										
+
 									// attempt to determine data type of optional parameters
 										if(parts[3])
 										{
 											type = getType(parts[3].replace(/^[\s=]*/, ''), style);
 										}
-										
+
 									// create Param object
 										if(style == 'js')
 										{
@@ -362,11 +345,11 @@ autocode.comments =
 						// (params & returns need to be processed first as they all contribute towards setting the global column widths)
 							var params	= processParams(matches[1]);
 							var returns	= processReturn(matches[2]);
-							
+
 						// process user components
 							var common	= processSnippet('common');
 							var user	= processSnippet('function');
-							
+
 						// add all components to a single array
 							var lines	= [].concat(common, user, params, returns);
 
@@ -391,10 +374,10 @@ autocode.comments =
 					// process user components
 						var common	= processSnippet('common');
 						var user	= processSnippet('class');
-						
+
 					// pre-process output
 						var lines	= [].concat(common, user);
-						
+
 					// create
 						var output = '\n';
 						output += ' * [[%tabstop:Summary]]\n';
@@ -406,7 +389,7 @@ autocode.comments =
 							}
 						}
 						output += ' */';
-						
+
 						return output;
 				}
 
@@ -422,13 +405,13 @@ autocode.comments =
 					}
 					return '';
 				}
-				
+
 				function processSnippet(type)
 				{
 					// grab snippet value
 						var snippet			= ko.abbrev.findAbbrevSnippet('autocomment ' + type, 'Auto Comment');
 						var value			= snippet ? snippet.value.replace(/!@#\w+/g, '') : '';
-						
+
 					// if we get a snippet, break the snippet into lines and process
 						if(value)
 						{
@@ -450,12 +433,12 @@ autocode.comments =
 							}
 							return params;
 						}
-						
+
 					// return
 						return [];//value != '' ?  value + '\n' : '';
 				}
 
-				
+
 			// --------------------------------------------------------------------------------
 			// variables
 
@@ -463,7 +446,7 @@ autocode.comments =
 					var rxClass			= /^\s*?class/i;
 					var rxVariable		= /^\s*?(?:var|private|public|protected)/;	//TODO capture value so type can be determined
 					var rxFunction		= /\bfunction\b\s*(?:\w*)\s*\((.*)\):?([\w\*]+)?/
-					
+
 				// grab prefs
 					autocode.comments.prefs.padding = parseInt(prefs.get('string', 'AutoCodeColumnPadding') || 0);
 					var fixedWidths =
@@ -473,7 +456,7 @@ autocode.comments =
 						name:	parseInt(prefs.get('string', 'AutoCodeColumnNames')) || 15,
 					};
 					var useFixedWidths	= prefs.get('boolean', 'AutoCodeColumns');
-					
+
 				// variables
 					var tabWidth		= scimoz.tabWidth;
 					var widths			= useFixedWidths ? fixedWidths : {tag:0, type:0, name:0};
@@ -532,19 +515,19 @@ autocode.comments =
 				// return
 					return true;
 		},
-		
+
 		toString:function()
 		{
 			return '[class AutoCodeComments]';
 		}
-		
+
 		/*
-		
+
 		function test(a, b, c)
 		{
-				
+
 		}
-		
+
 		*/
 
 };

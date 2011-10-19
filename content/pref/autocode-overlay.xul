@@ -70,18 +70,18 @@
 				<description>Comment blocks will laid out automatically in columns, the widths of each you can optionally override below.
 				Additionally,  you can also add padding tabs between columns.</description>
 				<hbox class="indented" align="baseline" style="padding:10px 0px 20px 0px">
+					<label>Padding: <textbox id="columnPadding" value="0" width="50" type="number" min="0" max="5" prefstring="AutoCodeColumnPadding" /></label>
 					<label>Tags: <textbox id="columnTags"  value="8" width="50" type="number" min="4" max="100" prefstring="AutoCodeColumnTags" /></label>
 					<label>Types: <textbox id="columnTypes" value="16" width="50" type="number" min="4" max="100" prefstring="AutoCodeColumnTypes" /></label>
 					<label>Names: <textbox id="columnNames" value="16" width="50" type="number" min="4" max="100" prefstring="AutoCodeColumnNames" /></label>
-					<label>Padding: <textbox id="columnPadding" value="0" width="50" type="number" min="0" max="5" prefstring="AutoCodeColumnPadding" /></label>
 				</hbox>
-				
+
 
 			</vbox>
 
 			<vbox style="padding:3px">
 				<description>
-					To add your own custom code to class and function comments (such as @author information) create new snippets in 
+					To add your own custom code to class and function comments (such as @author information) create new snippets in
 					your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common".
 					The code therein will be insterted into the appropriate comment types as they are created.
 				</description>
