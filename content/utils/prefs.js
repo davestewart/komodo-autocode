@@ -48,7 +48,7 @@
 				case 'number':
 					if (this.prefs.hasNumberPref(name))
 					{
-						pref = this.prefs.getNumberPref(name) || 0;
+						pref = this.prefs.getLongPref(name) || 0;
 						alert(pref)
 						if(element)
 						{
@@ -80,7 +80,7 @@
 				break;
 
 				case 'number':
-					return this.prefs.setNumberPref(name, value);
+					return this.prefs.setLongPref(name, value);
 				break;
 			}
 			return false;
