@@ -365,8 +365,9 @@ autocode.comments =
 						 */
 						function processReturn(type)
 						{
-							var tabstop = style == 'js' ? '{' + createTabstop(type || 'Object') + '}' : createTabstop(type || 'Object')
-							return new Param('returns', tabstop, '');
+							var tabstop = style == 'js' ? '{' + createTabstop(type || 'Object') + '}' : createTabstop(type || 'Object');
+							var name	= style == 'js' ? 'returns' : 'return';
+							return new Param(name, tabstop, '');
 						}
 
 					// --------------------------------------------------------------------------------
