@@ -61,7 +61,7 @@
 			<checkbox id="chkComments" label="Enable auto-commenting"/>
 			<vbox class="indented">
 				<description>Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> or <span style="font-style:italic">&lt;TAB&gt;</span> in the edtor window immediately
-				above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour).</description>
+				above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour and enter a normal multiline comment).</description>
 			</vbox>
 
 			<checkbox id="chkColumns" label="Use fixed column widths" />
