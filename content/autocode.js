@@ -21,7 +21,7 @@ autocode =
 				autocode.events.add(autocode.comments.onKeyPress);
 			}
 
-		// snippets
+		// abbreviations / snippets
 			if(prefs.get('boolean', 'AutoCodeAbbreviations'))
 			{
 				autocode.events.add(autocode.snippets.onKeyPress);
