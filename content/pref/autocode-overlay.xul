@@ -42,7 +42,9 @@
 
         <groupbox orient="vertical" style="padding:10px 4px;">
             <caption label="AutoCode"/>
-            <description>AutoCode adds features to make in-editor development quicker and more productive. Note that checking/unchecking options will require a restart.</description>
+            <description>AutoCode adds features to make in-editor development quicker and more productive.</description>
+            <description>For full information and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page.</description>
+            <description>Note that checking/unchecking options will require a restart.</description>
         </groupbox>
 
 
@@ -100,7 +102,6 @@
 					<description>&#8226; inspect(value): Traces a hierarchical representation of the value to the command output</description>
 					<description>&#8226; clear(): Clears the command output</description>
 				</vbox>
-				<description>For more information about these commands, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page.</description>
 			</vbox>
 
 		</groupbox>
