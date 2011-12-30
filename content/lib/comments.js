@@ -25,7 +25,7 @@ autocode.comments =
 		onKeyPress:function(event)
 		{ 
 			// Only trap when ENTER or TAB pressed with no modifiers
-            ko.statusBar.AddMessage(event.keyCode, '', 500)
+            //ko.statusBar.AddMessage(event.keyCode, '', 500)
 			if ((event.keyCode === 13 || event.keyCode == 9) &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
 				if(autocode.comments.processInput(event.keyCode))
