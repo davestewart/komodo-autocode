@@ -4,8 +4,8 @@
  * Adds autocompleting features for abbreviations and doc comments
  *
  * @author	Dave Stewart
- * @version	0.3
- * @date	September 22nd 2011
+ * @version	0.6
+ * @date	December 30th 2011
  */
 autocode =
 {
@@ -16,19 +16,19 @@ autocode =
 			window.addEventListener('current_view_changed', autocode.autocomplete.onViewChange, false);
 
 		// comments
-			if(prefs.get('boolean', 'AutoCodeComments'))
+			if(prefs.get('boolean', 'autocode.comments'))
 			{
 				autocode.events.add(autocode.comments.onKeyPress);
 			}
 
 		// abbreviations / snippets
-			if(prefs.get('boolean', 'AutoCodeAbbreviations'))
+			if(prefs.get('boolean', 'autocode.abbreviations'))
 			{
 				autocode.events.add(autocode.snippets.onKeyPress);
 			}
 
 		// console
-			if(prefs.get('boolean', 'AutoCodeConsole'))
+			if(prefs.get('boolean', 'autocode.console'))
 			{
 				autocode.console.panel.init();
 				autocode.events.add(autocode.console.onKeyPress);
@@ -39,9 +39,9 @@ autocode =
 			{
 				autocode.events.add(autocode.exec.onKeyPress);
 			}
-			
+
 	},
-	
+
 	/**
 	 * Handles keyboard events only
 	 */
@@ -66,7 +66,7 @@ autocode =
 				// do nothing
 			}
 		},
-		
+
 	}
 
 }
