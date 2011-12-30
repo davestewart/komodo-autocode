@@ -23,10 +23,10 @@
 
 		// checkboxes
 			prefs.init(this);
-			prefs.get('boolean', 'AutoCodeConsole', chkConsole);
-			prefs.get('boolean', 'AutoCodeAbbreviations', chkAbbreviations);
-			prefs.get('boolean', 'AutoCodeComments', chkComments);
-			prefs.get('boolean', 'AutoCodeColumns', chkColumns);
+			prefs.get('boolean', 'autocode.console', chkConsole);
+			prefs.get('boolean', 'autocode.abbreviations', chkAbbreviations);
+			prefs.get('boolean', 'autocode.comments', chkComments);
+			prefs.get('boolean', 'autocode.columns', chkColumns);
 			
 			chkConsole.addEventListener('click', onConsoleClick, false);
 			chkAbbreviations.addEventListener('click', onAbbreviationsClick, false);
@@ -39,10 +39,10 @@
 			columnNames			= document.getElementById('columnNames');
 			columnPadding		= document.getElementById('columnPadding');
 
-			prefs.get('string', 'AutoCodeColumnTags', columnTags);
-			prefs.get('string', 'AutoCodeColumnTypes', columnTypes);
-			prefs.get('string', 'AutoCodeColumnNames', columnNames);
-			prefs.get('string', 'AutoCodeColumnPadding', columnPadding);
+			prefs.get('string', 'autocode.columnTags', columnTags);
+			prefs.get('string', 'autocode.columnTypes', columnTypes);
+			prefs.get('string', 'autocode.columnNames', columnNames);
+			prefs.get('string', 'autocode.columnPadding', columnPadding);
 			
 			columnTags.addEventListener('change', onColumnValueChanged, false);
 			columnTypes.addEventListener('change', onColumnValueChanged, false);
@@ -55,35 +55,35 @@
 
 	function onConsoleClick(event)
 	{
-		prefs.set('boolean', 'AutoCodeConsole', event.target.checked);
+		prefs.set('boolean', 'autocode.console', event.target.checked);
 		event.target.checked ? autocode.events.add(autocode.console.onKeyPress) : autocode.events.remove(autocode.console.onKeyPress);
 	}
 
 	function onAbbreviationsClick(event)
 	{
-		prefs.set('boolean', 'AutoCodeAbbreviations', event.target.checked);
+		prefs.set('boolean', 'autocode.abbreviations', event.target.checked);
 		event.target.checked ? autocode.events.add(autocode.snippets.onKeyPress) : autocode.events.remove(autocode.snippets.onKeyPress);
 	}
 
 	function onCommentsClick(event)
 	{
-		prefs.set('boolean', 'AutoCodeComments', event.target.checked);
+		prefs.set('boolean', 'autocode.comments', event.target.checked);
 		event.target.checked ? autocode.events.add(autocode.comments.onKeyPress) : autocode.events.remove(autocode.comments.onKeyPress);
 	}
 
 	function onColumnsClick(event)
 	{
-		prefs.set('boolean', 'AutoCodeColumns', event.target.checked);
+		prefs.set('boolean', 'autocode.columns', event.target.checked);
 	}
 	
 	function onColumnValueChanged(event)
 	{
 		var names =
 		{
-			columnTags:		'AutoCodeColumnTags',
-			columnTypes:	'AutoCodeColumnTypes',
-			columnNames:	'AutoCodeColumnNames',
-			columnPadding:	'AutoCodeColumnPadding'
+			columnTags:		'autocode.columnTags',
+			columnTypes:	'autocode.columnTypes',
+			columnNames:	'autocode.columnNames',
+			columnPadding:	'autocode.columnPadding'
 		};
 		var name	= names[event.target.id];
 		var value	= event.target.value;
