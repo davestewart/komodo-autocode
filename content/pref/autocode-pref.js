@@ -56,19 +56,19 @@
 	function onConsoleClick(event)
 	{
 		prefs.set('boolean', 'AutoCodeConsole', event.target.checked);
-		event.target.checked ? autocode.console.events.add() : autocode.console.events.remove();
+		event.target.checked ? autocode.events.add(autocode.console.onKeyPress) : autocode.events.remove(autocode.console.onKeyPress);
 	}
 
 	function onAbbreviationsClick(event)
 	{
 		prefs.set('boolean', 'AutoCodeAbbreviations', event.target.checked);
-		event.target.checked ? autocode.snippets.events.add() : autocode.snippets.events.remove();
+		event.target.checked ? autocode.events.add(autocode.snippets.onKeyPress) : autocode.events.remove(autocode.snippets.onKeyPress);
 	}
 
 	function onCommentsClick(event)
 	{
 		prefs.set('boolean', 'AutoCodeComments', event.target.checked);
-		event.target.checked ? autocode.comments.events.add() : autocode.comments.events.remove();
+		event.target.checked ? autocode.events.add(autocode.comments.onKeyPress) : autocode.events.remove(autocode.comments.onKeyPress);
 	}
 
 	function onColumnsClick(event)
