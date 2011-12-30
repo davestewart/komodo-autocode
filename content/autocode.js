@@ -14,7 +14,6 @@ autocode =
 	{
 		// auto-size autocomplete box
 			window.addEventListener('current_view_changed', autocode.autocomplete.onViewChange, false);
-			//autocode.autocomplete.setSizePref(20);
 
 		// comments
 			if(prefs.get('boolean', 'AutoCodeComments'))
