@@ -85,11 +85,16 @@ autocode.snippets =
 				return false;
 		},
 
+		toString:function()
+		{
+			return '[object autocode.snippets]';
+		}
+
 		/*
 				class
 
 		*/
-
+		
 
 };
 

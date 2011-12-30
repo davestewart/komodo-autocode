@@ -733,7 +733,7 @@ autocode.console =
 
 		toString:function()
 		{
-			return '[class AutoCodeConsole]';
+			return '[object autocode.console]';
 		}
 
 }

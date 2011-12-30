@@ -12,7 +12,7 @@
  *  - Supports fixed and auto-sizing columns
  *  - Preferences panel
  *
- * Based on original code by Nathan Rijksen (http://naatan.com/)
+ * Based on original auto-commenting code by Nathan Rijksen (http://naatan.com/)
  *
  */
 autocode.comments =
@@ -518,7 +518,7 @@ autocode.comments =
 
 		toString:function()
 		{
-			return '[class AutoCodeComments]';
+			return '[object autocode.comments]';
 		}
 
 		/*

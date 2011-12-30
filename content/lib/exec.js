@@ -43,7 +43,7 @@ autocode.exec =
 		
 		toString:function()
 		{
-			return '[class AutoCodeExec]';
+			return '[object autocode.exec]';
 		}
 
 
