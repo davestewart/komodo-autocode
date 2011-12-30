@@ -10,6 +10,7 @@
         <em:description>Adds various features to the editor, including: JavaScript console &amp; debugging commands, tab-abbreviations, tab-doc comments, and a larger auto-completion box</em:description>
         <em:creator>Dave Stewart</em:creator>
         <em:homepageURL>http://www.xjsfl.com/support/setup/komodo/autocode</em:homepageURL>
+		<em:iconURL>chrome://autocode/skin/icon.png</em:iconURL>
         <em:type>2</em:type> <!-- type=extension -->
 
         <em:targetApplication>
