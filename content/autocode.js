@@ -59,7 +59,7 @@ autocode =
 		{
 			try
 			{
-				var container = ko.views.manager.topView || window;
+				var container = ko.views.manager ? ko.views.manager.topView : window;
 				container.removeEventListener('keypress', handler, true);
 			}
 			catch(err)
