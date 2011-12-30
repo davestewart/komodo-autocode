@@ -9,13 +9,12 @@
  */
 autocode =
 {
+
 	onLoad:function()
 	{
-        // auto-size autocomplete box
-            window.addEventListener('current_view_changed', autocode.tools.resizeAutocomplete, false);
-
-		// autocomplete max height
-			//prefs.set('number', 'autocomplete.maxHeight', 20);
+		// auto-size autocomplete box
+			window.addEventListener('current_view_changed', autocode.autocomplete.onViewChange, false);
+			//autocode.autocomplete.setSizePref(20);
 
 		// comments
 			if(prefs.get('boolean', 'AutoCodeComments'))
@@ -41,43 +40,36 @@ autocode =
 			{
 				autocode.events.add(autocode.exec.onKeyPress);
 			}
-
+			
 	},
-
+	
+	/**
+	 * Handles keyboard events only
+	 */
 	events:
 	{
 		add:function(handler)
 		{
 			this.remove(handler);
-			ko.views.manager.topView.addEventListener('keypress', handler, true);
+			var container = ko.views.manager ? ko.views.manager.topView : window;
+			container.addEventListener('keypress', handler, true);
 		},
 
 		remove:function(handler)
 		{
-			if (autocode && this.onKeyPress)
+			try
 			{
-				ko.views.manager.topView.removeEventListener('keypress', handler, true);
+				var container = ko.views.manager.topView || window;
+				container.removeEventListener('keypress', handler, true);
 			}
-		}
-	},
-
-	//TODO Add all event binding code to this
-
-    tools:
-    {
-        /**
-         * Sets the size of the code completion items box to 20
-         */
-        resizeAutocomplete:function(event)
-        {
-            var view = event.originalTarget;
-            if (view && view.scimoz)
-            {
-                view.scimoz.autoCMaxHeight = 20;
-            }
-        }
-    }
+			catch(err)
+			{
+				// do nothing
+			}
+		},
+		
+	}
 
 }
 
-window.addEventListener('load', autocode.onLoad, false);
+window.addEventListener('load',  autocode.onLoad, false);
