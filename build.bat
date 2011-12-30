@@ -1,2 +1,0 @@
-koext.py build
-pause
