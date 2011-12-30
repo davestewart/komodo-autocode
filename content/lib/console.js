@@ -17,34 +17,38 @@ autocode.console =
 			if (event && event.keyCode === 13 && event.ctrlKey)
 			{
 				var view = ko.views.manager.currentView;
-				if(view && view.koDoc)
+				if(view)
 				{
-					if(/\.(js)$/.test(view.item.url))
+					var doc = view.document ||view.koDoc;
+					if(doc)
 					{
-							/**
-							 * @type {Components.interfaces.ISciMoz}
-							 */
-							var scimoz		= view.scimoz;
-
-						// get selection
-							var selection	= scimoz.getTextRange(view.scimoz.selectionStart, view.scimoz.selectionEnd);
-
-						// run
-							ko.statusBar.AddMessage('Evaluating JavaScript...', 'AutoCode', 500, false);
-							try
-							{
-								eval(selection || view.scimoz.text);
-							}
-							catch(err)
-							{
-								scimoz.gotoLine(err.lineNumber - 53);
-								alert(err);
-							}
-
-						// cancel
-							event.preventDefault();
-							event.stopPropagation();
-							return true;
+						if(/\.(js)$/.test(view.item.url))
+						{
+								/**
+								 * @type {Components.interfaces.ISciMoz}
+								 */
+								var scimoz		= view.scimoz;
+	
+							// get selection
+								var selection	= scimoz.getTextRange(view.scimoz.selectionStart, view.scimoz.selectionEnd);
+	
+							// run
+								ko.statusBar.AddMessage('Evaluating JavaScript...', 'AutoCode', 500, false);
+								try
+								{
+									eval(selection || view.scimoz.text);
+								}
+								catch(err)
+								{
+									scimoz.gotoLine(err.lineNumber - 53); // magic number for komodo edit 6
+									alert(err);
+								}
+	
+							// cancel
+								event.preventDefault();
+								event.stopPropagation();
+								return true;
+						}
 					}
 				}
 			}
@@ -62,10 +66,17 @@ autocode.console =
 			newline:'\n',
 			init:function()
 			{
-				autocode.console.panel.scimoz = document.getElementById("runoutput-desc-tabpanel").contentDocument.getElementById("runoutput-scintilla").scimoz,
-				autocode.console.panel.newline = ["\r\n", "\n", "\r"][autocode.console.panel.scimoz.eOLMode];
-				autocode.console.panel.scimoz.tabWidth = 4;
-				return autocode.console.panel.scimoz;
+				// get the panel (v7 & previous)
+					var tabpanel					= document.getElementById("runoutput-desc-tabpanel");
+					var container					= tabpanel && tabpanel.contentDocument ? tabpanel.contentDocument : document;
+					autocode.console.panel.scimoz	= container.getElementById("runoutput-scintilla").scimoz;
+				
+				// panel properties
+					autocode.console.panel.newline = ["\r\n", "\n", "\r"][autocode.console.panel.scimoz.eOLMode];
+					autocode.console.panel.scimoz.tabWidth = 4;
+					
+				// return
+					return autocode.console.panel.scimoz;
 			}
 		},
 
@@ -85,7 +96,6 @@ autocode.console =
 					file.open('w');
 					file.puts(data);
 					file.close();
-
 
 				// open file
 					ko.open.URI(ko.uriparse.pathToURI(path));
