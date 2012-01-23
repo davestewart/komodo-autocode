@@ -16,13 +16,15 @@ autocode.snippets =
 
 		onKeyPress:function(event)
 		{
-			// Only trap when ENTER pressed with no modifiers
+			// Only trap when TAB pressed with no modifiers
 			if (event.keyCode === 9 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
 				if(autocode.snippets.processInput())
 				{
+					//alert('snippet complete')
 					event.preventDefault();
 					event.stopPropagation();
+					//ko.views
 				}
 			}
 		},
@@ -39,6 +41,7 @@ autocode.snippets =
 				/** @type {Components.interfaces.ISciMoz} */
 				var scimoz				= view.scimoz;
 
+
 			// Don't do anything if there is a selection within the document
 				if (scimoz.anchor != scimoz.currentPos)
 				{
@@ -46,7 +49,9 @@ autocode.snippets =
 				}
 
 			// Exit if the autocomplete box is already showing
-				if(scimoz.autoCActive())
+				var autoCActive			= scimoz.autoCActive(); // doesn't seem to work in KO7rc1
+				//alert(autoCActive)
+				if(autoCActive)
 				{
 					//scimoz.autoCCancel();
 					return false;
@@ -67,7 +72,7 @@ autocode.snippets =
 			// grab word
 				var word				= ko.interpolate.getWordUnderCursor(scimoz);
 
-			// test for opening block comment
+			// check that word is a word
 				if (word.match(/\w+/))
 				{
 					var snippet = ko.abbrev.findAbbrevSnippet(word);
@@ -92,9 +97,10 @@ autocode.snippets =
 
 		/*
 				class
+				doc
 
 		*/
-		
+
 
 };
 
