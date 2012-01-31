@@ -1,6 +1,7 @@
-content		autocode								content/
+content		autocode																						content/
+
+skin		autocode								default													skin/
 
 overlay		chrome://komodo/content/komodo.xul		chrome://autocode/content/autocode.xul
 
 overlay		chrome://komodo/content/pref/pref.xul	chrome://autocode/content/pref/autocode-pref.xul
-

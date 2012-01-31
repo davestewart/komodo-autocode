@@ -12,7 +12,7 @@
  *  - Supports fixed and auto-sizing columns
  *  - Preferences panel
  *
- * Based on original code by Nathan Rijksen (http://naatan.com/)
+ * Based on original auto-commenting code by Nathan Rijksen (http://naatan.com/)
  *
  */
 autocode.comments =
@@ -21,12 +21,14 @@ autocode.comments =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
+
 		onKeyPress:function(event)
-		{
-			// Only trap when ENTER pressed with no modifiers
-			if (event.keyCode === 13 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
+		{ 
+			// Only trap when ENTER or TAB pressed with no modifiers
+            //ko.statusBar.AddMessage(event.keyCode, '', 500)
+			if ((event.keyCode === 13 || event.keyCode == 9) &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
-				if(autocode.comments.processInput())
+				if(autocode.comments.processInput(event.keyCode))
 				{
 					event.preventDefault();
 					event.stopPropagation();
@@ -54,7 +56,6 @@ autocode.comments =
 				js:		[/^(js\w*|as)$/i]
 			},
 			pref:		'php',
-			current:null,
 			associate:function(rx, style)
 			{
 				if(/^(php|js)$/i.test(style))
@@ -69,13 +70,22 @@ autocode.comments =
 	// ----------------------------------------------------------------------------------------------------
 
 
-		processInput:function()
+		processInput:function(keyCode)
 		{
+			// defaults
+                keyCode				= keyCode || 13;
+				//TODO Pass keyCode to preocessing function so variable comments can be on one line or 3
+				
 			// variables
 				var view			= ko.views.manager.currentView;
 
-				/** @type {Components.interfaces.ISciMoz} */
+				/**
+				 * @type {Components.interfaces.ISciMoz}
+				 */
 				var scimoz			= view.scimoz;
+				
+			// carriage return style
+				var multiline		= keyCode === 13 ? true : false;
 
 			// Don't do anything if there is a selection within the document
 				if (scimoz.anchor != scimoz.currentPos)
@@ -110,13 +120,13 @@ autocode.comments =
 							{
 								if (rx.test(ext))
 								{
-									return this.processOutput(scimoz, nextLine, style);
+									return this.processOutput(scimoz, nextLine, style, multiline);
 								}
 							}
 						}
 
 					// fall back to default style
-						return this.processOutput(scimoz, nextLine, this.styles.pref);
+						return this.processOutput(scimoz, nextLine, this.styles.pref, multiline);
 				}
 
 			// return false
@@ -127,7 +137,7 @@ autocode.comments =
 	// Output
 	// ----------------------------------------------------------------------------------------------------
 
-		processOutput:function(scimoz, line, style)
+		processOutput:function(scimoz, line, style, multiline)
 		{
 			// --------------------------------------------------------------------------------
 			// utilities
@@ -136,7 +146,7 @@ autocode.comments =
 				{
 					return '[[%tabstop:' +text+ ']]';
 				}
-
+				
 				function pad(str, strWidth, width, tabWidth, padding)
 				{
 					// set virtual width to the initial string width
@@ -163,37 +173,58 @@ autocode.comments =
 					// return
 						return str + output;
 				}
-
+				
 				function getType(value, style)
 				{
-					// variables
-						style	= style || 'js';
-						value	= String(value).toLowerCase();
-
-					// process
-						var type = 'Object';
-						if(value == undefined)
+					// convert value to string
+						value		= String(value);
+						
+					// default type
+						var type	= style === 'php' ? 'object' : 'Object';
+						
+					// boolean
+						if(/^true|false$/i.test(value))
 						{
-							type = 'Object';
+							type = style === 'php' ? 'bool' : 'Boolean';
 						}
-						else if(/^true|false$/.test(value))
-						{
-							type = 'Boolean';
-						}
+						
+					// number
 						else if( ! isNaN(parseInt(value)))
 						{
-							type = 'Number';
+							type = style === 'php' ? 'int' : 'Number';
 						}
+						
+					// string
 						else if(/["']/.test(value))
 						{
-							type = 'String';
+							type = style === 'php' ? 'string' : 'String';
 						}
-
+						
+					// datatype
+						else
+						{
+							var matches = value.match(/\bnew\s+(\w+)/)
+							if(matches)
+							{
+								return matches[1];
+							}
+						}
+						
 					// return
-						return style === 'php' ? type.toLowerCase() : type;
+						return type;
 				}
-
-
+				
+				function populate(template, values)
+				{
+					for(var name in values)
+					{
+						var rx		= new RegExp('{' + name + '}', 'g');
+						template	= template.replace(rx, values[name]);
+					}
+					return template;
+				}
+				
+				
 			// --------------------------------------------------------------------------------
 			// Objects
 
@@ -305,7 +336,7 @@ autocode.comments =
 									// attempt to determine data type of optional parameters
 										if(parts[3])
 										{
-											type = getType(parts[3].replace(/^[\s=]*/, ''), style);
+											type = getType(parts[3].replace(/^[\s=]*/, ''));
 										}
 
 									// create Param object
@@ -334,8 +365,9 @@ autocode.comments =
 						 */
 						function processReturn(type)
 						{
-							var tabstop = style == 'js' ? '{' + createTabstop(type || 'Object') + '}' : createTabstop(type || 'Object')
-							return new Param('returns', tabstop, '');
+							var tabstop = style == 'js' ? '{' + createTabstop(type || 'Object') + '}' : createTabstop(type || 'Object');
+							var name	= style == 'js' ? 'returns' : 'return';
+							return new Param(name, tabstop, '');
 						}
 
 					// --------------------------------------------------------------------------------
@@ -393,17 +425,32 @@ autocode.comments =
 						return output;
 				}
 
-				function processVariable()
+				function processVariable(matches)
 				{
-					if (style == 'php')
-					{
-						return '\n * @var ' + tabstopType + ' ' + tabstopDesc + '\n */';
-					}
-					else if (style == 'js')
-					{
-						return ' @type {' + tabstopType + '} ' + tabstopDesc + ' */';
-					}
-					return '';
+					// variable values
+						var type		= getType(matches ? matches[2] : null, style);
+						var tabstop		= createTabstop(type);
+						
+					// template values
+						var template	= '';;
+						var values		= {tabstop:tabstop, desc:tabstopDesc};
+						
+					// template
+						if (style == 'js')
+						{
+							template = multiline
+										? '\n * @type {{tabstop}}\t{desc}\n */'
+										: ' @type {{tabstop}}\t{desc} */';
+						}
+						else
+						{
+							template = multiline
+										? '\n * @var {tabstop}\t{desc}\n */'
+										: ' @var {tabstop}\t{desc} */';
+						}
+						
+					// return
+						return populate(template, values);
 				}
 
 				function processSnippet(type)
@@ -444,7 +491,8 @@ autocode.comments =
 
 				// matching parameters
 					var rxClass			= /^\s*?class/i;
-					var rxVariable		= /^\s*?(?:var|private|public|protected)/;	//TODO capture value so type can be determined
+					var rxVariable		= /^\s*[^()]+?=\s*(.+)/;
+					var rxVariable		= /^\s*(var|private|protected|public)?(?:[^()\r\n]*=\s*(.+))?/;
 					var rxFunction		= /\bfunction\b\s*(?:\w*)\s*\((.*)\):?([\w\*]+)?/
 
 				// grab prefs
@@ -453,12 +501,12 @@ autocode.comments =
 					{
 						tag:	parseInt(prefs.get('string', 'AutoCodeColumnTags')) || 7,
 						type:	parseInt(prefs.get('string', 'AutoCodeColumnTypes')) || 15,
-						name:	parseInt(prefs.get('string', 'AutoCodeColumnNames')) || 15,
+						name:	parseInt(prefs.get('string', 'AutoCodeColumnNames')) || 15
 					};
 					var useFixedWidths	= prefs.get('boolean', 'AutoCodeColumns');
 
 				// variables
-					var tabWidth		= scimoz.tabWidth;
+					var tabWidth		= this.prefs.tabWidth;
 					var widths			= useFixedWidths ? fixedWidths : {tag:0, type:0, name:0};
 					var matches			= null;
 					var snippet			= '';
@@ -483,7 +531,7 @@ autocode.comments =
 					}
 					else if(rxVariable.test(line))
 					{
-						snippet		= processVariable();
+						snippet		= processVariable.call(this, line.match(rxVariable));
 					}
 					else
 					{
@@ -518,7 +566,7 @@ autocode.comments =
 
 		toString:function()
 		{
-			return '[class AutoCodeComments]';
+			return '[object autocode.comments]';
 		}
 
 		/*

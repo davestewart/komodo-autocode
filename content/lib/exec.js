@@ -1,5 +1,5 @@
 /**
- * Console
+ * Exec
  *
  * Allows the user to execute a file directly by pressing CTRL+Enter
  *
@@ -16,25 +16,36 @@ autocode.exec =
 		{
 			if (event && event.keyCode === 13 && event.ctrlKey)
 			{
-				var view	= ko.views.manager.currentView;
-				if(view && view.koDoc)
+				var view = ko.views.manager.currentView;
+				if(view)
 				{
-					var url	= view.item.url;
-					if(/\.(bat)$/.test(url))
+					var doc = view.document || view.koDoc;
+					if(doc)
 					{
-						// run file
-							var file	= Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-							file.initWithPath(ko.uriparse.URIToPath(url));
-							file.launch();
-
-						// cancel
-							event.preventDefault();
-							event.stopPropagation();
-							return true;
+						var url	= view.item.url;
+						if(/\.(bat)$/.test(url))
+						{
+							// run file
+								var file	= Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+								file.initWithPath(ko.uriparse.URIToPath(url));
+								file.launch();
+	
+							// cancel
+								event.preventDefault();
+								event.stopPropagation();
+								return true;
+						}
 					}
 				}
 			}
 			return false;
+		},
+		
+		toString:function()
+		{
+			return '[object autocode.exec]';
 		}
+
+
 
 }
