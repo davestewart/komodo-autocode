@@ -1,12 +1,12 @@
 // ------------------------------------------------------------------------------------------------------------------------
 //
-//  ██████ ██                         
-//  ██  ██ ██                         
-//  ██  ██ ██ █████ █████ █████ █████ 
-//  ██████ ██    ██ ██    ██ ██ ██    
-//  ██     ██ █████ ██    █████ █████ 
-//  ██     ██ ██ ██ ██    ██       ██ 
-//  ██     ██ █████ █████ █████ █████ 
+//  ██████ ██
+//  ██  ██ ██
+//  ██  ██ ██ █████ █████ █████ █████
+//  ██████ ██    ██ ██    ██ ██ ██
+//  ██     ██ █████ ██    █████ █████
+//  ██     ██ ██ ██ ██    ██       ██
+//  ██     ██ █████ █████ █████ █████
 //
 // ------------------------------------------------------------------------------------------------------------------------
 // Places
@@ -22,11 +22,11 @@ autocode.places =
 		{
 			// preferences
 				var prefs			= new xjsflLib.Prefs();
-			
+
 			// preferences
 				this.newline		= true;
 				this.pathType		= prefs.getString('autocode.places.pathType', 'relative');
-				
+
 			// global abbreviations
 				var strFileTypes	= prefs.getString('autocode.places.fileTypes', '');
 				var matches			= strFileTypes.match(/(\w+):(.+)./mg);
@@ -64,11 +64,11 @@ autocode.places =
 			{
 				lines.push(name + ': ' + defaultFileTypes[name]);
 			}
-			
+
 			return lines.join('\n');
 		}
 	},
-	
+
 	utils:
 	{
 		/**
@@ -90,7 +90,7 @@ autocode.places =
 			}
 			return data;
 		},
-		
+
 		/**
 		 * Gets the current projects enviroment variables
 		 */
@@ -104,7 +104,7 @@ autocode.places =
 			}
 			return {};
 		},
-		
+
 		/**
 		 * Repeat a string a specified number of times
 		 * @param	{String}	str			The string to repeat
@@ -115,7 +115,7 @@ autocode.places =
 		{
 			return Array(num + 1).join(value);
 		},
-		
+
 		/**
 		 * Resolves the common (branch) path between 2 paths or URIs
 		 * @param	{String}	src		A source path or URI
@@ -128,18 +128,18 @@ autocode.places =
 				var branch		= '';
 				var srcParts	= src.split('/');
 				var trgParts	= trg.split('/');
-	
+
 			// loop over folders and grab common ancestors
 				while(srcParts.length > 1 && srcParts[0] == trgParts[0])
 				{
 					srcParts.shift();
 					branch += trgParts.shift() + '/';
 				}
-				
+
 			// return
 				return branch;
 		},
-	
+
 		/**
 		 * Resolves a path from the source URI to a target URI, returning a relative path-formatted path
 		 * @param	{String}	src			The source path or URI
@@ -151,20 +151,20 @@ autocode.places =
 			// variables
 				var trgPath;
 				var branch = this.getBranch(src, trg);
-	
+
 			// no relationship, so just return the trgURI
 				if(branch === '')
 				{
 					trgPath = trg;
 				}
-				
+
 			// otherwise, determine relationship between srcURI and trgURI
 				else
 				{
 					// grab the remaining segments
 						var srcParts	= src.substr(branch.length).split('/');
 						var trgParts	= trg.substr(branch.length).split('/');
-						
+
 					// src is same level, so path will be 'trg.txt'
 						if(srcParts.length == 1 && trgParts.length == 1)
 						{
@@ -180,14 +180,14 @@ autocode.places =
 						{
 							trgPath = trgParts.join('/');
 						}
-					
+
 				}
-	
+
 			// return
 				return trgPath.replace(/\\/g, '/').replace(/%20/g, ' ');
 		}
 	},
-	
+
 	insertPath:function()
 	{
 		var view = ko.views.manager.currentView;
@@ -195,7 +195,7 @@ autocode.places =
 		{
 			// ----------------------------------------------------------------------------------------------------
 			// variables
-			
+
 				// exit if the file is not saved yet
 					var viewDoc	= (view.koDoc || view.document);
 					if( ! viewDoc.file )
@@ -203,12 +203,12 @@ autocode.places =
 						alert('You need to save the file before a path can be added');
 						return false;
 					}
-					
-				// elements	
+
+				// elements
 					var scimoz			= view.scimoz;
 					var tree			= document.getElementById("placesViewbox").contentDocument.getElementById('places-files-tree');
-					
-				// work out the URI	
+
+				// work out the URI
 					var baseURI			= tree.view.currentPlace;
 					var itemURI			= tree.view.getURIForRow(tree.currentIndex);
 					var viewURI			= viewDoc.file.URI;
@@ -238,21 +238,21 @@ autocode.places =
 						value:path,
 						template:''
 					}
-					
+
 			// ----------------------------------------------------------------------------------------------------
 			// build the text
-				
+
 				// test if position / selection has quotes around it
 					var text			= scimoz.getTextRange(scimoz.selectionStart - 1, scimoz.selectionEnd + 1);
 					var hasQuotes		= /^(["']).*\1$/.test(text);
 					var hasSelection	= scimoz.anchor != scimoz.currentPos;
-				
+
 				// if there are quotes either side of the selection, just add the text
 					if(hasQuotes || hasSelection)
 					{
 						ko.statusBar.AddMessage('Adding path for "' +file+ '"', 'autocode.places', 1500);
 					}
-			
+
 				// otherwise, we're going to look for an abbreviation
 					else
 					{
@@ -260,7 +260,7 @@ autocode.places =
 							var group		= ext ? this.settings.fileTypes[ext] : null;
 							var lang		= view.koDoc.languageForPosition(scimoz.currentPos);
 							var fileExt		= (view.document || view.koDoc).baseName.split('.').pop().toLowerCase();
-							
+
 						// massage languages into better-known types
 							if(lang == 'HTML5')
 							{
@@ -270,7 +270,7 @@ autocode.places =
 							{
 								lang = 'XUL';
 							}
-							
+
 						// attempt to get a group snippet, then if not found, the file snippet
 							var _snippet	= ko.abbrev.findAbbrevSnippet(ext, 'AutoCode/Places', lang)				// extension
 											|| ko.abbrev.findAbbrevSnippet(group, 'AutoCode/Places', lang)			// group
@@ -283,10 +283,10 @@ autocode.places =
 									snippet.value	= _snippet.value;
 									snippet.name	= _snippet.name;
 									snippet.path	= _snippet.path.replace(/\\/g, '/').replace(new RegExp('^.+AutoCode/Places/'), '').replace('.komodotool', '');
-									
+
 								// user feedback
 									ko.statusBar.AddMessage('Adding "' +snippet.path+ '" snippet for "' +file+ '"', 'autocode.places', 2000);
-									
+
 								// set up any project variables
 									var data		= this.utils.getProjectPrefs();
 									data.file		= file;
@@ -294,7 +294,7 @@ autocode.places =
 									data.relpath	= relPath;
 									data.abspath	= absPath;
 									data.uri		= itemURI;
-								
+
 								// replace variables
 									for(var name in data)
 									{
@@ -326,32 +326,32 @@ autocode.places =
 							var lineEnd			= scimoz.getLineEndPosition(lineIndex);
 							var line			= scimoz.getTextRange(lineStart, lineEnd);
 							var matches			= line.match(/^(\s*)(.+)?/);
-							
+
 						// if there's no text on the line, add a cariage return
 							if( ! matches[2] && this.settings.newline)
 							{
 								snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
 							}
 					}
-					
-			
+
+
 			// ----------------------------------------------------------------------------------------------------
 			// insert the text
-			
+
 				scimoz.beginUndoAction();
 				ko.abbrev.insertAbbrevSnippet(snippet, view);
 				scimoz.endUndoAction();
 				//scimoz.gotoPos(scimoz.currentPos);
 				//view.setFocus();
-				
+
 			// ----------------------------------------------------------------------------------------------------
 			// done
-			
+
 				return true;
 		}
 		return false;
 	},
-	
+
 	onEvent:function(event)
 	{
 		if(event.altKey)
@@ -360,10 +360,15 @@ autocode.places =
 		}
 		return false;
 	},
-	
+
 	initialize:function()
 	{
 		this.settings.initialize();
+	},
+
+	toString:function()
+	{
+		return '[object autocode.places]';
 	}
 }
 

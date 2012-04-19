@@ -1,14 +1,14 @@
 // ------------------------------------------------------------------------------------------------------------------------
 //
-//  ██████        ██         ██████                      ██        ██         
-//  ██  ██        ██         ██                          ██        ██         
-//  ██  ██ ██ ██ █████ █████ ██     █████ ████████ █████ ██ █████ █████ █████ 
-//  ██████ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ ██ ██  ██   ██ ██ 
-//  ██  ██ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ █████  ██   █████ 
-//  ██  ██ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ ██     ██   ██    
-//  ██  ██ █████  ████ █████ ██████ █████ ██ ██ ██ █████ ██ █████  ████ █████ 
-//                                                 ██                         
-//                                                 ██                         
+//  ██████        ██         ██████                      ██        ██
+//  ██  ██        ██         ██                          ██        ██
+//  ██  ██ ██ ██ █████ █████ ██     █████ ████████ █████ ██ █████ █████ █████
+//  ██████ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ ██ ██  ██   ██ ██
+//  ██  ██ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ █████  ██   █████
+//  ██  ██ ██ ██  ██   ██ ██ ██     ██ ██ ██ ██ ██ ██ ██ ██ ██     ██   ██
+//  ██  ██ █████  ████ █████ ██████ █████ ██ ██ ██ █████ ██ █████  ████ █████
+//                                                 ██
+//                                                 ██
 //
 // ------------------------------------------------------------------------------------------------------------------------
 // AutoComplete
@@ -26,13 +26,13 @@ autocode.autocomplete =
 	initialize:function()
 	{
 		var prefs	= new xjsflLib.Prefs();
-		var value	= prefs.getLongPref('codeintel_autocomplete_max_rows');
+		var value	= prefs.getLong('codeintel_autocomplete_max_rows');
 		this.setSize(value);
 	},
-	
+
 	setSize:function(value)
 	{
-		alert('Setting size to ' + value)
+		//alert('Setting size to ' + value)
 		value		= value || 10;
 		/*
 		var prefs	= new xjsflLib.Prefs();
@@ -41,7 +41,7 @@ autocode.autocomplete =
 		var prefs = Components.classes['@activestate.com/koPrefService;1'].getService(Components.interfaces.koIPrefService).prefs;
 		prefs.setLongPref('codeintel_autocomplete_max_rows', value);
 	},
-	
+
 	toString:function()
 	{
 		return '[object autocode.autocomplete]';

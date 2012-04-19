@@ -1,24 +1,24 @@
 // ------------------------------------------------------------------------------------------------------------------------
 //
-//  ██  ██ ██ 
-//  ██  ██ ██ 
-//  ██  ██ ██ 
-//  ██  ██ ██ 
-//  ██  ██ ██ 
-//  ██  ██ ██ 
-//  ██████ ██ 
+//  ██  ██ ██
+//  ██  ██ ██
+//  ██  ██ ██
+//  ██  ██ ██
+//  ██  ██ ██
+//  ██  ██ ██
+//  ██████ ██
 //
 // ------------------------------------------------------------------------------------------------------------------------
 // UI
 
 	// ----------------------------------------------------------------------------------------------------
 	// setup
-	
+
 		if( ! window.xjsflLib ) xjsflLib = {};
 
 	// ----------------------------------------------------------------------------------------------------
 	// code
-	
+
 		xjsflLib.UIManager = function(window)
 		{
 			if(window && window.document)
@@ -35,28 +35,28 @@
 				throw new Error('UIManager cannot initialize as the parameter "window" does not contain a document element ');
 			}
 		}
-		
+
 		xjsflLib.UIManager.prototype =
 		{
 			// ----------------------------------------------------------------------------------------------------
 			// properties
-			
+
 				window:null,
-				
+
 				document:null,
-				
+
 				prefs:null,
-				
+
 				groupSettings:null,
-				
-			
+
+
 			// ----------------------------------------------------------------------------------------------------
 			// set/get
-			
+
 				get:function(id)
 				{
 					var element = this.document.getElementById(id);
-					trace(id, element)
+					//trace(id, element)
 					if(element)
 					{
 						if(element.nodeName === 'checkbox')
@@ -70,7 +70,7 @@
 					}
 					return undefined;
 				},
-			
+
 				set:function(id, value)
 				{
 					var element = this.document.getElementById(id);
@@ -88,11 +88,11 @@
 					}
 					return this;
 				},
-				
-			
+
+
 			// ----------------------------------------------------------------------------------------------------
 			// load/save
-			
+
 				load:function(id, name, defaultValue)
 				{
 					var value = this.prefs.get(name);
@@ -104,7 +104,7 @@
 					this.set(id, value);
 					return value;
 				},
-			
+
 				save:function(id, name)
 				{
 					var value = this.get(id);
@@ -114,11 +114,11 @@
 					}
 					return value;
 				},
-				
-				
+
+
 			// ----------------------------------------------------------------------------------------------------
 			// group settings management
-			
+
 				loadGroup:function(settings)
 				{
 					this.groupSettings = settings;
@@ -130,7 +130,7 @@
 						this.load(id, pref, value);
 					}
 				},
-				
+
 				saveGroup:function()
 				{
 					for each(var setting in this.groupSettings)
@@ -140,16 +140,15 @@
 						this.save(id, pref);
 					}
 				},
-			
+
 			// ----------------------------------------------------------------------------------------------------
 			// utils
-			
+
 				toString:function()
 				{
 					var uri = this.window ? this.window.location : '';
 					return '[object UIManager uri="' +uri+ '"]';
 				}
-			
+
 
 		}
-		

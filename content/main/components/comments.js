@@ -1,12 +1,12 @@
 // ------------------------------------------------------------------------------------------------------------------------
 //
-//  ██████                                      ██         
-//  ██                                          ██         
-//  ██     █████ ████████ ████████ █████ █████ █████ █████ 
-//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██  ██   ██    
-//  ██     ██ ██ ██ ██ ██ ██ ██ ██ █████ ██ ██  ██   █████ 
-//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██    ██ ██  ██      ██ 
-//  ██████ █████ ██ ██ ██ ██ ██ ██ █████ ██ ██  ████ █████ 
+//  ██████                                      ██
+//  ██                                          ██
+//  ██     █████ ████████ ████████ █████ █████ █████ █████
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██  ██   ██
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ █████ ██ ██  ██   █████
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██    ██ ██  ██      ██
+//  ██████ █████ ██ ██ ██ ██ ██ ██ █████ ██ ██  ████ █████
 //
 // ------------------------------------------------------------------------------------------------------------------------
 // Comments
@@ -35,12 +35,11 @@ autocode.comments =
 	// ----------------------------------------------------------------------------------------------------
 
 		onEvent:function(event)
-		{	
+		{
 			// Only trap when ENTER or TAB pressed with no modifiers
             //ko.statusBar.AddMessage(event.keyCode, '', 500)
 			if ((event.keyCode === 13 || event.keyCode == 9) &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
-				alert(this)
 				if(this.processInput(event.keyCode))
 				{
 					return true;
@@ -55,10 +54,11 @@ autocode.comments =
 
 		settings:
 		{
-			tabWidth:		4,
-			padding:		1,
-			fixedWidths:	{tag:7, type:15, name:15},
-			useFixedWidths:	false
+			columns			:true,
+			tabWidth		:4,
+			padding			:1,
+			fixedWidths		:{tag:7, type:15, name:15},
+			useFixedWidths	:false
 		},
 
 		styles:
@@ -82,16 +82,11 @@ autocode.comments =
 	// Input
 	// ----------------------------------------------------------------------------------------------------
 
-		
 		processInput:function(keyCode)
 		{
-				//trace(keyCode);
-				
-			
 			// defaults
                 keyCode				= keyCode || 13;
-				//TODO Pass keyCode to processing function so variable comments can be on one line or 3
-				
+
 			// variables
 				var view			= ko.views.manager.currentView;
 
@@ -99,7 +94,7 @@ autocode.comments =
 				 * @type {Components.interfaces.ISciMoz}
 				 */
 				var scimoz			= view.scimoz;
-				
+
 			// carriage return style
 				var multiline		= keyCode === 13 ? true : false;
 
@@ -127,7 +122,6 @@ autocode.comments =
 						{
 							return false;
 						}
-						
 
 					// get doc style-type
 						var ext = view.item.url.split('.').pop();
@@ -163,11 +157,11 @@ autocode.comments =
 				{
 					return '[[%tabstop:' +text+ ']]';
 				}
-				
+
 				function pad(str, strWidth, width, tabWidth, padding)
 				{
 					// set virtual width to the initial string width
-						var output	= '';
+						var output		= '';
 
 					// pad initial word to the next column
 						var mod		= strWidth % tabWidth;
@@ -190,33 +184,33 @@ autocode.comments =
 					// return
 						return str + output;
 				}
-				
+
 				function getType(value, style)
 				{
 					// convert value to string
 						value		= String(value);
-						
+
 					// default type
 						var type	= style === 'php' ? 'object' : 'Object';
-						
+
 					// boolean
 						if(/^true|false$/i.test(value))
 						{
 							type = style === 'php' ? 'bool' : 'Boolean';
 						}
-						
+
 					// number
 						else if( ! isNaN(parseInt(value)))
 						{
 							type = style === 'php' ? 'int' : 'Number';
 						}
-						
+
 					// string
 						else if(/["']/.test(value))
 						{
 							type = style === 'php' ? 'string' : 'String';
 						}
-						
+
 					// datatype
 						else
 						{
@@ -226,11 +220,11 @@ autocode.comments =
 								return matches[1];
 							}
 						}
-						
+
 					// return
 						return type;
 				}
-				
+
 				function populate(template, values)
 				{
 					for(var name in values)
@@ -240,8 +234,7 @@ autocode.comments =
 					}
 					return template;
 				}
-				
-				
+
 			// --------------------------------------------------------------------------------
 			// Objects
 
@@ -258,8 +251,15 @@ autocode.comments =
 						this.toString = function()
 						{
 							var output = ' * @';
-							output += pad(this.tag, this.tag.length, widths.tag, tabWidth, this.settings.padding);
-							output += this.value + '\n';
+							if(settings.columns)
+							{
+								output += pad(this.tag, this.tag.length, widths.tag, tabWidth, settings.padding);
+								output += this.value + '\n';
+							}
+							else
+							{
+								output += [this.tag, this.value].join(' ');
+							}
 							return output;
 						}
 				}
@@ -316,16 +316,32 @@ autocode.comments =
 						this.toString = function(padding)
 						{
 							var output = ' * @';
-							output += pad(this.tag, this.tagWidth, widths.tag, tabWidth, this.settings.padding);
-							output += pad(this.type, this.typeWidth, widths.type, tabWidth, this.settings.padding);
-							output += pad(this.name, this.nameWidth, widths.name, tabWidth, this.settings.padding);
+							if(settings.columns)
+							{
+								output += pad(this.tag, this.tagWidth, widths.tag, tabWidth, settings.padding);
+								output += pad(this.type, this.typeWidth, widths.type, tabWidth, settings.padding);
+								output += pad(this.name, this.nameWidth, widths.name, tabWidth, settings.padding);
+							}
+							else
+							{
+								output += [this.tag, this.type, this.name].join(' ') + ' ';
+							}
 							output += tabstopDesc + '\n';
 							return output;
 						}
 				}
 
+
+				/**
+				function(a, b, c)
+				{
+
+				}
+				*/
+
 			// --------------------------------------------------------------------------------
 			// processing functions
+
 
 				function processFunction(matches)
 				{
@@ -418,7 +434,7 @@ autocode.comments =
 							return output;
 				}
 
-				function processClass()
+				function processClass(a, b)
 				{
 					// process user components
 						var common	= processSnippet('common');
@@ -447,11 +463,11 @@ autocode.comments =
 					// variable values
 						var type		= getType(matches ? matches[2] : null, style);
 						var tabstop		= createTabstop(type);
-						
+
 					// template values
 						var template	= '';;
 						var values		= {tabstop:tabstop, desc:tabstopDesc};
-						
+
 					// template
 						if (style == 'js')
 						{
@@ -465,7 +481,7 @@ autocode.comments =
 										? '\n * @var {tabstop}\t{desc}\n */'
 										: ' @var {tabstop}\t{desc} */';
 						}
-						
+
 					// return
 						return populate(template, values);
 				}
@@ -511,20 +527,24 @@ autocode.comments =
 					var rxVariable		= /^\s*[^()]+?=\s*(.+)/;
 					var rxVariable		= /^\s*(var|private|protected|public)?(?:[^()\r\n]*=\s*(.+))?/;
 					var rxFunction		= /\bfunction\b\s*(?:\w*)\s*\((.*)\):?([\w\*]+)?/
-					
+
 				// grab prefs
+					var settings		= this.settings;
 					var prefs			= new xjsflLib.Prefs();
-					this.settings.padding = prefs.get('string', 'autocode.comments.columnPadding', 0);
+
+				// assign settings
+					settings.columns	= prefs.get('autocode.comments.columns', 0);
+					settings.padding	= prefs.get('autocode.comments.columnPadding', 0);
 					var fixedWidths =
 					{
-						tag:	prefs.get('string', 'autocode.comments.columnTags', 7),
-						type:	prefs.get('string', 'autocode.comments.columnTypes', 15),
-						name:	prefs.get('string', 'autocode.comments.columnNames', 15)
+						tag:	prefs.getLong('autocode.comments.columnTags', 7),
+						type:	prefs.getLong('autocode.comments.columnTypes', 15),
+						name:	prefs.getLong('autocode.comments.columnNames', 15)
 					};
-					var useFixedWidths	= prefs.get('boolean', 'autocode.comments.fixedWidths');
+					var useFixedWidths	= prefs.get('autocode.comments.fixedWidths');
 
 				// variables
-					var tabWidth		= this.settings.tabWidth;
+					var tabWidth		= settings.tabWidth;
 					var widths			= useFixedWidths ? fixedWidths : {tag:0, type:0, name:0};
 					var matches			= null;
 					var snippet			= '';
