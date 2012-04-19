@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" [
+  <!ENTITY % prefDTD SYSTEM "chrome://komodo/locale/pref/pref.dtd">
+  %prefDTD;
+  <!ENTITY % prefDTD.INTERNAL SYSTEM "chrome://komodo/locale/pref-internal.dtd">
+  %prefDTD.INTERNAL;
+  <!ENTITY % bindingsDTD SYSTEM "chrome://komodo/locale/bindings.dtd">
+  %bindingsDTD;
+]>
+
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/global/global.css" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/buttons.css" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/widgets.css" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/bindings/listbox.css" type="text/css"?>
+<?xml-stylesheet href="chrome://komodo/skin/prefs/prefs.css" type="text/css"?>
+
+<?xml-stylesheet href="prefs.css" type="text/css"?>
+
+<window xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+      class="kodialog"
+      orient="vertical"
+      onload="onLoad();">
+
+    <script type="application/x-javascript;version=1.7" src="chrome://xtk/content/xtk.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/logging.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/dialogs.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/windowManager.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/filepickers.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/library/uriparse.js"/>
+    <script type="application/x-javascript;version=1.7" src="chrome://komodo/content/pref/koPrefUtils.js" />
+
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/Prefs.js" />
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/UIManager.js" />
+    <script type="application/x-javascript" src="chrome://autocode/content/main/prefs/prefs.js"/>
+
+    <!-- This main vbox is to ensure *all* the pref widgets are accessible, as it adds a scrollbar when the contents are too long. -->
+
+
+
+    <vbox id="autocode-prefs-vbox" flex="1" class="autoscroll">
+
+        <groupbox orient="vertical" style="padding:10px 4px;">
+            <caption label="AutoCode"/>
+            <description>AutoCode adds features to make in-editor development quicker and more productive.</description>
+            <description>For full information and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page. </description>
+            <description>Note that checking/unchecking options will require a restart.</description>
+        </groupbox>
+
+
+		<groupbox orient="vertical">
+			<caption label="Auto-Complete"/>
+				<hbox align="baseline" style="padding:10px 0px 0px 0px">
+					<label>Auto-Complete height: <textbox id="txtAutoCompleteHeight" value="15" width="50" type="number" min="0" max="25" prefstring="autocode.autocomplete.height" /></label>
+				</hbox>
+			<vbox class="indented">
+			</vbox>
+		</groupbox>
+
+		<groupbox orient="vertical">
+			<caption label="Abbreviations"/>
+			<checkbox id="chkSnippets" label="Enable auto-abbreviations"/>
+			<vbox class="indented">
+				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's abbreviations folder will automatically
+				trigger it to be entered in the document.</description>
+			</vbox>
+		</groupbox>
+
+		<groupbox orient="vertical">
+			<caption label="Comments"/>
+
+			<checkbox id="chkComments" label="Enable auto-commenting"/>
+			<vbox class="indented">
+				<description>Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> or <span style="font-style:italic">&lt;TAB&gt;</span> in the edtor window immediately
+				above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour and enter a normal multiline comment).</description>
+			</vbox>
+
+			<checkbox id="chkColumns" label="Enable columns" />
+			<vbox id="boxColumns" class="indented">
+
+				<description>To make comments easier to read, you can force comment blocks to be laid out in columns of tags, types.
+				Column widths are set automatically based on the width of tags, types and comments, but you can override the the widths of each below.
+				Additionally,  you can also add padding tabs between columns.</description>
+				
+				<checkbox id="chkFixedWidths" label="Manually set column widths" />
+				<vbox id="boxColumns" class="indented">
+
+					<hbox align="baseline" style="padding:10px 0px 0px 0px">
+						<label>Padding: <textbox id="columnPadding" value="0" width="50" type="number" min="0" max="5" prefstring="autocode.columns.columnPadding" /></label>
+						<label>Tags: <textbox id="columnTags"  value="8" width="50" type="number" min="4" max="100" prefstring="autocode.columns.columnTags" /></label>
+						<label>Types: <textbox id="columnTypes" value="16" width="50" type="number" min="4" max="100" prefstring="autocode.columns.columnTypes" /></label>
+						<label>Names: <textbox id="columnNames" value="16" width="50" type="number" min="4" max="100" prefstring="autocode.columns.columnNames" /></label>
+					</hbox>
+	
+				</vbox>
+	
+			</vbox>
+
+			<vbox style="padding:3px">
+				<description>
+					To add your own custom code to class and function comments (such as @author information) create new snippets in
+					your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common".
+					The code therein will be insterted into the appropriate comment types as they are created.
+				</description>
+			</vbox>
+		</groupbox>
+		
+		<groupbox orient="vertical">
+			<caption label="Console"/>
+			<checkbox id="chkConsole" label="Enable Komodo to be used as a JavaScript console"/>
+			<vbox class="indented">
+				<description>Pressing CTRL+Enter will execute the current JavaScript file (or current selection) within
+				Komodo, or run the current .bat file; useful for both JavaScript prototyping and extension development.</description>
+				<description>The following functions will also be available when the console is enabled:
+					<ul>
+						<li>trace(value): Traces the value to the command output</li>
+						<li>inspect(value): Traces a hierarchical representation of the value to the command output</li>
+						<li>clear(): Clears the command output</li>
+					</ul>
+				</description>
+			</vbox>
+
+		</groupbox>
+
+		<groupbox orient="vertical">
+			
+			<caption label="Places"/>
+			<checkbox id="chkPlaces" label="Enable Places intergration"/>
+			<vbox class="indent">
+				<description>
+					AudoCode allows you to ALT+click items in the Places panel to enter paths into the current document.
+				</description>
+				
+				<hbox class="spaced" align="center">
+					<label value="Insert paths into document as:" />
+					<menulist width="100" id="menuPathType">
+						<menupopup>
+							<menuitem label="Relative" value="relative"/>
+							<menuitem label="Absolute" value="absolute"/>
+						</menupopup>
+					</menulist>
+				</hbox> 
+				
+				<description var="">
+					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong>Abbreviations/AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>
+					<p>Within the snippet, use the following tabstops ( i.e. [[%tabstop:<strong>path</strong>]] ) to customise the insertion:</p>
+					<ul>
+						<li>path - the item's path based on the preference above</li>
+						<li>relpath - the relative path to the item</li>
+						<li>abspath - the absolute path to the item from the project root</li>
+						<li>uri - the full URI to the item</li>
+						<li>file - the filename of the item</li>
+						<li>VARNAME - Any custom variables you have set up in Project &gt; Properties &gt; Environment</li>
+					</ul>
+				</description>
+
+				<description>
+					Finally, you can also group multiple extensions under a single abbreviation by adding the file extension to the list below,
+					and creating the appropriate Snippet such as <strong>Abbreviations/AutoCode/Places/&lt;lang&gt;/document</strong>
+				</description>
+				<vbox class="spaced">
+					<label value="Grouped abbreviations:"/>  
+					<textbox class="indent" id="txtFileTypes" multiline="true" rows="6" value="" />  
+				</vbox> 
+			</vbox>
+		</groupbox>
+
+    </vbox>
+
+</window>

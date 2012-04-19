@@ -8,7 +8,7 @@
   <treechildren container="false" id="editorChildren">
     <treeitem container="false" id="AutoCodeItem">
       <treerow>
-		<treecell class="treecell-indent" url="chrome://autocode/content/pref/autocode-overlay.xul" label="AutoCode"/>
+		<treecell class="treecell-indent" url="chrome://autocode/content/main/prefs/prefs.xul" label="AutoCode"/>
       </treerow>
     </treeitem>
   </treechildren>

@@ -1,3 +1,16 @@
+// ------------------------------------------------------------------------------------------------------------------------
+//
+//  ██████                                      ██         
+//  ██                                          ██         
+//  ██     █████ ████████ ████████ █████ █████ █████ █████ 
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██ ██  ██   ██    
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ █████ ██ ██  ██   █████ 
+//  ██     ██ ██ ██ ██ ██ ██ ██ ██ ██    ██ ██  ██      ██ 
+//  ██████ █████ ██ ██ ██ ██ ██ ██ █████ ██ ██  ████ █████ 
+//
+// ------------------------------------------------------------------------------------------------------------------------
+// Comments
+
 /**
  * Auto-Comment
  * @author	Dave Stewart (www.davestewart.co.uk)
@@ -21,26 +34,26 @@ autocode.comments =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-
-		onKeyPress:function(event)
-		{ 
+		onEvent:function(event)
+		{	
 			// Only trap when ENTER or TAB pressed with no modifiers
             //ko.statusBar.AddMessage(event.keyCode, '', 500)
 			if ((event.keyCode === 13 || event.keyCode == 9) &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )
 			{
-				if(autocode.comments.processInput(event.keyCode))
+				alert(this)
+				if(this.processInput(event.keyCode))
 				{
-					event.preventDefault();
-					event.stopPropagation();
+					return true;
 				}
 			}
+			return false;
 		},
 
 	// ----------------------------------------------------------------------------------------------------
-	// Prefs
+	// Settings
 	// ----------------------------------------------------------------------------------------------------
 
-		prefs:
+		settings:
 		{
 			tabWidth:		4,
 			padding:		1,
@@ -69,12 +82,15 @@ autocode.comments =
 	// Input
 	// ----------------------------------------------------------------------------------------------------
 
-
+		
 		processInput:function(keyCode)
 		{
+				//trace(keyCode);
+				
+			
 			// defaults
                 keyCode				= keyCode || 13;
-				//TODO Pass keyCode to preocessing function so variable comments can be on one line or 3
+				//TODO Pass keyCode to processing function so variable comments can be on one line or 3
 				
 			// variables
 				var view			= ko.views.manager.currentView;
@@ -111,6 +127,7 @@ autocode.comments =
 						{
 							return false;
 						}
+						
 
 					// get doc style-type
 						var ext = view.item.url.split('.').pop();
@@ -241,7 +258,7 @@ autocode.comments =
 						this.toString = function()
 						{
 							var output = ' * @';
-							output += pad(this.tag, this.tag.length, widths.tag, tabWidth, autocode.comments.prefs.padding);
+							output += pad(this.tag, this.tag.length, widths.tag, tabWidth, this.settings.padding);
 							output += this.value + '\n';
 							return output;
 						}
@@ -299,9 +316,9 @@ autocode.comments =
 						this.toString = function(padding)
 						{
 							var output = ' * @';
-							output += pad(this.tag, this.tagWidth, widths.tag, tabWidth, autocode.comments.prefs.padding);
-							output += pad(this.type, this.typeWidth, widths.type, tabWidth, autocode.comments.prefs.padding);
-							output += pad(this.name, this.nameWidth, widths.name, tabWidth, autocode.comments.prefs.padding);
+							output += pad(this.tag, this.tagWidth, widths.tag, tabWidth, this.settings.padding);
+							output += pad(this.type, this.typeWidth, widths.type, tabWidth, this.settings.padding);
+							output += pad(this.name, this.nameWidth, widths.name, tabWidth, this.settings.padding);
 							output += tabstopDesc + '\n';
 							return output;
 						}
@@ -392,7 +409,7 @@ autocode.comments =
 							{
 								for each(var line in lines)
 								{
-									output += line.toString(this.prefs.padding);
+									output += line.toString(this.settings.padding);
 								}
 							}
 							output += ' */';
@@ -417,7 +434,7 @@ autocode.comments =
 						{
 							for each(var line in lines)
 							{
-								output += line.toString(this.prefs.padding);
+								output += line.toString(this.settings.padding);
 							}
 						}
 						output += ' */';
@@ -494,19 +511,20 @@ autocode.comments =
 					var rxVariable		= /^\s*[^()]+?=\s*(.+)/;
 					var rxVariable		= /^\s*(var|private|protected|public)?(?:[^()\r\n]*=\s*(.+))?/;
 					var rxFunction		= /\bfunction\b\s*(?:\w*)\s*\((.*)\):?([\w\*]+)?/
-
+					
 				// grab prefs
-					autocode.comments.prefs.padding = parseInt(prefs.get('string', 'AutoCodeColumnPadding') || 0);
+					var prefs			= new xjsflLib.Prefs();
+					this.settings.padding = prefs.get('string', 'autocode.comments.columnPadding', 0);
 					var fixedWidths =
 					{
-						tag:	parseInt(prefs.get('string', 'AutoCodeColumnTags')) || 7,
-						type:	parseInt(prefs.get('string', 'AutoCodeColumnTypes')) || 15,
-						name:	parseInt(prefs.get('string', 'AutoCodeColumnNames')) || 15
+						tag:	prefs.get('string', 'autocode.comments.columnTags', 7),
+						type:	prefs.get('string', 'autocode.comments.columnTypes', 15),
+						name:	prefs.get('string', 'autocode.comments.columnNames', 15)
 					};
-					var useFixedWidths	= prefs.get('boolean', 'AutoCodeColumns');
+					var useFixedWidths	= prefs.get('boolean', 'autocode.comments.fixedWidths');
 
 				// variables
-					var tabWidth		= this.prefs.tabWidth;
+					var tabWidth		= this.settings.tabWidth;
 					var widths			= useFixedWidths ? fixedWidths : {tag:0, type:0, name:0};
 					var matches			= null;
 					var snippet			= '';
@@ -569,8 +587,10 @@ autocode.comments =
 			return '[object autocode.comments]';
 		}
 
-		/*
 
+
+
+		/**
 		function test(a, b, c)
 		{
 

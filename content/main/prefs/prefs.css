@@ -1,0 +1,48 @@
+description,
+groupbox
+.spaced{
+	 padding-top:5px;
+}
+
+.nopadding description,
+.nopadding groupbox{
+	 padding-top:0px;
+}
+
+description{
+	line-height:1.3em;
+}
+
+
+strong{
+	font-weight:bold;
+}
+
+.indented{
+	margin-left:22px;
+}
+
+
+ul{
+	display: block;
+	padding: 10px;
+}
+li{
+	line-height: 1.4em;
+	display:list-item;
+	list-style-type: square;
+	margin-left: 20px;
+}
+
+p{
+	margin-top:5px;
+	white-space: pre-wrap;
+	word-break: normal;
+	width: auto;
+	display: inline-block;
+	white-space-collapse:collapse;
+}
+
+p strong{
+	display: inline;
+}

@@ -1,60 +1,25 @@
+// ------------------------------------------------------------------------------------------------------------------------
+//
+//  ██████                         ██       
+//  ██                             ██       
+//  ██     █████ █████ █████ █████ ██ █████ 
+//  ██     ██ ██ ██ ██ ██    ██ ██ ██ ██ ██ 
+//  ██     ██ ██ ██ ██ █████ ██ ██ ██ █████ 
+//  ██     ██ ██ ██ ██    ██ ██ ██ ██ ██    
+//  ██████ █████ ██ ██ █████ █████ ██ █████ 
+//
+// ------------------------------------------------------------------------------------------------------------------------
+// Console
+
 /**
  * Console
- *
- * Allows the user to run JavaScript directly in the Komodo Editor by pressing CTL+Enter
- *
+ * Adds some global functions which provide extra functionality to output to the command output
+ * @see		autocode.exec for CTRL+Enter functionality
  * @author	Dave Stewart (www.davestewart.co.uk)
  * @date	23rd September 2011
  */
 autocode.console =
 {
-	// ----------------------------------------------------------------------------------------------------
-	// Events
-	// ----------------------------------------------------------------------------------------------------
-
-		onKeyPress:function(event)
-		{
-			if (event && event.keyCode === 13 && event.ctrlKey)
-			{
-				var view = ko.views.manager.currentView;
-				if(view)
-				{
-					var doc = view.document ||view.koDoc;
-					if(doc)
-					{
-						if(/\.(js)$/.test(view.item.url))
-						{
-								/**
-								 * @type {Components.interfaces.ISciMoz}
-								 */
-								var scimoz		= view.scimoz;
-	
-							// get selection
-								var selection	= scimoz.getTextRange(view.scimoz.selectionStart, view.scimoz.selectionEnd);
-	
-							// run
-								ko.statusBar.AddMessage('Evaluating JavaScript...', 'AutoCode', 500, false);
-								try
-								{
-									eval(selection || view.scimoz.text);
-								}
-								catch(err)
-								{
-									scimoz.gotoLine(err.lineNumber - 53); // magic number for komodo edit 6
-									alert(err);
-								}
-	
-							// cancel
-								event.preventDefault();
-								event.stopPropagation();
-								return true;
-						}
-					}
-				}
-			}
-			return false;
-		},
-
 	// ----------------------------------------------------------------------------------------------------
 	// objects
 	// ----------------------------------------------------------------------------------------------------
@@ -64,7 +29,7 @@ autocode.console =
 			/** @type {Components.interfaces.ISciMoz} */
 			scimoz:null,
 			newline:'\n',
-			init:function()
+			initialize:function()
 			{
 				// get the panel (v7 & previous)
 					var tabpanel					= document.getElementById("runoutput-desc-tabpanel");
@@ -78,6 +43,11 @@ autocode.console =
 				// return
 					return autocode.console.panel.scimoz;
 			}
+		},
+		
+		initialize:function()
+		{
+			this.panel.initialize();
 		},
 
 		utils:
@@ -119,13 +89,13 @@ autocode.console =
 			try {
 
 				// First make sure the command output window is visible
-					ko.run.output.show(window, false);
+					//ko.run.output.show(window, false);
 
 				// scimoz
 					var scimoz		= autocode.console.panel.scimoz;
 					if(!scimoz)
 					{
-						scimoz = autocode.console.panel.init();
+						scimoz = autocode.console.panel.initialize();
 					}
 
 				// scimoz variables
@@ -151,7 +121,7 @@ autocode.console =
 					scimoz.gotoPos(scimoz.length + 1);
 
 				// unfocus
-					scimoz.isFocused = false
+					//scimoz.isFocused = false
 
 			}
 			catch(err)
@@ -166,7 +136,7 @@ autocode.console =
 				var scimoz		= autocode.console.panel.scimoz;
 				if(!scimoz)
 				{
-					scimoz = autocode.console.panel.init();
+					scimoz = autocode.console.panel.initialize();
 				}
 
 			// clear
