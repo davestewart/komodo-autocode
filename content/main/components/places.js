@@ -72,40 +72,6 @@ autocode.places =
 	utils:
 	{
 		/**
-		 * Parses a string of KEY=value pairs into an Object
-		 */
-		parsePrefs:function(prefs)
-		{
-			var rx			= /^(\w+)=(.+)$/gm;
-			var matches		= prefs.match(rx);
-			var data		= {};
-			if(matches)
-			{
-				rx = new RegExp(rx.source);
-				for each(var match in matches)
-				{
-					var pair = match.match(rx);
-					data[pair[1]] = pair[2];
-				}
-			}
-			return data;
-		},
-
-		/**
-		 * Gets the current projects enviroment variables
-		 */
-		getProjectPrefs:function()
-		{
-			var proj = ko.projects.manager.currentProject;
-			if(proj)
-			{
-				var prefs = proj.prefset.getStringPref('userEnvironmentStartupOverride');
-				return this.parsePrefs(prefs);
-			}
-			return {};
-		},
-
-		/**
 		 * Repeat a string a specified number of times
 		 * @param	{String}	str			The string to repeat
 		 * @param	{Number}	num			The number of times to repeat the string
@@ -213,19 +179,20 @@ autocode.places =
 					var itemURI			= tree.view.getURIForRow(tree.currentIndex);
 					var viewURI			= viewDoc.file.URI;
 
-				// get the path
+				// path variables
 					var relPath			= this.utils.getPath(viewURI, itemURI);
 					var absPath			= itemURI.substr(baseURI.length);
 					var path			= this.settings.pathType == 'relative' ? relPath : absPath;
 					var file			= path.split('/').pop();
-					var ext;
+					var fileName		= file.split('.').shift();
+					var fileExt;
 					if(file.indexOf('.') === -1)
 					{
 						path	= path.replace(/\/*$/, '/');
 					}
 					else
 					{
-						ext		= file.split('.').pop();
+						fileExt		= file.split('.').pop();
 					}
 
 				// create a default snippet
@@ -243,10 +210,13 @@ autocode.places =
 			// build the text
 
 				// test if position / selection has quotes around it
-					var text			= scimoz.getTextRange(scimoz.selectionStart - 1, scimoz.selectionEnd + 1);
+					var selStart		= scimoz.selectionStart - 1;
+					var selEnd			= scimoz.selectionEnd + 1;
+					if(selStart < 0)	selStart = 0;
+					var text			= scimoz.getTextRange(selStart, selEnd);
 					var hasQuotes		= /^(["']).*\1$/.test(text);
 					var hasSelection	= scimoz.anchor != scimoz.currentPos;
-
+					
 				// if there are quotes either side of the selection, just add the text
 					if(hasQuotes || hasSelection)
 					{
@@ -257,22 +227,22 @@ autocode.places =
 					else
 					{
 						// get the language & group
-							var group		= ext ? this.settings.fileTypes[ext] : null;
+							var group		= fileExt ? this.settings.fileTypes[fileExt] : null;
 							var lang		= view.koDoc.languageForPosition(scimoz.currentPos);
-							var fileExt		= (view.document || view.koDoc).baseName.split('.').pop().toLowerCase();
+							var viewExt		= (view.document || view.koDoc).baseName.split('.').pop().toLowerCase();
 
 						// massage languages into better-known types
 							if(lang == 'HTML5')
 							{
 								lang = 'HTML';
 							}
-							if(lang == 'XML' && fileExt == 'xul')
+							if(lang == 'XML' && viewExt == 'xul')
 							{
 								lang = 'XUL';
 							}
 
 						// attempt to get a group snippet, then if not found, the file snippet
-							var _snippet	= ko.abbrev.findAbbrevSnippet(ext, 'AutoCode/Places', lang)				// extension
+							var _snippet	= ko.abbrev.findAbbrevSnippet(fileExt, 'AutoCode/Places', lang)				// extension
 											|| ko.abbrev.findAbbrevSnippet(group, 'AutoCode/Places', lang)			// group
 											|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', lang)		// language default
 											|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places');			// global default default
@@ -280,7 +250,7 @@ autocode.places =
 							{
 								// update snippet
 									snippet.template= _snippet.value;
-									snippet.value	= _snippet.value;
+									snippet.value	= _snippet.value.replace(/!@#\w+/g, '');
 									snippet.name	= _snippet.name;
 									snippet.path	= _snippet.path.replace(/\\/g, '/').replace(new RegExp('^.+AutoCode/Places/'), '').replace('.komodotool', '');
 
@@ -288,8 +258,11 @@ autocode.places =
 									ko.statusBar.AddMessage('Adding "' +snippet.path+ '" snippet for "' +file+ '"', 'autocode.places', 2000);
 
 								// set up any project variables
-									var data		= this.utils.getProjectPrefs();
+									var vars		= new xjsflLib.EnvVars();
+									var data		= vars.getAll();
 									data.file		= file;
+									data.filename	= fileName;
+									data.fileext	= fileExt;
 									data.path		= path;
 									data.relpath	= relPath;
 									data.abspath	= absPath;
@@ -298,7 +271,7 @@ autocode.places =
 								// replace variables
 									for(var name in data)
 									{
-										var rx = new RegExp('\\[\\[%tabstop:' +name+ '\\]\\]', 'gi');
+										var rx = new RegExp('\\[\\[%tabstop:' +name+ '\\]\\]', 'g');
 										snippet.value = snippet.value.replace(rx, data[name]);
 									}
 							}
@@ -308,6 +281,7 @@ autocode.places =
 							}
 
 						// debug
+							/*
 							clear();
 							inspect(this.settings.fileTypes);
 							inspect
@@ -315,10 +289,11 @@ autocode.places =
 								{
 									group:group,
 									lang:lang,
-									ext:fileExt,
+									ext:viewExt,
 									snippet:snippet
 								}, 2
 							);
+							*/
 
 						// grab current line and test if there's an indent
 							var lineIndex		= scimoz.lineFromPosition(scimoz.currentPos);

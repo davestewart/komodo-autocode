@@ -412,8 +412,8 @@ autocode.comments =
 							var returns	= processReturn(matches[2]);
 
 						// process user components
-							var common	= processSnippet('common');
-							var user	= processSnippet('function');
+							var common	= processSnippet('Common');
+							var user	= processSnippet('Function');
 
 						// add all components to a single array
 							var lines	= [].concat(common, user, params, returns);
@@ -437,8 +437,8 @@ autocode.comments =
 				function processClass(a, b)
 				{
 					// process user components
-						var common	= processSnippet('common');
-						var user	= processSnippet('class');
+						var common	= processSnippet('Common');
+						var user	= processSnippet('Class');
 
 					// pre-process output
 						var lines	= [].concat(common, user);
@@ -489,29 +489,38 @@ autocode.comments =
 				function processSnippet(type)
 				{
 					// grab snippet value
-						var snippet			= ko.abbrev.findAbbrevSnippet('autocomment ' + type, 'Auto Comment');
+						var snippet			= ko.abbrev.findAbbrevSnippet(type, 'AutoCode', 'Snippets');
 						var value			= snippet ? snippet.value.replace(/!@#\w+/g, '') : '';
 
 					// if we get a snippet, break the snippet into lines and process
 						if(value)
 						{
-							var lines	= value.split(/\r\n|\r|\n/g);
-							var params	= [];
-							for each(var line in lines)
-							{
-								line = line.replace(/^\s+\*\s*/, '');
-								var matches = line.match(/@(\w+)\s+(.+)/);
-								if(matches)
+							// replace any placeholders with environment and project variables
+								var vars		= new xjsflLib.EnvVars();
+								var data		= vars.getAll();
+								for(var name in data)
 								{
-									var param = new Tag(matches[1], matches[2]);
+									var rx = new RegExp('\\[\\[%tabstop:' +name+ '\\]\\]', 'g');
+									value = value.replace(rx, data[name]);
 								}
-								else
+
+							// create parameters
+								var lines	= value.split(/\r\n|\r|\n/g);
+								var params	= [];
+								for each(var line in lines)
 								{
-									var param = new Line(line);
+									var matches = line.match(/@(\w+)\s+(.+)/);
+									if(matches)
+									{
+										var param = new Tag(matches[1], matches[2]);
+									}
+									else
+									{
+										var param = new Line(line);
+									}
+									params.push(param);
 								}
-								params.push(param);
-							}
-							return params;
+								return params;
 						}
 
 					// return
@@ -537,9 +546,9 @@ autocode.comments =
 					settings.padding	= prefs.get('autocode.comments.columnPadding', 0);
 					var fixedWidths =
 					{
-						tag:	prefs.getLong('autocode.comments.columnTags', 7),
-						type:	prefs.getLong('autocode.comments.columnTypes', 15),
-						name:	prefs.getLong('autocode.comments.columnNames', 15)
+						tag:	prefs.getLong('autocode.comments.columnTags', 8) - 1,
+						type:	prefs.getLong('autocode.comments.columnTypes', 16) - 1,
+						name:	prefs.getLong('autocode.comments.columnNames', 16) - 1
 					};
 					var useFixedWidths	= prefs.get('autocode.comments.fixedWidths');
 

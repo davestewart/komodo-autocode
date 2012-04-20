@@ -32,7 +32,7 @@
 			}
 			else
 			{
-				throw new Error('UIManager cannot initialize as the parameter "window" does not contain a document element ');
+				this.throwError('UIManager cannot initialize as the parameter "window" does not contain a document element');
 			}
 		}
 
@@ -47,7 +47,7 @@
 
 				prefs:null,
 
-				groupSettings:null,
+				ids:[],
 
 
 			// ----------------------------------------------------------------------------------------------------
@@ -56,17 +56,52 @@
 				get:function(id)
 				{
 					var element = this.document.getElementById(id);
-					//trace(id, element)
 					if(element)
 					{
-						if(element.nodeName === 'checkbox')
-						{
-							return element.checked;
-						}
-						else
-						{
-							return element.value;
-						}
+						// determine type based on preftype (if it exists)
+							var preftype = element.getAttribute('preftype').toLowerCase();
+							if(preftype)
+							{
+								switch(preftype)
+								{
+									case 'boolean':
+									case 'bool':
+										return element.checked;
+									break;
+									case 'number':
+									case 'long':
+										return parseInt(element.value);
+									break;
+									case 'double':
+									case 'float':
+										return parseFloat(element.value);
+									break;
+									case 'string':
+									default:
+										return element.value;
+								}
+							}
+							
+						// otherwise, examine the element itself
+							else if(element.nodeName === 'checkbox')
+							{
+								return element.checked;
+							}
+							else
+							{
+								if(element.type == 'number')
+								{
+									return Number(element.value);
+								}
+								else
+								{
+									return element.value;
+								}
+							}
+					}
+					else
+					{
+						this.throwError('Cannot get value for element "' +id+ '" as it does not exist in the document');
 					}
 					return undefined;
 				},
@@ -74,17 +109,46 @@
 				set:function(id, value)
 				{
 					var element = this.document.getElementById(id);
-					if(element && typeof value !== 'undefined')
+					if(element)
 					{
-						if(typeof value === 'boolean')
+						if(typeof value !== 'undefined')
 						{
-							//element.checked = value;
-							element.setChecked(value);
+							// set value based on preftype (if it exists)
+								var preftype = element.getAttribute('preftype').toLowerCase();
+								if(preftype)
+								{
+									switch(preftype)
+									{
+										case 'boolean':
+										case 'bool':
+											element.checked = value;
+										break;
+										default:
+											element.value = value;
+									}
+								}
+								
+							// otherwise, examine the element itself
+								else if(element.nodeName === 'checkbox')
+								{
+									return element.checked;
+								}
+								else
+								{
+									if(element.type == 'number')
+									{
+										return Number(element.value);
+									}
+									else
+									{
+										return element.value;
+									}
+								}
 						}
-						else
-						{
-							element.value = value;
-						}
+					}
+					else
+					{
+						this.throwError('Cannot set value for element "' +id+ '" as it does not exist in the document');
 					}
 					return this;
 				},
@@ -93,61 +157,147 @@
 			// ----------------------------------------------------------------------------------------------------
 			// load/save
 
-				load:function(id, name, defaultValue)
+				load:function(id, defaultValue)
 				{
-					var value = this.prefs.get(name);
-					//alert('load:' + [name, value])
-					if(typeof value === 'undefined')
-					{
-						value = defaultValue || null;
-					}
-					this.set(id, value);
-					return value;
+					// elements
+						var element = this.document.getElementById(id);
+						
+					// do something with element
+						if(element)
+						{
+							// variables
+								var prefid		= element.getAttribute('prefid');
+								var preftype	= element.getAttribute('preftype').toLowerCase();
+								var value;
+								
+							// get value based on preftype (if it exists)
+								if(prefid && preftype)
+								{
+									switch(preftype)
+									{
+										case 'boolean':
+										case 'bool':
+											value = this.prefs.getBoolean(prefid);
+											if(typeof value !== 'undefined')
+											{
+												element.checked = value;
+											}
+											return value;
+										break;
+										case 'number':
+										case 'long':
+											value = this.prefs.getLong(prefid);
+										break;
+										case 'double':
+										case 'float':
+											value = this.prefs.getDouble(prefid);
+										break;
+										case 'string':
+											value = this.prefs.getString(prefid);
+										break;
+										default:
+											value = this.prefs.get(prefid);
+									}
+									
+									if(typeof value !== 'undefined')
+									{
+										element.value = value;
+									}
+								}
+								else
+								{
+									this.throwError('Cannot load element "' +id+ '" as it does possibly does not have a prefname or prefid attribute');
+								}
+						}
+						else
+						{
+							this.throwError('Cannot load preferences for element "' +id+ '" as it does not exist in the document');
+						}
+						return value;
 				},
 
-				save:function(id, name)
+				save:function(id)
 				{
-					var value = this.get(id);
-					if(typeof value !== 'undefined')
+					var element	= this.document.getElementById(id);
+					if(element)
 					{
-						this.prefs.set(name, value);
+						// variables
+							var prefid		= element.getAttribute('prefid');
+							var preftype	= element.getAttribute('preftype').toLowerCase();
+							
+						// determine type based on preftype (if it exists)
+							if(prefid && preftype)
+							{
+								switch(preftype)
+								{
+									case 'boolean':
+									case 'bool':
+										this.prefs.setBoolean(prefid, element.checked);
+									break;
+									case 'number':
+									case 'long':
+										this.prefs.setLong(prefid, parseInt(element.value));
+									break;
+									case 'double':
+									case 'float':
+										this.prefs.setDouble(prefid, parseFloat(element.value));
+									break;
+									case 'string':
+									default:
+										this.prefs.setString(prefid, element.value);
+								}
+								return this;
+							}
+							else
+							{
+								this.throwError('Cannot save element "' +id+ '" as it does possibly does not have a prefname or prefid attribute');
+							}
 					}
-					return value;
+					else
+					{
+						this.throwError('Cannot save preferences for element "' +id+ '" as it does not exist in the document');
+					}
+					return this;
 				},
 
 
 			// ----------------------------------------------------------------------------------------------------
 			// group settings management
 
-				loadGroup:function(settings)
+				/**
+				 * Load multiple values from the saved preferences into UI controls. Controls should contain a prefid and a preftype attribute
+				 * @param	{Array}		settings	An Array of document ids
+				 */
+				loadGroup:function(ids)
 				{
-					this.groupSettings = settings;
-					for each(var setting in this.groupSettings)
+					this.ids = ids;
+					for each(var id in ids)
 					{
-						var id		= setting[0];
-						var pref	= setting[1];
-						var value	= setting[2];
-						this.load(id, pref, value);
+						this.load(id);
 					}
 				},
 
 				saveGroup:function()
 				{
-					for each(var setting in this.groupSettings)
+					for each(var id in this.ids)
 					{
-						var id		= setting[0];
-						var pref	= setting[1];
-						this.save(id, pref);
+						this.save(id);
 					}
 				},
 
 			// ----------------------------------------------------------------------------------------------------
 			// utils
+			
+				throwError:function(message)
+				{
+					alert(message);
+					throw new Error(message);
+				},
 
 				toString:function()
 				{
 					var uri = this.window ? this.window.location : '';
-					return '[object UIManager uri="' +uri+ '"]';
+					return '[object UIManager ids="' +this.ids.length+ '" uri="' +uri+ '"]';
 				}
 
 

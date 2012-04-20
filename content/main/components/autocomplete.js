@@ -23,23 +23,20 @@
  */
 autocode.autocomplete =
 {
+	prefName:'codeintel_autocomplete_max_rows',
+	
 	initialize:function()
 	{
-		var prefs	= new xjsflLib.Prefs();
-		var value	= prefs.getLong('codeintel_autocomplete_max_rows');
+		var value;
+		try { value = ko.prefs.getLongPref(this.prefName); }
+		catch(err) { value = 10; }
 		this.setSize(value);
 	},
 
 	setSize:function(value)
 	{
-		//alert('Setting size to ' + value)
-		value		= value || 10;
-		/*
-		var prefs	= new xjsflLib.Prefs();
-		prefs.setLong('codeintel_autocomplete_max_rows', value);
-		*/
-		var prefs = Components.classes['@activestate.com/koPrefService;1'].getService(Components.interfaces.koIPrefService).prefs;
-		prefs.setLongPref('codeintel_autocomplete_max_rows', value);
+		value = value || 10;
+		ko.prefs.setLongPref(this.prefName, value);
 	},
 
 	toString:function()

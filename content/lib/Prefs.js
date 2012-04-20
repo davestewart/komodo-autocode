@@ -119,9 +119,16 @@
 						//trace('Set bool:' + this.prefSet.getBooleanPref(name))
 
 					}
-					else if(typeof value === 'number')
+					else if(typeof value === 'number' || /^\d+(\.\d+)?$/.test(value))
 					{
-						this.setDouble(name, value);
+						if(value == Math.floor(value))
+						{
+							this.setLong(name, value);
+						}
+						else
+						{
+							this.setDouble(name, value);
+						}
 					}
 					else
 					{
@@ -140,16 +147,16 @@
 					return this.prefSet.setBooleanPref(name, value);
 				},
 			
-				setDouble:function(name, value)
-				{
-					return this.prefSet.setDoublePref(name, value);
-				},
-			
 				setLong:function(name, value)
 				{
 					return this.prefSet.setLongPref(name, value);
 				},
 
+				setDouble:function(name, value)
+				{
+					return this.prefSet.setDoublePref(name, value);
+				},
+			
 			// ----------------------------------------------------------------------------------------------------
 			// utils
 			
@@ -160,3 +167,8 @@
 				}
 			
 		}
+		
+/*
+		var prefs = new xjsflLib.Prefs();
+		prefs.set('testnumber', '50.0');
+*/

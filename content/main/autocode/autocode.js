@@ -74,9 +74,6 @@ autocode.initialize = function()
 	// prefs
 		var prefs = new xjsflLib.Prefs();
 
-	// auto-size autocomplete box
-		autocode.autocomplete.initialize();
-
 	// settings
 		this.settings.comments		= prefs.get('autocode.comments', true);
 		this.settings.console		= prefs.get('autocode.console', true);
@@ -94,6 +91,10 @@ autocode.initialize = function()
 		{
 			autocode.places.initialize();
 		}
+		
+	// auto-size autocomplete box
+		autocode.autocomplete.initialize();
+
 }
 
 /**

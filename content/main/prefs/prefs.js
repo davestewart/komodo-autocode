@@ -36,33 +36,33 @@
 		var win			= parent && parent.opener ? parent.opener : window;
 		var ui			= new xjsflLib.UIManager(this);
 		var autocode	= win.autocode;
-		var settings	=
+		var elements	=
 		[
-			['txtAutoCompleteHeight',	'autocode.autocomplete.height',		15],
-			['chkSnippets',				'autocode.snippets',				true],
-			['chkConsole',				'autocode.console',					true],
-			['chkPlaces',				'autocode.places',					true],
-			['menuPathType',			'autocode.places.pathType',			'relative'],
-			['txtFileTypes',			'autocode.places.fileTypes'],
-			['chkComments',				'autocode.comments',				true],
-			['chkColumns',				'autocode.comments.columns',		true],
-			['chkFixedWidths',			'autocode.comments.fixedWidths',	false],
-			['columnTags',				'autocode.comments.columnTags'],
-			['columnTypes',				'autocode.comments.columnTypes'],
-			['columnNames',				'autocode.comments.columnNames'],
-			['columnPadding',			'autocode.comments.columnPadding'],
+			'autocompleteHeight',
+			'snippets',
+			'console',
+			'comments',
+			'commentsColumns',
+			'commentsFixedWidths',
+			'commentsColumnTags',
+			'commentsColumnTypes',
+			'commentsColumnNames',
+			'commentsColumnPadding',
+			'places',
+			'placesPathType',
+			'placesFileTypes',
 		];
-	
+		
 	// --------------------------------------------------------------------------------
 	// handlers
 	
 		function onLoad()
 		{
 			// load prefs
-				ui.loadGroup(settings);
+				ui.loadGroup(elements);
 				
 			// update filetypes with default if they don't exist yet
-				var fileTypes = document.getElementById('txtFileTypes');
+				var fileTypes = document.getElementById('placesFileTypes');
 				if(fileTypes.value == '')
 				{
 					fileTypes.value = autocode.places.settings.getDefaultPrefFileTypes();
@@ -78,14 +78,6 @@
 				ui.saveGroup();
 			
 			// update
-				var values =
-				{
-					abbreviations	:ui.get('chkSnippets'),
-					console			:ui.get('chkConsole'),
-					comments		:ui.get('chkComments'),
-					autocomplete	:ui.get('txtAutoCompleteHeight')
-				};
-				//autocode.updateFromPrefs(values);
 				window.setTimeout(function(){autocode.initialize.call(autocode); }, 250);
 				
 			// return
