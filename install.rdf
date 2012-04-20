@@ -6,27 +6,28 @@
 
         <em:id>autocode@xjsfl.com</em:id>
         <em:name>AutoCode</em:name>
-        <em:version>0.62</em:version>
+        <em:version>1</em:version>
         <em:description>Adds various features to the editor, including: JavaScript console &amp; debugging commands, tab-abbreviations, tab-doc comments, and a larger auto-completion box. (See Preferences > Editor > AutoCode)</em:description>
         <em:creator>Dave Stewart</em:creator>
         <em:homepageURL>http://www.xjsfl.com/support/setup/komodo/autocode</em:homepageURL>
 		<em:iconURL>chrome://autocode/skin/icon.png</em:iconURL>
         <em:type>2</em:type> <!-- type=extension -->
+		<em:unpack>true</em:unpack>
 
         <em:targetApplication>
             <Description>
                 <!-- Komodo IDE's uuid -->
                 <em:id>{36E66FA0-F259-11D9-850E-000D935D3368}</em:id>
-                <em:minVersion>4.1</em:minVersion>
-                <em:maxVersion>7.*</em:maxVersion>
+                <em:minVersion>7</em:minVersion>
+                <em:maxVersion>99</em:maxVersion>
             </Description>
         </em:targetApplication>
         <em:targetApplication>
             <Description>
                 <!-- Komodo Edit's uuid -->
                 <em:id>{b1042fb5-9e9c-11db-b107-000d935d3368}</em:id>
-                <em:minVersion>4.1</em:minVersion>
-                <em:maxVersion>7.*</em:maxVersion>
+                <em:minVersion>7</em:minVersion>
+                <em:maxVersion>99</em:maxVersion>
             </Description>
         </em:targetApplication>
 
