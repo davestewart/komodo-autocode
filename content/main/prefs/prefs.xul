@@ -56,16 +56,16 @@
 
 		<groupbox orient="vertical">
 			<caption label="Auto-Complete"/>
-				<hbox align="baseline" style="padding:10px 0px 0px 0px">
-					<label>Auto-Complete height: <textbox id="autocompleteHeight" prefid="autocode.autocomplete.height" preftype="long" value="10" width="50" type="number" min="5" max="25" /></label>
-				</hbox>
+			<hbox align="baseline" style="padding:10px 0px 0px 0px">
+				<label>Auto-Complete height: <textbox id="autocompleteHeight" prefid="autocode.autocomplete.height" preftype="long" value="10" width="50" type="number" min="5" max="25" /></label>
+			</hbox>
 		</groupbox>
 
 		<groupbox orient="vertical">
 			<caption label="Abbreviations"/>
 			<checkbox id="snippets" prefid="autocode.snippets" preftype="boolean" label="Enable auto-abbreviations" checked="true"/>
 			<vbox class="indented">
-				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's abbreviations folder will automatically
+				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's <strong>Abbreviations</strong> folder will automatically
 				trigger it to be entered in the document.</description>
 			</vbox>
 		</groupbox>
@@ -75,25 +75,31 @@
 
 			<checkbox id="comments" prefid="autocode.comments" preftype="boolean" label="Enable auto-commenting" checked="true"/>
 			<vbox class="indented">
-				<description>Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> or <span style="font-style:italic">&lt;TAB&gt;</span> in the edtor window immediately
-				above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour and enter a normal multiline comment).</description>
+				<description>
+					Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> or <span style="font-style:italic">&lt;TAB&gt;</span> in the edtor window immediately
+					above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour and enter a normal multiline comment).
+				</description>
 			</vbox>
 
 			<checkbox id="commentsColumns" prefid="autocode.comments.columns" preftype="boolean" label="Enable columns" checked="true" />
 			<vbox id="boxColumns" class="indented">
 
-				<description>To make comments easier to read, you can force comment blocks to be laid out in columns of tags, types.
-				Column widths are set automatically based on the width of tags, types and comments, but you can override the the widths of each below.
-				Additionally,  you can also add padding tabs between columns.</description>
+				<description>
+					To make comments easier to read, you can force comment blocks to be laid out in columns.
+					Column widths are set automatically based on the width of tags, but you can update the values below to customise the layout.
+				</description>
 				
-				<checkbox id="commentsFixedWidths" prefid="autocode.comments.fixedWidths" preftype="boolean" label="Manually set column widths (padding in tabs, columns in characters)" />
+				<hbox align="baseline" style="padding:10px 0px 0px 0px">
+					<label>Pad columns with <textbox id="commentsColumnPadding" value="0" width="50" type="number" min="0" max="5"  prefid="autocode.comments.columnPadding" preftype="long" style="top:-3px; position:relative"/> tabs</label>
+				</hbox>
+	
+				<checkbox id="commentsFixedWidths" prefid="autocode.comments.fixedWidths" preftype="boolean" label="Manually set column widths (values are in characters)" />
 				<vbox id="boxColumns" class="indented">
 
 					<hbox align="baseline" style="padding:10px 0px 0px 0px">
-						<label>Padding:		<textbox id="commentsColumnPadding" value="0" width="50" type="number" min="0" max="5"  prefid="autocode.comments.columnPadding" preftype="long" /></label>
-						<label>Tags:		<textbox id="commentsColumnTags"  value="8" width="50" type="number" min="4" max="100"  prefid="autocode.comments.columnTags" preftype="long" /></label>
-						<label>Types:		<textbox id="commentsColumnTypes" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnTypes" preftype="long" /></label>
-						<label>Names:		<textbox id="commentsColumnNames" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnNames" preftype="long" /></label>
+						<label>Tags:	<textbox id="commentsColumnTags"  value="8" width="50" type="number" min="4" max="100"  prefid="autocode.comments.columnTags" preftype="long" /></label>
+						<label>Types:	<textbox id="commentsColumnTypes" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnTypes" preftype="long" /></label>
+						<label>Names:	<textbox id="commentsColumnNames" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnNames" preftype="long" /></label>
 					</hbox>
 	
 				</vbox>
@@ -102,9 +108,7 @@
 
 			<vbox style="padding:3px">
 				<description>
-					To add your own custom code to class and function comments (such as @author information) create new snippets in
-					your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common".
-					The code therein will be insterted into the appropriate comment types as they are created.
+					To add custom code to class and function comments (such as @author information) edit the Snippets in the <strong>Abbreviations/AutoCode/Snippets folder</strong>.
 				</description>
 			</vbox>
 		</groupbox>
@@ -159,12 +163,20 @@
 				</description>
 
 				<description>
-					Finally, you can also group multiple extensions under a single abbreviation by adding the file extension to the list below,
+					You can group multiple extensions under a single abbreviation by adding the file extension to the list below,
 					and creating the appropriate Snippet such as <strong>Abbreviations/AutoCode/Places/&lt;lang&gt;/document</strong>
 				</description>
 				<vbox class="spaced">
-					<label value="Grouped abbreviations:"/>  
+					<label value="Group the following extensions (group: ext1 ext2 ext3):"/>  
 					<textbox class="indent" id="placesFileTypes" prefid="autocode.places.fileTypes" preftype="string" multiline="true" rows="6" value="" />  
+				</vbox> 
+				<description class="spaced">
+					Finally, you can force certain documents to insert default path formats, irrespective of the path being inserted. For those documents you wish
+					to treat paths uniformly, add their extensions here, then create a corresponding snippet in <strong>Abbreviations/AutoCode/Places/Default/&lt;ext&gt;</strong>.
+				</description>
+				<vbox class="spaced">
+					<label value="Use default formats for extensions:"/>  
+					<textbox class="indent" id="placesDefaultFormats" prefid="autocode.places.defaultFormats" preftype="string" value="rdf manifest" />
 				</vbox> 
 			</vbox>
 		</groupbox>

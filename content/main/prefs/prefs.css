@@ -16,6 +16,8 @@ description{
 
 strong{
 	font-weight:bold;
+	display: inline;
+	word-wrap:break-word;
 }
 
 .indented{
@@ -41,8 +43,4 @@ p{
 	width: auto;
 	display: inline-block;
 	white-space-collapse:collapse;
-}
-
-p strong{
-	display: inline;
 }

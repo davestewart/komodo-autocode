@@ -15,10 +15,11 @@ autocode.places =
 {
 	settings:
 	{
-		newline		:true,
-		pathType	:'relative',
-		fileTypes	:{},
-		initialize:function()
+		newline			:true,
+		pathType		:'relative',
+		fileTypes		:{},
+		defaultFormats	:{},
+		initialize		:function()
 		{
 			// preferences
 				var prefs			= new xjsflLib.Prefs();
@@ -41,6 +42,18 @@ autocode.places =
 						{
 							this.fileTypes[part] = group;
 						}
+					}
+				}
+				
+			// default extensions
+				var defaultFormats	= prefs.getString('autocode.places.defaultFormats', '');
+				var matches			= defaultFormats.toLowerCase().match(/(\w+)/g);
+				if(defaultFormats)
+				{
+					this.defaultFormats = {};
+					for each(var ext in matches)
+					{
+						this.defaultFormats[ext] = ext;
 					}
 				}
 		},
@@ -178,6 +191,7 @@ autocode.places =
 					var baseURI			= tree.view.currentPlace;
 					var itemURI			= tree.view.getURIForRow(tree.currentIndex);
 					var viewURI			= viewDoc.file.URI;
+					var viewExt			= viewURI.split('.').pop().toLowerCase();
 
 				// path variables
 					var relPath			= this.utils.getPath(viewURI, itemURI);
@@ -192,7 +206,7 @@ autocode.places =
 					}
 					else
 					{
-						fileExt		= file.split('.').pop();
+						fileExt		= file.split('.').pop().toLowerCase();
 					}
 
 				// create a default snippet
@@ -226,26 +240,42 @@ autocode.places =
 				// otherwise, we're going to look for an abbreviation
 					else
 					{
-						// get the language & group
-							var group		= fileExt ? this.settings.fileTypes[fileExt] : null;
-							var lang		= view.koDoc.languageForPosition(scimoz.currentPos);
-							var viewExt		= (view.document || view.koDoc).baseName.split('.').pop().toLowerCase();
+						// variables
+							var _snippet;
+							var message = 'Adding default path for "' +file+ '"';
 
-						// massage languages into better-known types
-							if(lang == 'HTML5')
+						// test to see if the view extension is registered as a default extension
+							if(this.settings.defaultFormats[viewExt])
 							{
-								lang = 'HTML';
+								 message = 'Forcing default format for view "' +ko.uriparse.URIToPath(viewURI)+ '"';
+								_snippet = ko.abbrev.findAbbrevSnippet(viewExt, 'AutoCode/Places', 'Default');
 							}
-							if(lang == 'XML' && viewExt == 'xul')
+							
+						// otherwise, treat it as a normal snippet
+							if( ! _snippet)
 							{
-								lang = 'XUL';
+							
+								// get the language & group
+									var group		= fileExt ? this.settings.fileTypes[fileExt] : null;
+									var lang		= view.koDoc.languageForPosition(scimoz.currentPos);
+		
+								// massage languages into better-known types
+									if(lang == 'HTML5')
+									{
+										lang = 'HTML';
+									}
+									if(lang == 'XML' && viewExt == 'xul')
+									{
+										lang = 'XUL';
+									}
+								
+								// attempt to get a group snippet, then if not found, the file snippet
+									_snippet	= ko.abbrev.findAbbrevSnippet(fileExt, 'AutoCode/Places', lang)				// extension
+													|| ko.abbrev.findAbbrevSnippet(group, 'AutoCode/Places', lang)			// group
+													|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', lang)		// language default
+													|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', 'Default');			// global default default
 							}
-
-						// attempt to get a group snippet, then if not found, the file snippet
-							var _snippet	= ko.abbrev.findAbbrevSnippet(fileExt, 'AutoCode/Places', lang)				// extension
-											|| ko.abbrev.findAbbrevSnippet(group, 'AutoCode/Places', lang)			// group
-											|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', lang)		// language default
-											|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places');			// global default default
+							
 							if(_snippet)
 							{
 								// update snippet
@@ -255,45 +285,54 @@ autocode.places =
 									snippet.path	= _snippet.path.replace(/\\/g, '/').replace(new RegExp('^.+AutoCode/Places/'), '').replace('.komodotool', '');
 
 								// user feedback
-									ko.statusBar.AddMessage('Adding "' +snippet.path+ '" snippet for "' +file+ '"', 'autocode.places', 2000);
+									message = 'Adding "' +snippet.path+ '" snippet for "' +file+ '"';
 
 								// set up any project variables
-									var vars		= new xjsflLib.EnvVars();
-									var data		= vars.getAll();
-									data.file		= file;
-									data.filename	= fileName;
-									data.fileext	= fileExt;
-									data.path		= path;
-									data.relpath	= relPath;
-									data.abspath	= absPath;
-									data.uri		= itemURI;
+									var vars			= new xjsflLib.EnvVars();
+									var data			= vars.getAll();
+									
+									data.file			= file;
+									data.filename		= fileName;
+									data.fileext		= fileExt;
+									
+									data.path			= path;
+									data.relpath		= relPath;
+									data.abspath		= absPath;
+									
+									data.folderpath		= path.substr(0, path.length - file.length);
+									data.relfolderpath	= relPath.substr(0, relPath.length - file.length);
+									data.absfolderpath	= absPath.substr(0, absPath.length - file.length);
+									
+									data.uri			= itemURI;
+									data.folderuri		= itemURI.substr(0, absPath.length - file.length);
 
 								// replace variables
 									for(var name in data)
 									{
-										var rx = new RegExp('\\[\\[%tabstop:' +name+ '\\]\\]', 'g');
+										var rx = new RegExp('\\[\\[%tabstop\\d*:' +name+ '\\]\\]', 'g');
 										snippet.value = snippet.value.replace(rx, data[name]);
 									}
 							}
-							else
-							{
-								ko.statusBar.AddMessage('Adding default path for "' +file+ '"', 'autocode.places', 2000);
-							}
-
+							
+						// update user
+							ko.statusBar.AddMessage(message, 'autocode.places', 2000);
+							
 						// debug
-							/*
-							clear();
-							inspect(this.settings.fileTypes);
-							inspect
-							(
-								{
-									group:group,
-									lang:lang,
-									ext:viewExt,
-									snippet:snippet
-								}, 2
-							);
-							*/
+							if(true)
+							{
+								clear();
+								inspect(this.settings.fileTypes);
+								inspect
+								(
+									{
+										group:group,
+										lang:lang,
+										fileExt:fileExt,
+										viewExt:viewExt,
+										snippet:snippet
+									}, 2
+								);
+							}
 
 						// grab current line and test if there's an indent
 							var lineIndex		= scimoz.lineFromPosition(scimoz.currentPos);
@@ -347,6 +386,4 @@ autocode.places =
 	}
 }
 
-//autocode.places.initialize();
-//autocode.places.settings.initialize();
-//autocode.places.insertPath();
+autocode.places.initialize();

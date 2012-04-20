@@ -51,6 +51,7 @@
 			'places',
 			'placesPathType',
 			'placesFileTypes',
+			'placesDefaultFormats',
 		];
 		
 	// --------------------------------------------------------------------------------
