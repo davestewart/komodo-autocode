@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="js_active" dir="ltr" lang="en-US">
+<head>
+	<title>xJSFL |   Komodo AutoCode Extension</title>
+
+	<link rel="stylesheet" type="text/css" media="all" href="assets/style.css">
+	<link rel="stylesheet" type="text/css" href="assets/light-skin.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="assets/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="assets/custom.css" media="screen">
+	
+	<style type="text/css">
+		a, .news-link:hover, .widget_archive li a:hover, #reply-title small a {
+			color: rgb(191, 11, 11);
+		}
+		#top .more-link:hover, .pagination a:hover, .button:hover, #commentform #submit:hover {
+			background-color: rgb(28, 139, 186);
+		}
+		a:hover {
+			color: rgb(28, 139, 186);
+		}
+	</style>
+
+</head>
+<body id="top" class="single single-post postid-799 single-format-standard ">
+<div id="wrap_all" class="boxed">
+
+	<div class="container_wrap" id="main">
+		<div class="container">
+			<div id="template-blog" class="content grid8 first">
+				<div class="post-entry">
+					<h1> Komodo AutoCode Extension </h1>
+					<!--meta info-->
+					<!--end meta info-->
+					<div class="entry-content four_fifth">
+						<h3 class="cufon_headings">Overview</h3>
+						<p>The AutoCode extension adds some extra functionality to Komodo, that makes it easier than ever to write (and test) quality code.</p>
+						<p style="text-align: center;"><img class="aligncenter" title="komodo-autocode-extension" src="assets/komodo-autocode-extension.png" alt="" width="550" height="554"></p>
+						<p>Its features include:</p>
+						<ul>
+							<li>Tab auto-completion for <a href="http://www.xjsfl.com/support/setup/komodo/xjsfl-extension#abbreviations">abbreviations</a></li>
+							<li>Tab auto-completion for doc comments</li>
+							<li>JavaScript console functionality</li>
+							<li>places integration</li>
+						</ul>
+						<h3 class="cufon_headings">Installation</h3>
+						<p>To install the extension:</p>
+						<ol>
+							<li>Make sure Komodo Edit is open</li>
+							<li>Browse to your <strong>xJSFL/core/install/Komdo/</strong> folder</li>
+							<li>Drag the correct <strong>.xpi</strong> file onto Komodo Edit</li>
+							<li>Restart Komodo Edit</li>
+						</ol>
+						<p>Ensure that the extension's functionality is enabled by going to <strong>Preferences &gt; Editor &gt; AutoCode</strong>, and making sure that the relevant checkboxes are checked. For more information see the section on <a href="http://www.xjsfl.com/support/setup/komodo/komodo-installation">Komodo installation</a>.</p>
+						<p>Alternatively, you can download the extension from <a href="http://www.xjsfl.com/wp-content/uploads/autocode-0.5-ko.zip">here</a>.</p>
+						<h3 class="cufon_headings">Functionality</h3>
+						<h5 class="cufon_headings">Auto-Abbreviations</h5>
+						<p>Abbreviations are a standard Komodo feature that allow you to enter a single keyword in the editor pane, then expand that keyword into an editable code, with placeholder regions that you tab through to fill in values. It's perhaps easier illustrated with a sequence of images:</p>
+						<p>Firstly, type a <strong>keyword</strong> corresponding to an abbreviation name, in this case "for":</p>
+						<p><img src="assets/abbreviation-01.png" alt=""></p>
+						<p>Then, press <strong>tab</strong> (as opposed to the more cumbersome default, CTRL+T) to trigger the abbreviation's template:</p>
+						<p><img src="assets/abbreviation-02.png" alt=""></p>
+						<p>The template is inserted into the document, and the first place holder is highlighted in each place in the template that it is used. You can alter it by simply <strong>typing</strong>, or accept the value and <strong>tab</strong> to the next placeholder.</p>
+						<p>For more information, see the section on <a href="http://www.xjsfl.com/support/setup/komodo/xjsfl-extension#abbreviations">abbreviations</a>.</p>
+						<h5 class="cufon_headings">Auto-Commenting</h5>
+						<p>Komodo uses the <a href="http://en.wikipedia.org/wiki/JSDoc">JSDoc</a> syntax to document JavaScript code, as well as hint param and return types.</p>
+						<p>With the Auto-Comment checkbox enabled in the preferences, all you need to do comment a function or method is to type <strong>/**</strong> just above the function declaration...</p>
+						<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" width="599" height="82"></p>
+						<p>...then press tab:</p>
+						<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" width="599" height="189"></p>
+						<p>The comment will be completed, and placeholders will be entered, allowing you to tab through the values.</p>
+						<p>You'll notice that the entries are also nicely formatted into columns. There are more options in the preferences for this, including fixed-width columns, and padding:</p>
+						<p><img class="aligncenter size-full wp-image-810" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" width="580" height="116"></p>
+						<p>To add your own custom code to class and function comments (such as @author information) create new snippets in your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common":</p>
+						<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom.png" alt="" width="332" height="202"></p>
+						<p>The code therein will be insterted automatically into the appropriate comment types as they are created.</p>
+						<p>Note that AutoCode also supports <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDoc</a> for documenting PHP pages.</p>
+						<h5 class="cufon_headings">JavaScript Console</h5>
+						<p>Enabling the JavaScript console in AutoCode won't really do anything for your JSFL development, but it is useful to test out quick snippets of JavaScript directly in Komodo.</p>
+						<p>With a JavaScript file open (the extension must be <strong>.js</strong>), you can use the <strong>CTRL+Enter</strong> shortcut key to evaluate the JavaScript currently in the editor window. If the code is valid, it will execute. If not, an error message will pop up, and Komodo will move the cursor to the line of the error.</p>
+						<p>The following commands are also available when using the Console:</p>
+						<ul>
+							<li><strong>trace(value)</strong>: Traces the value to the command output</li>
+							<li><strong>inspect(value)</strong>: Traces a hierarchical representation of the value to the command output.<br>
+								More info about inspect()'s arguments can be found <a href="http://www.xjsfl.com/support/api/text/output#inspect">here</a>.</li>
+							<li><strong>clear()</strong>: Clears the command output</li>
+						</ul>
+						<p>Below you can see the result of an inspect:</p>
+						<p><img class="aligncenter size-full wp-image-807" title="autocode-console" src="assets/autocode-console.png" alt="" width="600" height="686"></p>
+					</div>
+				</div>
+				<!--end post-entry-->
+				<!--end content-->
+			</div>
+		</div>
+		<!--end container-->
+	</div>
+
+</div>
+<!-- end wrap_all -->
+</body>
+</html>
