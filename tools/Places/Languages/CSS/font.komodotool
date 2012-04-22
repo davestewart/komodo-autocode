@@ -1,0 +1,18 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "font", 
+  "value": [
+    "@font-face {", 
+    "\tfont-family: \"[[%tabstop:name]]\";", 
+    "\tsrc: url(\"[[%tabstop1:folderpath]][[%tabstop2:filename]]\");", 
+    "\tsrc: local(\"\u263a\"),", 
+    "\t\turl(\"[[%tabstop1:folderpath]][[%tabstop2:filename]].woff\") format(\"woff\"),", 
+    "\t\turl(\"[[%tabstop1:folderpath]][[%tabstop2:filename]].otf\") format(\"opentype\"),", 
+    "\t\turl(\"[[%tabstop1:folderpath]][[%tabstop2:filename]].svg\") format(\"svg\");", 
+    "\t}!@#_currentPos!@#_anchor"
+  ], 
+  "set_selection": "false", 
+  "version": "1.0.7", 
+  "type": "snippet", 
+  "indent_relative": "false"
+}

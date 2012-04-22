@@ -1,0 +1,11 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "image", 
+  "value": [
+    "<img src=\"[[%tabstop:path]]\" width=\"[[%tabstop:WIDTH!@#_currentPos!@#_anchor]]\" height=\"[[%tabstop:HEIGHT]]\" />"
+  ], 
+  "set_selection": "true", 
+  "version": "1.0.7", 
+  "type": "snippet", 
+  "indent_relative": "true"
+}

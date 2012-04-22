@@ -1,0 +1,11 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "default", 
+  "value": [
+    "<a href=\"[[%tabstop:path]]\" />[[%tabstop:filename!@#_currentPos!@#_anchor]]</a>"
+  ], 
+  "set_selection": "true", 
+  "version": "1.0.7", 
+  "type": "snippet", 
+  "indent_relative": "true"
+}
