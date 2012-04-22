@@ -1,5 +1,8 @@
 content		autocode								content/
 skin		autocode		default					skin/
 
-overlay		chrome://komodo/content/komodo.xul		chrome://autocode/content/main/autocode/autocode.xul
-overlay		chrome://komodo/content/pref/pref.xul	chrome://autocode/content/main/prefs/tree.xul
+overlay		chrome://komodo/content/komodo.xul						chrome://autocode/content/main/autocode/autocode.xul
+overlay		chrome://komodo/content/pref/pref.xul					chrome://autocode/content/main/prefs/tree.xul
+
+overlay		chrome://komodo/content/pref/pref-environ.xul			chrome://autocode/content/main/prefs/overlays/pref-environ.xul
+overlay		chrome://komodo/content/project/snippetProperties.xul	chrome://autocode/content/main/prefs/overlays/snippetProperties.xul

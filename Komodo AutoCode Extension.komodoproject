@@ -4,6 +4,9 @@
 <preference-set idref="0d7c77d2-9e6e-4d43-9063-cd0a61b28d9c">
   <boolean id="editUseLinting">1</boolean>
   <boolean id="genericLinter:XUL">1</boolean>
+  <string relative="path" id="import_dirname"></string>
+  <string id="import_exclude_matches">*.*~;*.bak;*.tmp;CVS;.#*;*.pyo;*.pyc;.svn;_svn;.git;.hg;.bzr;*%25*;tmp*.html;.DS_Store;*.swp;*.kpf;*.komodoproject;.komodotools;__pycache__</string>
+  <string id="import_include_matches"></string>
   <string id="jshintOptions"></string>
   <string id="jslintOptions"></string>
   <long id="lintDelay">1000</long>
@@ -33,7 +36,9 @@
   <string id="tidy_accessibility">0</string>
   <string id="tidy_configpath"></string>
   <string id="tidy_errorlevel">errors</string>
-  <string id="userEnvironmentStartupOverride">CHROMEURI=chrome://autocode
+  <string id="userEnvironmentStartupOverride">AUTOCODE PLACE=Kohana
+AUTOCODE PROJECT=AutoCode
+CHROMEURI=chrome://autocode
 </string>
 </preference-set>
 </project>
