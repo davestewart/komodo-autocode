@@ -19,6 +19,15 @@ autocode.places =
 		pathType		:'relative',
 		fileTypes		:{},
 		defaultFormats	:{},
+		dirtyFlags		:
+		{
+			environment	:false,
+			snippets	:false
+		},
+		
+		/**
+		 * Grab the settings from Preferences and turn them into something meaningful for this componant
+		 */
 		initialize		:function()
 		{
 			// preferences
@@ -58,6 +67,9 @@ autocode.places =
 				}
 		},
 
+		/**
+		 * Supplies a list of default group types for the preferences panel
+		 */
 		getDefaultPrefFileTypes:function()
 		{
 			var lines = []
@@ -159,14 +171,18 @@ autocode.places =
 						{
 							trgPath = trgParts.join('/');
 						}
-
 				}
 
 			// return
 				return trgPath.replace(/\\/g, '/').replace(/%20/g, ' ');
-		}
+		},
+		
 	},
 
+	/**
+	 * Attempts to insert the path of, or generated code relating to, the currently selected file in the Places panel
+	 * @returns	{Boolean}		true or false depening on a successful insertion
+	 */
 	insertPath:function()
 	{
 		var view = ko.views.manager.currentView;
@@ -174,6 +190,9 @@ autocode.places =
 		{
 			// ----------------------------------------------------------------------------------------------------
 			// variables
+			
+				// debug
+					clear();
 
 				// exit if the file is not saved yet
 					var viewDoc	= (view.koDoc || view.document);
@@ -191,172 +210,278 @@ autocode.places =
 					var baseURI			= tree.view.currentPlace;
 					var itemURI			= tree.view.getURIForRow(tree.currentIndex);
 					var viewURI			= viewDoc.file.URI;
-					var viewExt			= viewURI.split('.').pop().toLowerCase();
+
+				// get the paths
+					var basePath		= ko.uriparse.URIToPath(baseURI).replace(/\\/g, '/');
+					var itemPath		= ko.uriparse.URIToPath(itemURI).replace(/\\/g, '/');
+					var viewPath		= ko.uriparse.URIToPath(viewURI).replace(/\\/g, '/');
+					var viewExt			= ko.uriparse.ext(viewPath).toLowerCase().substr(1);
 
 				// path variables
-					var relPath			= this.utils.getPath(viewURI, itemURI);
-					var absPath			= itemURI.substr(baseURI.length);
+					var absPath			= itemPath.substr(basePath.length);
+					var relPath			= this.utils.getPath(viewPath, itemPath);
 					var path			= this.settings.pathType == 'relative' ? relPath : absPath;
-					var file			= path.split('/').pop();
+					var file			= ko.uriparse.baseName(path);
 					var fileName		= file.split('.').shift();
 					var fileExt;
 					if(file.indexOf('.') === -1)
 					{
-						path	= path.replace(/\/*$/, '/');
+						path			= path.replace(/\/*$/, '/');
 					}
 					else
 					{
-						fileExt		= file.split('.').pop().toLowerCase();
+						fileExt			= file.split('.').pop().toLowerCase();
 					}
-
-				// create a default snippet
-					var snippet =
-					{
-						hasAttribute:function(){},
-						getStringAttribute:function(){},
-						name:'',
-						path:'',
-						value:path,
-						template:''
-					}
-
-			// ----------------------------------------------------------------------------------------------------
-			// build the text
-
-				// test if position / selection has quotes around it
-					var selStart		= scimoz.selectionStart - 1;
+					
+				// selection variables
+					var selStart		= scimoz.selectionStart > 1 ? scimoz.selectionStart - 1 : 0;
 					var selEnd			= scimoz.selectionEnd + 1;
-					if(selStart < 0)	selStart = 0;
 					var text			= scimoz.getTextRange(selStart, selEnd);
 					var hasQuotes		= /^(["']).*\1$/.test(text);
 					var hasSelection	= scimoz.anchor != scimoz.currentPos;
 					
-				// if there are quotes either side of the selection, just add the text
+				// defaults
+					var message			= '';
+					var Snippet			= autocode.classes.Snippet;
+					var snippet			= new Snippet();
+
+			// ----------------------------------------------------------------------------------------------------
+			// find / create the insertion template
+			
+				/*
+					Here is the order we use to create the path / look for snippets
+					
+						> UNMODIFIED
+						
+							Add the unmodified path if:
+						
+								1a - there's a document selection
+								1b - the caret is between 2 matching quotes
+							
+						> VIEW FILE-TYPE OVERRIDE
+						
+							Use the settings from the Places/Defaults/<ext> files if:
+						
+								2 - The view's file extension is registered as a "default format", and matches a file name
+							
+						> PROJECT NAME / PROJECT VARIABLE OVERRIDE 
+						
+							Use custom setting from Places/Project or Places/Custom folders if:
+						
+								3a - The project environment variable "AUTOCODE PLACE" matches a Places/Custom/<folder>
+								3b - The project environment variable "AUTOCODE PROJECT" matches a Places/Projects/<folder>
+								3c - The project name matches a Places/Projects/<folder>
+								3d - The view's current language and the places file extension matches a Places/<language>/<ext>
+							
+						> VIEW LANGUAGE + FILE-TYPE COMBINATION
+						
+							Use the settings from the <language>/<file> if:
+				
+								4 - The view's current language and file group matches a <folder>/<language>/<group>
+								5 - The view's current language and file extension matches a <folder>/<language>/<ext>
+								6 - The view's current language and file extension matches a <folder>/<language>/default
+							
+						> GLOBAL DEFAULTS
+						
+							Final defaults
+						
+								7 - Fall back to Places/Defaults/default if it exists
+								8 - Enter the path as-is if it doesn't
+				*/
+			
+			
+				// ----------------------------------------------------------------------------------------------------
+				// if there are quotes either side, or there is an existing selection, just add the snippet (just the path) as-is
+				
 					if(hasQuotes || hasSelection)
 					{
-						ko.statusBar.AddMessage('Adding path for "' +file+ '"', 'autocode.places', 1500);
+						message = 'Adding unmodified path for "' +file+ '"';
 					}
 
-				// otherwise, we're going to look for an abbreviation
+				// ----------------------------------------------------------------------------------------------------
+				// otherwise, we're going to look for snippets
+				
 					else
 					{
+						// ----------------------------------------------------------------------------------------------------
 						// variables
-							var _snippet;
-							var message = 'Adding default path for "' +file+ '"';
-
-						// test to see if the view extension is registered as a default extension
-							if(this.settings.defaultFormats[viewExt])
-							{
-								 message = 'Forcing default format for view "' +ko.uriparse.URIToPath(viewURI)+ '"';
-								_snippet = ko.abbrev.findAbbrevSnippet(viewExt, 'AutoCode/Places', 'Default');
-							}
-							
-						// otherwise, treat it as a normal snippet
-							if( ! _snippet)
-							{
-							
-								// get the language & group
-									var group		= fileExt ? this.settings.fileTypes[fileExt] : null;
-									var lang		= view.koDoc.languageForPosition(scimoz.currentPos);
-		
-								// massage languages into better-known types
-									if(lang == 'HTML5')
-									{
-										lang = 'HTML';
-									}
-									if(lang == 'XML' && viewExt == 'xul')
-									{
-										lang = 'XUL';
-									}
+						
+							// test to see if the view extension is registered as a default extension
+								var defaultFormat	= this.settings.defaultFormats[viewExt];
+						
+							// check if a project folder exists that matches the current project
+								var project			= ko.projects.manager.currentProject;
+								var projectName		= project ? project.name.split('.').shift() : null;
+									
+							// get the project's variables
+								var vars			= new xjsflLib.EnvVars();
+								var varPlace		= vars.getProject('autocode place');
+								var varProject		= vars.getProject('autocode project');
 								
-								// attempt to get a group snippet, then if not found, the file snippet
-									_snippet	= ko.abbrev.findAbbrevSnippet(fileExt, 'AutoCode/Places', lang)				// extension
-													|| ko.abbrev.findAbbrevSnippet(group, 'AutoCode/Places', lang)			// group
-													|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', lang)		// language default
-													|| ko.abbrev.findAbbrevSnippet('default', 'AutoCode/Places', 'Default');			// global default default
-							}
+							// get the language & group
+								var group			= fileExt ? this.settings.fileTypes[fileExt] : null;
+								var lang			= view.koDoc.languageForPosition(scimoz.currentPos);
+	
+							// massage languages into better-known types
+								if(lang == 'HTML5')
+								{
+									lang = 'HTML';
+								}
+								if(lang == 'XML' && viewExt == 'xul')
+								{
+									lang = 'XUL';
+								}
 							
-							if(_snippet)
-							{
-								// update snippet
-									snippet.template= _snippet.value;
-									snippet.value	= _snippet.value.replace(/!@#\w+/g, '');
-									snippet.name	= _snippet.name;
-									snippet.path	= _snippet.path.replace(/\\/g, '/').replace(new RegExp('^.+AutoCode/Places/'), '').replace('.komodotool', '');
-
-								// user feedback
-									message = 'Adding "' +snippet.path+ '" snippet for "' +file+ '"';
-
-								// set up any project variables
-									var vars			= new xjsflLib.EnvVars();
-									var data			= vars.getAll();
-									
-									data.file			= file;
-									data.filename		= fileName;
-									data.fileext		= fileExt;
-									
-									data.path			= path;
-									data.relpath		= relPath;
-									data.abspath		= absPath;
-									
-									data.folderpath		= path.substr(0, path.length - file.length);
-									data.relfolderpath	= relPath.substr(0, relPath.length - file.length);
-									data.absfolderpath	= absPath.substr(0, absPath.length - file.length);
-									
-									data.uri			= itemURI;
-									data.folderuri		= itemURI.substr(0, absPath.length - file.length);
-
-								// replace variables
-									for(var name in data)
+							// variables
+								var snippetPaths = [ ];
+								
+						// ----------------------------------------------------------------------------------------------------
+						// build the search path array
+						
+							// function
+								function addSnippetPaths(path)
+								{
+									var arr =
+									[
+										path + '/' + fileExt,
+										path + '/default',
+									];
+									if(group)
 									{
-										var rx = new RegExp('\\[\\[%tabstop\\d*:' +name+ '\\]\\]', 'g');
-										snippet.value = snippet.value.replace(rx, data[name]);
+										arr.splice(1, 0, path + '/' + group);
 									}
-							}
+									snippetPaths = snippetPaths.concat(arr);
+								}
+								
+							// Registered formats
+								if(defaultFormat)
+								{
+									snippetPaths.push('Defaults/' + viewExt);
+								}
+
+							// Custom place
+								if(varPlace)
+								{
+									addSnippetPaths('Custom/' + varPlace + '/' + lang);
+								}
 							
-						// update user
-							ko.statusBar.AddMessage(message, 'autocode.places', 2000);
+							// Custom Project
+								if(varProject)
+								{
+									addSnippetPaths('Custom/' + varProject + '/' + lang);
+								}
 							
-						// debug
-							if(true)
-							{
-								clear();
-								inspect(this.settings.fileTypes);
-								inspect
-								(
+							// Project name
+								if(projectName)
+								{
+									addSnippetPaths('Projects/' + projectName + '/' + lang);
+								}
+								
+							// Language combo
+								addSnippetPaths('Languages/' + lang);
+								
+							// global default fallback
+								snippetPaths.push('Defaults/default');
+								
+						// ----------------------------------------------------------------------------------------------------
+						// look for snippets
+						
+							// debug
+								//inspect(snippetPaths);
+						
+							// find the first matching file
+								for each(var snippetPath in snippetPaths)
+								{
+									//trace(snippetPath)
+									snippet = new Snippet(snippetPath);
+									if(snippet.exists)
 									{
-										group:group,
-										lang:lang,
-										fileExt:fileExt,
-										viewExt:viewExt,
-										snippet:snippet
-									}, 2
-								);
-							}
-
-						// grab current line and test if there's an indent
-							var lineIndex		= scimoz.lineFromPosition(scimoz.currentPos);
-							var lineStart		= scimoz.positionFromLine(lineIndex);
-							var lineEnd			= scimoz.getLineEndPosition(lineIndex);
-							var line			= scimoz.getTextRange(lineStart, lineEnd);
-							var matches			= line.match(/^(\s*)(.+)?/);
-
-						// if there's no text on the line, add a cariage return
-							if( ! matches[2] && this.settings.newline)
-							{
-								snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
-							}
+										message	= 'Adding snippet "' +snippetPath+ '" for file "' +file+ '"';
+										break;
+									}
+								}
+					
+						// ----------------------------------------------------------------------------------------------------
+						// populate the text
+						
+							// if we finally have a snippet, now we swap out all the variables
+								if(snippet.exists)
+								{
+									// set up any project variables
+										var vars			= new xjsflLib.EnvVars();
+										var envData			= vars.getAll();
+										var pathData		=
+										{
+											file			:file,
+											filename		:fileName,
+											fileext			:fileExt,
+											
+											path			:path,
+											relpath			:relPath,
+											abspath			:absPath,
+											
+											folderpath		:path.substr(0, path.length - file.length),
+											relfolderpath	:relPath.substr(0, relPath.length - file.length),
+											absfolderpath	:absPath.substr(0, absPath.length - file.length),
+											
+											uri				:itemURI,
+											folderuri		:itemURI.substr(0, absPath.length - file.length),
+										}
+			
+									// replace variables
+										snippet.populate(envData).populate(pathData);
+								}
+								
+							// if there's still no snippet, just add the path in
+								else
+								{
+									message			= 'Adding path only "' +file+ '" (no snippets found)';
+									snippet			= new Snippet();
+									snippet.value	= path;
+								}
+	
+							// debug
+								if(false)
+								{
+									//clear();
+									//inspect(this.settings.fileTypes);
+									inspect
+									(
+										{
+											group		:group,
+											lang		:lang,
+											fileExt		:fileExt,
+											viewExt		:viewExt,
+											snippet		:snippet
+										}, 2
+									);
+								}
+	
+							// grab current line and test if there's an indent
+								var lineIndex		= scimoz.lineFromPosition(scimoz.currentPos);
+								var lineStart		= scimoz.positionFromLine(lineIndex);
+								var lineEnd			= scimoz.getLineEndPosition(lineIndex);
+								var line			= scimoz.getTextRange(lineStart, lineEnd);
+								var matches			= line.match(/^(\s*)(.+)?/);
+	
+							// if there's no text on the line, add a cariage return
+								if( ! matches[2] && this.settings.newline)
+								{
+									snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
+								}
 					}
-
 
 			// ----------------------------------------------------------------------------------------------------
 			// insert the text
 
-				scimoz.beginUndoAction();
-				ko.abbrev.insertAbbrevSnippet(snippet, view);
-				scimoz.endUndoAction();
-				//scimoz.gotoPos(scimoz.currentPos);
-				//view.setFocus();
+				// update user
+					ko.statusBar.AddMessage(message, 'autocode.places', 3000);
+					
+				// insert the text
+					scimoz.beginUndoAction();
+					scimoz.gotoPos(scimoz.currentPos);
+					ko.abbrev.insertAbbrevSnippet(snippet, view);
+					scimoz.endUndoAction();
 
 			// ----------------------------------------------------------------------------------------------------
 			// done
