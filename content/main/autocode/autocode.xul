@@ -7,17 +7,22 @@
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/classes.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/Prefs.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/UIManager.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/EnvVars.js" />
 	
 	<script type="application/x-javascript" src="chrome://autocode/content/main/autocode/autocode.js" />
+
+	<script type="application/x-javascript" src="chrome://autocode/content/main/components/classes/Snippet.js" />
+
 	<script type="application/x-javascript" src="chrome://autocode/content/main/components/autocomplete.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/main/components/comments.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/main/components/console.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/main/components/places.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/main/components/snippets.js" />
 
+	
 	<commandset id="allcommands">
 		<command
 			id="cmd_autocodeConsole"
