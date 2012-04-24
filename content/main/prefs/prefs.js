@@ -25,6 +25,7 @@
 		{
 			var clear		= window.clear || parent.opener.clear || function(){ };
 			var trace		= window.trace || parent.opener.trace || function(){ };
+			var inspect		= window.inspect || parent.opener.inspect || function(){ };
 			var ko			= parent.opener.ko;
 			var xjsflLib	= parent.opener.xjsflLib;
 		}
@@ -35,23 +36,6 @@
 		var win			= parent && parent.opener ? parent.opener : window;
 		var ui			= new xjsflLib.UIManager(this);
 		var autocode	= win.autocode;
-		var elements	=
-		[
-			'autocompleteHeight',
-			'snippets',
-			'console',
-			'comments',
-			'commentsColumns',
-			'commentsFixedWidths',
-			'commentsColumnTags',
-			'commentsColumnTypes',
-			'commentsColumnNames',
-			'commentsColumnPadding',
-			'places',
-			'placesPathType',
-			'placesFileTypes',
-			'placesDefaultFormats',
-		];
 
 	// --------------------------------------------------------------------------------
 	// handlers
@@ -59,7 +43,7 @@
 		function onLoad()
 		{
 			// load prefs
-				ui.loadGroup(elements);
+				ui.loadGroup();
 
 			// update filetypes with default if they don't exist yet
 				var fileTypes = document.getElementById('placesFileTypes');
