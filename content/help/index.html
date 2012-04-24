@@ -1,92 +1,197 @@
-<!DOCTYPE html>
-<html class="js_active" dir="ltr" lang="en-US">
-<head>
+<!DOCTYPE html><html class="js_active" dir="ltr" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
 	<title>xJSFL |   Komodo AutoCode Extension</title>
 
 	<link rel="stylesheet" type="text/css" media="all" href="assets/style.css">
-	<link rel="stylesheet" type="text/css" href="assets/light-skin.css" media="screen">
 	<link rel="stylesheet" type="text/css" href="assets/stylesheet.css">
 	<link rel="stylesheet" type="text/css" href="assets/custom.css" media="screen">
 	
-	<style type="text/css">
-		a, .news-link:hover, .widget_archive li a:hover, #reply-title small a {
-			color: rgb(191, 11, 11);
-		}
-		#top .more-link:hover, .pagination a:hover, .button:hover, #commentform #submit:hover {
-			background-color: rgb(28, 139, 186);
-		}
-		a:hover {
-			color: rgb(28, 139, 186);
-		}
-	</style>
+	<style type="text/css"><!--
+
+/* Effective stylesheet produced by snapshot save */
+
+a, .news-link:hover, .widget_archive li a:hover, #reply-title small a { color: rgb(191, 11, 11); }
+
+#top .more-link:hover, .pagination a:hover, .button:hover, #commentform #submit:hover { background-color: rgb(28, 139, 186); }
+
+a:hover { color: rgb(28, 139, 186); }
+
+--></style>
 
 </head>
+
 <body id="top" class="single single-post postid-799 single-format-standard ">
 <div id="wrap_all" class="boxed">
 
 	<div class="container_wrap" id="main">
 		<div class="container">
-			<div id="template-blog" class="content grid8 first">
+			<div id="template-blog">
 				<div class="post-entry">
 					<h1> Komodo AutoCode Extension </h1>
 					<!--meta info-->
+
 					<!--end meta info-->
 					<div class="entry-content four_fifth">
+						<h2 class="cufon_headings">Intro</h2>
 						<h3 class="cufon_headings">Overview</h3>
-						<p>The AutoCode extension adds some extra functionality to Komodo, that makes it easier than ever to write (and test) quality code.</p>
-						<p style="text-align: center;"><img class="aligncenter" title="komodo-autocode-extension" src="assets/komodo-autocode-extension.png" alt="" width="550" height="554"></p>
-						<p>Its features include:</p>
+						<p>The AutoCode extension adds some extra functionality to Komodo, that makes it easier than ever to write (and test) quality code. Its features include:</p>
 						<ul>
-							<li>Tab auto-completion for <a href="http://www.xjsfl.com/support/setup/komodo/xjsfl-extension#abbreviations">abbreviations</a></li>
-							<li>Tab auto-completion for doc comments</li>
+							<li>Tab-complete on abbreviations</li>
+							<li>DocComment generation</li>
+							<li>Places integration</li>
 							<li>JavaScript console functionality</li>
-							<li>places integration</li>
+							<li>Auto-Complete customisation</li>
 						</ul>
-						<h3 class="cufon_headings">Installation</h3>
-						<p>To install the extension:</p>
+						<h4>Download and intallation</h4>
+
+						<p>Download AutoCode from the Active State site from <a href="http://www.xjsfl.com/wp-content/uploads/autocode-0.5-ko.zip">here</a>, then install using the following instuctions:</p>
 						<ol>
 							<li>Make sure Komodo Edit is open</li>
 							<li>Browse to your <strong>xJSFL/core/install/Komdo/</strong> folder</li>
+
 							<li>Drag the correct <strong>.xpi</strong> file onto Komodo Edit</li>
 							<li>Restart Komodo Edit</li>
 						</ol>
-						<p>Ensure that the extension's functionality is enabled by going to <strong>Preferences &gt; Editor &gt; AutoCode</strong>, and making sure that the relevant checkboxes are checked. For more information see the section on <a href="http://www.xjsfl.com/support/setup/komodo/komodo-installation">Komodo installation</a>.</p>
-						<p>Alternatively, you can download the extension from <a href="http://www.xjsfl.com/wp-content/uploads/autocode-0.5-ko.zip">here</a>.</p>
-						<h3 class="cufon_headings">Functionality</h3>
-						<h5 class="cufon_headings">Auto-Abbreviations</h5>
-						<p>Abbreviations are a standard Komodo feature that allow you to enter a single keyword in the editor pane, then expand that keyword into an editable code, with placeholder regions that you tab through to fill in values. It's perhaps easier illustrated with a sequence of images:</p>
+						<h4>Preferences</h4>
+						<p>Ensure that the extension's functionality is enabled by going to <strong>Preferences &gt; Editor &gt; AutoCode</strong>, and making sure that the relevant checkboxes are checked.</p>
+
+						<p><span style="text-align: center;"><img class="aligncenter" title="komodo-autocode-extension" src="assets/komodo-autocode-extension.png" alt="" height="554" width="550"></span>For more information see the section on <a href="http://www.xjsfl.com/support/setup/komodo/komodo-installation">Komodo installation</a>.						</p>
+						<h2><span class="cufon_headings">Features</span></h2>
+						<h3>Auto-Abbreviations</h3>
+<p>Abbreviations are a standard Komodo feature that allow you to enter a single keyword in the editor pane, then expand that keyword into an editable code, with placeholder regions that you tab through to fill in values. It's perhaps easier illustrated with a sequence of images:</p>
+
 						<p>Firstly, type a <strong>keyword</strong> corresponding to an abbreviation name, in this case "for":</p>
 						<p><img src="assets/abbreviation-01.png" alt=""></p>
 						<p>Then, press <strong>tab</strong> (as opposed to the more cumbersome default, CTRL+T) to trigger the abbreviation's template:</p>
 						<p><img src="assets/abbreviation-02.png" alt=""></p>
 						<p>The template is inserted into the document, and the first place holder is highlighted in each place in the template that it is used. You can alter it by simply <strong>typing</strong>, or accept the value and <strong>tab</strong> to the next placeholder.</p>
-						<p>For more information, see the section on <a href="http://www.xjsfl.com/support/setup/komodo/xjsfl-extension#abbreviations">abbreviations</a>.</p>
-						<h5 class="cufon_headings">Auto-Commenting</h5>
-						<p>Komodo uses the <a href="http://en.wikipedia.org/wiki/JSDoc">JSDoc</a> syntax to document JavaScript code, as well as hint param and return types.</p>
-						<p>With the Auto-Comment checkbox enabled in the preferences, all you need to do comment a function or method is to type <strong>/**</strong> just above the function declaration...</p>
-						<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" width="599" height="82"></p>
-						<p>...then press tab:</p>
-						<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" width="599" height="189"></p>
-						<p>The comment will be completed, and placeholders will be entered, allowing you to tab through the values.</p>
-						<p>You'll notice that the entries are also nicely formatted into columns. There are more options in the preferences for this, including fixed-width columns, and padding:</p>
-						<p><img class="aligncenter size-full wp-image-810" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" width="580" height="116"></p>
-						<p>To add your own custom code to class and function comments (such as @author information) create new snippets in your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common":</p>
-						<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom.png" alt="" width="332" height="202"></p>
-						<p>The code therein will be insterted automatically into the appropriate comment types as they are created.</p>
-						<p>Note that AutoCode also supports <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDoc</a> for documenting PHP pages.</p>
-						<h5 class="cufon_headings">JavaScript Console</h5>
-						<p>Enabling the JavaScript console in AutoCode won't really do anything for your JSFL development, but it is useful to test out quick snippets of JavaScript directly in Komodo.</p>
-						<p>With a JavaScript file open (the extension must be <strong>.js</strong>), you can use the <strong>CTRL+Enter</strong> shortcut key to evaluate the JavaScript currently in the editor window. If the code is valid, it will execute. If not, an error message will pop up, and Komodo will move the cursor to the line of the error.</p>
-						<p>The following commands are also available when using the Console:</p>
+
+						<p>AutoCode allows you to use the TAB key to enter abbreviations, making codeing more familiar.</p>
+<h3>DocComment generation</h3>
+<p>Komodo uses the <a href="http://en.wikipedia.org/wiki/JSDoc">JSDoc</a> syntax to document JavaScript code, as well as hint param and return types.</p>
+<p>With the Auto-Comment checkbox enabled in the preferences, all you need to do comment a function or method is to type <strong>/**</strong> just above the function declaration...</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
+<p>...then press tab:</p>
+<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" height="189" width="599"></p>
+<p>The comment will be completed, and placeholders will be entered, allowing you to tab through the values.</p>
+<p>You'll notice that the entries are also nicely formatted into columns. There are more options in the preferences for this, including fixed-width columns, and padding:</p>
+<p><img class="aligncenter size-full wp-image-810" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" height="116" width="580"></p>
+<p>To add your own custom code to class and function comments (such as @author information) create new snippets in your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common":</p>
+<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom.png" alt="" height="202" width="332"></p>
+<p>The code therein will be insterted automatically into the appropriate comment types as they are created.</p>
+<p>Note that AutoCode also supports <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDoc</a> for documenting PHP pages.</p>
+<p> </p>
+						<h3>Places integration</h3>
+						<p>The final piece of AutoCode functionality is probably the most powerful, as it wllows you to enter not only file paths from files in the Places panel, but also generate custom code around those paths, customised to the current language.</p>
+						<p>By ALT+clicking in the Places panel, you can automatically insert the relative or absolute path to that file in the current document.</p>
+						<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
+						<p>However, that's not all. By an advanced system of folders and Snippets as template files, you can also completely customise the code that gets inserted, based on:</p>
+						<ul>
+							<li>The Places file extension</li>
+							<li>A custom group you assign to groups of Places file extensions (see the Preferences panel)</li>
+							<li>The document's file extension</li>
+							<li>The document's current language.</li>
+							<li>The project name</li>
+							<li>Project-specific variables</li>
+						</ul>
+						<p>Each of these insertions is fully customisable, simply by editing the snippets in the AutoCode toolbox:</p>
+						<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" height="189" width="599"></p>
+						<p>Each  of the snippets uses the standard [[%tabstop:CONTENT]] format to hold variables, the following of which can be used:</p>
+						<ul>
+							<li>file - the full filename, including the extension</li>
+							<li> filename - the filename only (without the extension)</li>
+							<li> fileext - the file extension only</li>
+							<li>path - the full path to the file (as determined by preferences)</li>
+							<li> relpath - the relative path to the file</li>
+							<li> abspath - the absolute path to the file from the project root</li>
+							<li>folderpath - the full path to the folder (as determined by preferences)</li>
+							<li> relfolderpath - the relative path to the folder</li><li> absfolderpath - the absolute path to the folder from the project root</li>
+							<li>uri - the URI to the file</li>
+							<li> folderuri - the URI to the folder</li>
+							<li>%VAR - any variable you have set in your project's Environment Variables</li>
+						</ul>
+<p>You can use these values in combination with text and other code to form quote advanced code insertion.</p>
+<p>For example, if you are in an HTML document, you can simply click on any image type to quickly in insert an image tag.</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
+ <p>Or, you could click on a JavaScript file to insert a &lt;script&gt; tag.</p>
+ <p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
+ <p>Or if in the JavaScript part of the HTML document, you could click on an image file to insert some image-specific JavaScript code:</p>
+ <p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
+ <p>The order of decision-making in order to determine which Snippet to use (or not use) is specific, and is outlined below: </p>
+ <ul>
+							<li><strong>								 Unmodified							</strong>
+								<ul>
+									<li> Add the unmodified path if:
+										<ol>
+											<li>There's a <strong>document selection</strong></li>
+											<li>The caret is <strong>between 2 matching quotes</strong></li>
+										</ol>
+									</li>
+								</ul>
+							</li>
+							<li><strong> View File-type override</strong>
+								<ul>
+									<li> Use the Snippet from the <code>Places/Defaults/&lt;ext&gt;</code> files if:
+										<ol start="3">
+											<li>The view's file <strong>extension</strong> is registered as a <strong>default format</strong> in AutoCode Preferences, and matches a file name </li>
+										</ol>
+									</li>
+								</ul>
+							</li>
+							<li><strong>Project Name / Project Variable override</strong>
+								<ul>
+									<li> Use Snippets from <code>Places/Project</code> or <code>Places/Custom</code> folders if:
+										<ol start="4">
+											<li> The project<strong> environment variable </strong><code>AUTOCODE PLACE</code> matches a <code>Places/Custom/&lt;folder&gt;</code></li>
+											<li>The project<strong> environment variable </strong><code>AUTOCODE PROJECT</code> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
+											<li>The project<strong> name</strong> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
+											<li>The view's current language and the places file <strong>extension</strong> matches a <code>Places/&lt;language&gt;/&lt;ext&gt;</code></li>
+										</ol>
+									</li>
+								</ul>
+							</li>
+							<li><strong>View Language + File-type combination</strong>
+								<ul>
+									<li> Use the Snippet from  <code>&lt;language&gt;/&lt;file&gt;</code> if:
+										<ol start="8">
+											<li>The view's current language and file <strong>group</strong> matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;group&gt;</code></li>
+											<li>The view's current language and file <strong>extension</strong> matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;ext&gt;</code></li>
+											<li>The view's current language is found, and there is a <strong>default</strong> snippet <code>&lt;folder&gt;/&lt;language&gt;/default</code></li>
+										</ol>
+									</li>
+								</ul>
+							</li>
+							<li><strong>Global defaults</strong>
+								<ul>
+									<li> Final defaults
+										<ol start="11">
+											<li> Fall back to <code>Places/Defaults/default</code> if it <strong>exists</strong></li>
+											<li> Enter the path as-is if it <strong>doesn't</strong></li>
+										</ol>
+									</li>
+								</ul>
+							</li>
+						</ul>
+ <p>The system is quite powerful and should allow you to cover most scenarios, including project-specific settings, so if you use a certain framework you could easily override standard &lt;img&gt; tags to instead insert your framework specific asset include.</p>
+ <p> Examine the sample snippets that ship with AutoCode to get an idea, and add your own as you see fit.</p>
+<h3>JavaScript Console</h3>
+						<p>Enabling the JavaScript console in AutoCode allows you to edit and run JavaScript code directly in Komodo.</p>
+						<p>With a JavaScript file open (the extension must be <strong>.js</strong>), you can use the <strong>CTRL+Enter</strong> shortcut key to evaluate the JavaScript currently in the editor window. (Note that you can also execute Windows .bat files by pressing CTRL+Enter).</p>
+						<p> If the code is valid, it will execute. If not, an error message will pop up, and Komodo will move the cursor to the line of the error.</p>
+						<p>The following commands are also available when using the Console, which allow you test values and output in the Command Output panel as you develop:</p>
 						<ul>
 							<li><strong>trace(value)</strong>: Traces the value to the command output</li>
-							<li><strong>inspect(value)</strong>: Traces a hierarchical representation of the value to the command output.<br>
-								More info about inspect()'s arguments can be found <a href="http://www.xjsfl.com/support/api/text/output#inspect">here</a>.</li>
+							<li><strong>inspect(value)</strong>: Traces a hierarchical representation of the value to the command output.								More info about inspect()'s arguments can be found <a href="http://www.xjsfl.com/support/api/text/output#inspect">here</a>.</li>
 							<li><strong>clear()</strong>: Clears the command output</li>
 						</ul>
 						<p>Below you can see the result of an inspect:</p>
-						<p><img class="aligncenter size-full wp-image-807" title="autocode-console" src="assets/autocode-console.png" alt="" width="600" height="686"></p>
-					</div>
+						<p><img class="aligncenter size-full wp-image-807" title="autocode-console" src="assets/autocode-console.png" alt="" height="686" width="600"></p>
+						<h3>Auto-Complete</h3>
+						<p>The simplest functionality in AutoCode allows you to change the height of the AutoComplete dropdown from the default 5 lines.</p>
+						<p><img class="aligncenter" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" ></p>
+						<p>&nbsp;</p>
+						<p> </p>
+</div>
 				</div>
 				<!--end post-entry-->
 				<!--end content-->
@@ -97,5 +202,5 @@
 
 </div>
 <!-- end wrap_all -->
-</body>
-</html>
+
+</body></html>
