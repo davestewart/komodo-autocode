@@ -57,7 +57,8 @@ autocode.console =
 				var doc = view.document || view.koDoc;
 				if(doc)
 				{
-					var url	= view.item.url;
+					var url		= view.item.url;
+					var window	= view.ownerDocument.defaultView;
 
 					if(/\.js$/.test(url))
 					{
@@ -73,7 +74,7 @@ autocode.console =
 							ko.statusBar.AddMessage('Evaluating JavaScript...', 'AutoCode', 500, false);
 							try
 							{
-								eval(selection || view.scimoz.text);
+								eval.call(window, selection || view.scimoz.text);
 							}
 							catch(err)
 							{
