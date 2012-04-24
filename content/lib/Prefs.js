@@ -1,39 +1,39 @@
 // ------------------------------------------------------------------------------------------------------------------------
 //
-//  ██████             ████       
-//  ██  ██             ██         
-//  ██  ██ ████ █████  ██   █████ 
-//  ██████ ██   ██ ██ █████ ██    
-//  ██     ██   █████  ██   █████ 
-//  ██     ██   ██     ██      ██ 
-//  ██     ██   █████  ██   █████ 
+//  ██████             ████
+//  ██  ██             ██
+//  ██  ██ ████ █████  ██   █████
+//  ██████ ██   ██ ██ █████ ██
+//  ██     ██   █████  ██   █████
+//  ██     ██   ██     ██      ██
+//  ██     ██   █████  ██   █████
 //
 // ------------------------------------------------------------------------------------------------------------------------
 // Prefs
 
 	// ----------------------------------------------------------------------------------------------------
 	// setup
-	
+
 		if( ! window.xjsflLib ) xjsflLib = {};
 
 	// ----------------------------------------------------------------------------------------------------
 	// code
-	
+
 		xjsflLib.Prefs = function(prefSet)
 		{
 			this.prefSet = prefSet || ko.prefs;
 		}
-		
+
 		xjsflLib.Prefs.prototype =
 		{
 			// ----------------------------------------------------------------------------------------------------
 			// variables
-			
+
 				prefSet:null,
-			
+
 			// ----------------------------------------------------------------------------------------------------
 			// getters
-			
+
 				/**
 				 * Gets a preference
 				 * @param	{String}	name			The preference name
@@ -61,7 +61,7 @@
 					}
 					return defaultValue;
 				},
-				
+
 				getString:function(name, defaultValue)
 				{
 					if(this.prefSet.hasStringPref(name))
@@ -70,7 +70,7 @@
 					}
 					return defaultValue;
 				},
-				
+
 				getBoolean:function(name, defaultValue)
 				{
 					//trace('Get bool:' + this.prefSet.getBooleanPref(name))
@@ -81,7 +81,7 @@
 					}
 					return defaultValue;
 				},
-			
+
 				getDouble:function(name, defaultValue)
 				{
 					if(this.prefSet.hasDoublePref(name))
@@ -90,7 +90,7 @@
 					}
 					return defaultValue;
 				},
-			
+
 				getLong:function(name, defaultValue)
 				{
 					if(this.prefSet.hasLongPref(name))
@@ -99,11 +99,11 @@
 					}
 					return defaultValue;
 				},
-			
-			
+
+
 			// ----------------------------------------------------------------------------------------------------
 			// setters
-			
+
 				/**
 				 * Sets a preference
 				 * @param	{String}	name
@@ -136,38 +136,66 @@
 					}
 					return this;
 				},
-			
+
 				setString:function(name, value)
 				{
-					return this.prefSet.setStringPref(name, value);
+					try
+					{
+						return this.prefSet.setStringPref(name, value);
+					}
+					catch(err)
+					{
+						alert('Error: ' + err); return false;
+					}
 				},
-				
+
 				setBoolean:function(name, value)
 				{
-					return this.prefSet.setBooleanPref(name, value);
+					try
+					{
+						return this.prefSet.setBooleanPref(name, value);
+					}
+					catch(err)
+					{
+						alert('Error: ' + err); return false;
+					}
 				},
-			
+
 				setLong:function(name, value)
 				{
-					return this.prefSet.setLongPref(name, value);
+					try
+					{
+						return this.prefSet.setLongPref(name, value);
+					}
+					catch(err)
+					{
+						alert('Error: ' + err); return false;
+					}
 				},
 
 				setDouble:function(name, value)
 				{
-					return this.prefSet.setDoublePref(name, value);
+					try
+					{
+						return this.prefSet.setDoublePref(name, value);
+					}
+					catch(err)
+					{
+						alert('Error: ' + err); return false;
+					}
 				},
-			
+
 			// ----------------------------------------------------------------------------------------------------
 			// utils
-			
+
 				toString:function()
 				{
 					var name = window.ko ? (this.prefSet == ko.prefs ? 'ko' : 'window') : 'window';
 					return '[object Prefs type="' +name + '"]'
 				}
-			
+
 		}
-		
+
 /*
 		var prefs = new xjsflLib.Prefs();
 		prefs.set('testnumber', '50.0');
