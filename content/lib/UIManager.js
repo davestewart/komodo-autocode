@@ -23,8 +23,8 @@
 		{
 			if(window && window.document)
 			{
-				this.window = window;
-				this.document = window.document;
+				this.getWindow		= function(){ return window; };
+				this.getDocument	= function(){ return window.document; };
 				if(window.parent && window.parent.hPrefWindow)
 				{
 					this.prefs = new xjsflLib.Prefs(window.parent.hPrefWindow.prefset);
@@ -41,10 +41,6 @@
 			// ----------------------------------------------------------------------------------------------------
 			// properties
 
-				window:null,
-
-				document:null,
-
 				prefs:null,
 
 				ids:[],
@@ -55,7 +51,7 @@
 
 				get:function(id)
 				{
-					var element = this.document.getElementById(id);
+					var element = this.getDocument().getElementById(id);
 					if(element)
 					{
 						// determine type based on preftype (if it exists)
@@ -70,6 +66,7 @@
 									break;
 									case 'number':
 									case 'long':
+									case 'int':
 										return parseInt(element.value);
 									break;
 									case 'double':
@@ -81,7 +78,7 @@
 										return element.value;
 								}
 							}
-							
+
 						// otherwise, examine the element itself
 							else if(element.nodeName === 'checkbox')
 							{
@@ -108,7 +105,7 @@
 
 				set:function(id, value)
 				{
-					var element = this.document.getElementById(id);
+					var element = this.getDocument().getElementById(id);
 					if(element)
 					{
 						if(typeof value !== 'undefined')
@@ -127,7 +124,7 @@
 											element.value = value;
 									}
 								}
-								
+
 							// otherwise, examine the element itself
 								else if(element.nodeName === 'checkbox')
 								{
@@ -160,8 +157,8 @@
 				load:function(id, defaultValue)
 				{
 					// elements
-						var element = this.document.getElementById(id);
-						
+						var element = this.getDocument().getElementById(id);
+
 					// do something with element
 						if(element)
 						{
@@ -169,7 +166,7 @@
 								var prefid		= element.getAttribute('prefid');
 								var preftype	= element.getAttribute('preftype').toLowerCase();
 								var value;
-								
+
 							// get value based on preftype (if it exists)
 								if(prefid && preftype)
 								{
@@ -186,6 +183,7 @@
 										break;
 										case 'number':
 										case 'long':
+										case 'int':
 											value = this.prefs.getLong(prefid);
 										break;
 										case 'double':
@@ -198,7 +196,7 @@
 										default:
 											value = this.prefs.get(prefid);
 									}
-									
+
 									if(typeof value !== 'undefined')
 									{
 										element.value = value;
@@ -218,13 +216,13 @@
 
 				save:function(id)
 				{
-					var element	= this.document.getElementById(id);
+					var element	= this.getDocument().getElementById(id);
 					if(element)
 					{
 						// variables
 							var prefid		= element.getAttribute('prefid');
 							var preftype	= element.getAttribute('preftype').toLowerCase();
-							
+
 						// determine type based on preftype (if it exists)
 							if(prefid && preftype)
 							{
@@ -236,6 +234,7 @@
 									break;
 									case 'number':
 									case 'long':
+									case 'int':
 										this.prefs.setLong(prefid, parseInt(element.value));
 									break;
 									case 'double':
@@ -266,15 +265,27 @@
 
 				/**
 				 * Load multiple values from the saved preferences into UI controls. Controls should contain a prefid and a preftype attribute
-				 * @param	{Array}		settings	An Array of document ids
+				 * @param	{Array}		ids			An Array of document ids, or nothing to grab all elements with a prefid from the document
 				 */
 				loadGroup:function(ids)
 				{
-					this.ids = ids;
-					for each(var id in ids)
-					{
-						this.load(id);
-					}
+					// grab all elements if an array of ids isn't supplied
+						if(typeof ids === 'undefined')
+						{
+							var elements = this.getDocument().getElementsByAttribute('prefid', '*');
+							ids = [];
+							for (var i = 0; i < elements.length; i++)
+							{
+								ids.push(elements[i].id);
+							}
+						}
+
+					// assign ids
+						this.ids = ids;
+						for each(var id in ids)
+						{
+							this.load(id);
+						}
 				},
 
 				saveGroup:function()
@@ -287,7 +298,7 @@
 
 			// ----------------------------------------------------------------------------------------------------
 			// utils
-			
+
 				throwError:function(message)
 				{
 					alert(message);
@@ -296,7 +307,8 @@
 
 				toString:function()
 				{
-					var uri = this.window ? this.window.location : '';
+					var window	= this.getWindow();
+					var uri		= window ? window.location : '';
 					return '[object UIManager ids="' +this.ids.length+ '" uri="' +uri+ '"]';
 				}
 
