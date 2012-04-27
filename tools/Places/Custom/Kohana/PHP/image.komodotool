@@ -1,8 +1,8 @@
 {
   "keyboard_shortcut": "", 
-  "name": "rdf", 
+  "name": "image", 
   "value": [
-    "chrome://[[%tabstop:EXTENSIONNAME]][[%tabstop:abspath]]!@#_currentPos!@#_anchor"
+    "assets::add_image(\"[[%tabstop:abspath]]\");!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 

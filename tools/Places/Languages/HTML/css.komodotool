@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "css", 
   "value": [
-    "<link type=\"text/css\" rel=\"stylesheet\" media=\"all\" href=\"[[%tabstop:path]]\" />!@#_currentPos!@#_anchor"
+    "<link type=\"text/css\" rel=\"stylesheet\" href=\"[[%tabstop:path]]\" media=\"all\" !@#_currentPos!@#_anchor/>"
   ], 
   "set_selection": "true", 
   "version": "1.0.7", 

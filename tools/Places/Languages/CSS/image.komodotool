@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "image", 
   "value": [
-    "background-image:url('[[%tabstop:path]]');!@#_currentPos!@#_anchor"
+    "[[%tabstop:background-image]]:url('[[%tabstop:path]]');!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 
