@@ -55,7 +55,7 @@ a:hover { color: rgb(28, 139, 186); }
 						<h4>Preferences</h4>
 						<p>Ensure that the extension's functionality is enabled by going to <strong>Preferences &gt; Editor &gt; AutoCode</strong>, and making sure that the relevant checkboxes are checked.</p>
 
-						<p><span style="text-align: center;"><img class="aligncenter" title="komodo-autocode-extension" src="assets/komodo-autocode-extension.png" alt="" height="554" width="550"></span>For more information see the section on <a href="http://www.xjsfl.com/support/setup/komodo/komodo-installation">Komodo installation</a>.						</p>
+						<p><span style="text-align: center;"><img class="aligncenter" title="komodo-autocode-extension" src="assets/autocode-prefs.png" alt="" height="553" width="600"></span>For more information see the section on <a href="http://www.xjsfl.com/support/setup/komodo/komodo-installation">Komodo installation</a>.						</p>
 						<h2><span class="cufon_headings">Features</span></h2>
 						<h3>Auto-Abbreviations</h3>
 <p>Abbreviations are a standard Komodo feature that allow you to enter a single keyword in the editor pane, then expand that keyword into an editable code, with placeholder regions that you tab through to fill in values. It's perhaps easier illustrated with a sequence of images:</p>
@@ -75,105 +75,136 @@ a:hover { color: rgb(28, 139, 186); }
 <p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" height="189" width="599"></p>
 <p>The comment will be completed, and placeholders will be entered, allowing you to tab through the values.</p>
 <p>You'll notice that the entries are also nicely formatted into columns. There are more options in the preferences for this, including fixed-width columns, and padding:</p>
-<p><img class="aligncenter size-full wp-image-810" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" height="116" width="580"></p>
-<p>To add your own custom code to class and function comments (such as @author information) create new snippets in your Toolbox's Abbreviations folder, named "autocomment class", "autocomment function" and "autocomment common":</p>
-<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom.png" alt="" height="202" width="332"></p>
+<p><img src="assets/autocode-prefs-comments.png" alt="" width="600" height="188" class="aligncenter size-full wp-image-810" title="auto-comment-prefs"></p>
+<p>To add your own custom text or parameters to class and function comments (such as @author information), locate the relevant Snippets inside AutoCode's own Toolbox...</p>
+<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom.png" alt="" height="167" width="332"></p>
+<p>...then add your own parameters as you wish:</p>
+<p><img class="aligncenter size-full wp-image-811" title="auto-comment-custom" src="assets/auto-comment-custom-dialog.png" alt="" height="335" width="489"></p>
 <p>The code therein will be insterted automatically into the appropriate comment types as they are created.</p>
 <p>Note that AutoCode also supports <a href="http://en.wikipedia.org/wiki/PHPDoc">PHPDoc</a> for documenting PHP pages.</p>
 <p> </p>
 						<h3>Places integration</h3>
-						<p>The final piece of AutoCode functionality is probably the most powerful, as it wllows you to enter not only file paths from files in the Places panel, but also generate custom code around those paths, customised to the current language.</p>
-						<p>By ALT+clicking in the Places panel, you can automatically insert the relative or absolute path to that file in the current document.</p>
-						<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
-						<p>However, that's not all. By an advanced system of folders and Snippets as template files, you can also completely customise the code that gets inserted, based on:</p>
-						<ul>
-							<li>The Places file extension</li>
-							<li>A custom group you assign to groups of Places file extensions (see the Preferences panel)</li>
-							<li>The document's file extension</li>
-							<li>The document's current language.</li>
-							<li>The project name</li>
-							<li>Project-specific variables</li>
-						</ul>
-						<p>Each of these insertions is fully customisable, simply by editing the snippets in the AutoCode toolbox:</p>
-						<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/auto-comment-02.png" alt="" height="189" width="599"></p>
-						<p>Each  of the snippets uses the standard [[%tabstop:CONTENT]] format to hold variables, the following of which can be used:</p>
-						<ul>
-							<li>file - the full filename, including the extension</li>
-							<li> filename - the filename only (without the extension)</li>
-							<li> fileext - the file extension only</li>
-							<li>path - the full path to the file (as determined by preferences)</li>
-							<li> relpath - the relative path to the file</li>
-							<li> abspath - the absolute path to the file from the project root</li>
-							<li>folderpath - the full path to the folder (as determined by preferences)</li>
-							<li> relfolderpath - the relative path to the folder</li><li> absfolderpath - the absolute path to the folder from the project root</li>
-							<li>uri - the URI to the file</li>
-							<li> folderuri - the URI to the folder</li>
-							<li>%VAR - any variable you have set in your project's Environment Variables</li>
-						</ul>
-<p>You can use these values in combination with text and other code to form quote advanced code insertion.</p>
-<p>For example, if you are in an HTML document, you can simply click on any image type to quickly in insert an image tag.</p>
-<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
- <p>Or, you could click on a JavaScript file to insert a &lt;script&gt; tag.</p>
- <p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
- <p>Or if in the JavaScript part of the HTML document, you could click on an image file to insert some image-specific JavaScript code:</p>
- <p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/auto-comment-01.png" alt="" height="82" width="599"></p>
- <p>The order of decision-making in order to determine which Snippet to use (or not use) is specific, and is outlined below: </p>
- <ul>
-							<li><strong>								 Unmodified							</strong>
-								<ul>
-									<li> Add the unmodified path if:
-										<ol>
-											<li>There's a <strong>document selection</strong></li>
-											<li>The caret is <strong>between 2 matching quotes</strong></li>
-										</ol>
-									</li>
-								</ul>
-							</li>
-							<li><strong> View File-type override</strong>
-								<ul>
-									<li> Use the Snippet from the <code>Places/Defaults/&lt;ext&gt;</code> files if:
-										<ol start="3">
-											<li>The view's file <strong>extension</strong> is registered as a <strong>default format</strong> in AutoCode Preferences, and matches a file name </li>
-										</ol>
-									</li>
-								</ul>
-							</li>
-							<li><strong>Project Name / Project Variable override</strong>
-								<ul>
-									<li> Use Snippets from <code>Places/Project</code> or <code>Places/Custom</code> folders if:
-										<ol start="4">
-											<li> The project<strong> environment variable </strong><code>AUTOCODE PLACE</code> matches a <code>Places/Custom/&lt;folder&gt;</code></li>
-											<li>The project<strong> environment variable </strong><code>AUTOCODE PROJECT</code> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
-											<li>The project<strong> name</strong> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
-											<li>The view's current language and the places file <strong>extension</strong> matches a <code>Places/&lt;language&gt;/&lt;ext&gt;</code></li>
-										</ol>
-									</li>
-								</ul>
-							</li>
-							<li><strong>View Language + File-type combination</strong>
-								<ul>
-									<li> Use the Snippet from  <code>&lt;language&gt;/&lt;file&gt;</code> if:
-										<ol start="8">
-											<li>The view's current language and file <strong>group</strong> matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;group&gt;</code></li>
-											<li>The view's current language and file <strong>extension</strong> matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;ext&gt;</code></li>
-											<li>The view's current language is found, and there is a <strong>default</strong> snippet <code>&lt;folder&gt;/&lt;language&gt;/default</code></li>
-										</ol>
-									</li>
-								</ul>
-							</li>
-							<li><strong>Global defaults</strong>
-								<ul>
-									<li> Final defaults
-										<ol start="11">
-											<li> Fall back to <code>Places/Defaults/default</code> if it <strong>exists</strong></li>
-											<li> Enter the path as-is if it <strong>doesn't</strong></li>
-										</ol>
-									</li>
-								</ul>
-							</li>
-						</ul>
- <p>The system is quite powerful and should allow you to cover most scenarios, including project-specific settings, so if you use a certain framework you could easily override standard &lt;img&gt; tags to instead insert your framework specific asset include.</p>
- <p> Examine the sample snippets that ship with AutoCode to get an idea, and add your own as you see fit.</p>
+						<h4>Overview</h4>
+						<p>Places integration is  the most powerful feature of AutoCode, as it enables you to ALT+click a file or folder in the Places panel to generate and insert a snippet of code relating to that file, specific to the current language.</p>
+						<p>This process is completely customisable by the user, through custom Snippets, Project Environment variables, and AutoCode preferences, to give you a high level of control regarding what code is inserted.						</p>
+<p>At the most basic level, ALT+clicking in the Places panel inserts the relative or absolute path to that file in the current document:</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/places-text.png" alt="" height="66" width="599">However, if you are in an HTML document, and you have the correct folder and Snippet setup, you could ALT+click an image to quickly in insert an image tag (note the standard tab-placeholders).</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/places-html-img.png" alt="" height="132" width="599"></p>
+<p>Or if in the JavaScript part of the HTML document, you could click on an image file to insert some image-specific JavaScript code:</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/places-javascript-img.png" alt="" height="160" width="599"></p>
+<p>Or if in a PHP document, you could set up custom PHP code to insert images using your own custom code:</p>
+<p><img class="aligncenter size-full wp-image-803" title="auto-comment-01" src="assets/places-php-img.png" alt="" height="160" width="599"></p>
+<p>You have complete control per file and per language as to how paths or code is generated, which is explained in the following section.</p>
+<h4>Code generation specifics</h4>
+<p>Ultimately, AutoCode Places inserts code into the document as a Snippet. Which Snippet to choose however, depends on various factors as outlined in the following list:</p>
+<ul>
+  <li>The current code in the editor window</li>
+  <li>The clicked-file's extension</li>
+  <li>The document's file extension</li>
+  <li>The document's current language.</li>
+  <li>Project-specific variables or the project name</li>
+  <li>The AutoCode Places preferences
+</li></ul>
+<p>The order of decision-making in order to determine which Snippet to use (or not use) is quite specific, and is outlined below. Note that the order AutoCode assesses the current scenario is <em>as ordered</em> below. The first successful match stops the process, and the Snippet is inserted: </p>
+<ul>
+  <li><strong> Unmodified </strong>
+    <ul>
+      <li> Add the unmodified path if:
+        <ol>
+          <li>There's a <strong>document selection</strong></li>
+          <li>The caret is <strong>between 2 matching quotes</strong></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li><strong> Editor file-type (override)</strong>
+<ul>
+  <li> Use the Snippet from the <code>Places/Defaults/&lt;view ext&gt;</code> files if:
+    <ol start="3">
+      <li>The view's file <strong>extension</strong> is registered as a <strong>default format</strong> in AutoCode Preferences, and matches a file name. For example, 
+        <ul>
+          <li>The view is &quot;autocode.manifest&quot;</li>
+          <li> &quot;manifest&quot; is registered as a default format in the AutoCode places preferences</li>
+          <li>The snippet &quot;Places/Defaults/manifest&quot; exists</li>
+          </ul>
+        </li>
+      </ol>
+    </li>
+</ul>
+  </li>
+  <li><strong>Project name or project environment variable (override)</strong>
+    <ul>
+      <li> Use Snippets from <code>Places/Project</code> or <code>Places/Custom</code> folders if:
+        <ol start="4">
+          <li> The project<strong> environment variable </strong><code>AUTOCODE PLACE</code> matches a <code>Places/Custom/&lt;folder&gt;</code></li>
+          <li>The project<strong> environment variable </strong><code>AUTOCODE PROJECT</code> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
+          <li>The project<strong> name</strong> matches a <code>Places/Projects/&lt;folder&gt;</code></li>
+          <li>The view's current language and the places file <strong>extension</strong> matches a <code>Places/&lt;language&gt;/&lt;ext&gt;</code></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li><strong>View language + inserted file-type combination</strong>
+    <ul>
+      <li> Use the Snippet from <code>&lt;language&gt;/&lt;file&gt;</code> if:
+        <ol start="8">
+          <li>The view's current language and file <strong>group</strong> (see Preferences) matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;group&gt;</code></li>
+          <li>The view's current language and file <strong>extension</strong> matches a <code>&lt;folder&gt;/&lt;language&gt;/&lt;ext&gt;</code></li>
+          <li>The view's current language is found, and there is a <strong>default</strong> snippet <code>&lt;folder&gt;/&lt;language&gt;/default</code></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Global defaults</strong>
+    <ul>
+      <li> Final defaults
+        <ol start="11">
+          <li> Fall back to <code>Places/Defaults/default</code> if it <strong>exists</strong></li>
+          <li> Enter the path as-is if it <strong>doesn't</strong></li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ul>
+<p>The system is extremely powerful, but at the same time, hopefully flexible-enough for most developers' needs, as it provides a range of defaults as well as a subtle, granulated system of overrides.</p>
+<p>The thing to remember though, is that at the very basic level you need the following Snippet structure in your AutoCode Places folder in order for AutoCode to find the correct Snippet</p>
+<ul>
+  <li>Places &gt; Languages
+        &gt; Language
+            &gt; Extension
+          
+      
+  </li>
+  </ul>
+<p>So for example, in order to insert a snippet for any <strong>image</strong> types within an <strong>HTML</strong> document, you would need the following snippet structure:</p>
+<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/places-snippet-location.png" alt="" height="365" width="332">The other folders, Custom, Default, and Projects relate to custom locations for snippets outlined in the <a href="#Code-generation-specifics">Code generation specifics</a> section above. </p>
+<h4>Snippet variables</h4>
+<p>So, once the particular Snippet has been identified in relation to the  criteria above, you also have a range of variables that can be used to 
+						customise the Snippet's output.</p>
+<p>The following variables are available to use:</p>
+<ul>
+  <li>file - the full filename, including the extension</li>
+  <li> filename - the filename only (without the extension)</li>
+  <li> fileext - the file extension only</li>
+  <li>path - the full path to (and including) the file (as determined by preferences)</li>
+  <li> relpath - the relative path to (and including)  the file</li>
+  <li> abspath - the absolute path to (and including)  the file from the project root</li>
+  <li>folderpath - the full path to the folder (as determined by preferences)</li>
+  <li> relfolderpath - the relative path to the folder</li>
+  <li> absfolderpath - the absolute path to the folder from the project root</li>
+  <li>uri - the URI to the file</li>
+  <li> folderuri - the URI to the folder</li>
+  <li>%VAR - any variable you have set in your project's Environment Variables</li>
+</ul>
+<p>Variables are inserted into the snippet using the standard Interpolation Shortcuts mechanism, i.e. [[%tabstop:CONTENT]]. This allows you to add the snippets manually as well, should you so wish.</p>
+<p>You can use these values in combination with other code, and even other tabstops (including numbered tabstops) to form  fairly advanced code insertion.</p>
+<p>For example, in the following Snippet, the Project variable EXTENSIONNAME has been used, along with the Places variable abspath:</p>
+<p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/places-snippet-dialog.png" alt="" height="335" width="489"></p>
+						<p>This would (in the case of the AutoCode extension project) result in the following path being inserted:</p>
+<pre>chrome://autocode/absolute/path/to/file.ext</pre>
+                        <p> Note that a Project Environment variable was also set up. This allows you to customise code per-project, should you wish:</p>
+                        <p><img class="aligncenter size-full wp-image-804" title="auto-comment-02" src="assets/places-project-variables.png" alt="" height="321" width="683"></p>
+                        <p>Examine the sample snippets that ship with AutoCode to get an idea, and add your own as you see fit.</p>
 <h3>JavaScript Console</h3>
 						<p>Enabling the JavaScript console in AutoCode allows you to edit and run JavaScript code directly in Komodo.</p>
 						<p>With a JavaScript file open (the extension must be <strong>.js</strong>), you can use the <strong>CTRL+Enter</strong> shortcut key to evaluate the JavaScript currently in the editor window. (Note that you can also execute Windows .bat files by pressing CTRL+Enter).</p>
@@ -188,7 +219,7 @@ a:hover { color: rgb(28, 139, 186); }
 						<p><img class="aligncenter size-full wp-image-807" title="autocode-console" src="assets/autocode-console.png" alt="" height="686" width="600"></p>
 						<h3>Auto-Complete</h3>
 						<p>The simplest functionality in AutoCode allows you to change the height of the AutoComplete dropdown from the default 5 lines.</p>
-						<p><img class="aligncenter" title="auto-comment-prefs" src="assets/auto-comment-prefs.png" alt="" ></p>
+						<p><img src="assets/autocode-prefs-autocomplete.png" alt="" class="aligncenter" title="auto-comment-prefs" ></p>
 						<p>&nbsp;</p>
 						<p> </p>
 </div>
