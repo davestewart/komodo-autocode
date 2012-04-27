@@ -79,38 +79,38 @@
 					Typing /** then pressing <span style="font-style:italic">&lt;ENTER&gt;</span> or <span style="font-style:italic">&lt;TAB&gt;</span> in the edtor window immediately
 					above a class, function or variable declaration will insert a PHPDoc or JSDoc comment directly into the editor window (hold down <span style="font-style:italic">&lt;SHIFT&gt;</span> to override this behaviour and enter a normal multiline comment).
 				</description>
-			</vbox>
-
-			<checkbox id="commentsColumns" prefid="autocode.comments.columns" preftype="boolean" label="Enable columns" checked="true" />
-			<vbox id="boxColumns" class="indented">
-
-				<description>
-					To make comments easier to read, you can force comment blocks to be laid out in columns.
-					Column widths are set automatically based on the width of tags, but you can update the values below to customise the layout.
-				</description>
-
-				<hbox align="baseline" style="padding:10px 0px 0px 0px">
-					<label>Pad columns with <textbox id="commentsColumnPadding" value="0" width="50" type="number" min="0" max="5"  prefid="autocode.comments.columnPadding" preftype="long" style="top:-3px; position:relative"/> tabs</label>
-				</hbox>
-
-				<checkbox id="commentsFixedWidths" prefid="autocode.comments.fixedWidths" preftype="boolean" label="Manually set column widths (values are in characters)" />
+				<checkbox id="commentsColumns" prefid="autocode.comments.columns" preftype="boolean" label="Enable columns" checked="true" />
 				<vbox id="boxColumns" class="indented">
 
+					<description>
+						To make comments easier to read, you can force comment blocks to be laid out in columns.
+						Column widths are set automatically based on the width of tags, but you can update the values manbelow to customise the layout.
+					</description>
+
 					<hbox align="baseline" style="padding:10px 0px 0px 0px">
-						<label>Tags:	<textbox id="commentsColumnTags"  value="8" width="50" type="number" min="4" max="100"  prefid="autocode.comments.columnTags" preftype="long" /></label>
-						<label>Types:	<textbox id="commentsColumnTypes" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnTypes" preftype="long" /></label>
-						<label>Names:	<textbox id="commentsColumnNames" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnNames" preftype="long" /></label>
+						<label>Pad columns with <textbox id="commentsColumnPadding" value="0" width="50" type="number" min="0" max="5"  prefid="autocode.comments.columnPadding" preftype="long" style="top:-3px; position:relative"/> tabs</label>
 					</hbox>
+
+					<checkbox id="commentsFixedWidths" prefid="autocode.comments.fixedWidths" preftype="boolean" label="Manually set column widths (values are in characters)" />
+					<vbox id="boxColumns" class="indented">
+
+						<hbox align="baseline" style="padding:10px 0px 0px 0px">
+							<label>Tags:	<textbox id="commentsColumnTags"  value="8" width="50" type="number" min="4" max="100"  prefid="autocode.comments.columnTags" preftype="long" /></label>
+							<label>Types:	<textbox id="commentsColumnTypes" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnTypes" preftype="long" /></label>
+							<label>Names:	<textbox id="commentsColumnNames" value="16" width="50" type="number" min="4" max="100" prefid="autocode.comments.columnNames" preftype="long" /></label>
+						</hbox>
+
+					</vbox>
 
 				</vbox>
 
-			</vbox>
+				<vbox style="padding:3px">
+					<description>
+						To add custom code to class and function comments (such as @author information) edit the Snippets in the <strong>AutoCode/Comments</strong> folder.
+					</description>
+				</vbox>			</vbox>
 
-			<vbox style="padding:3px">
-				<description>
-					To add custom code to class and function comments (such as @author information) edit the Snippets in the <strong>AutoCode/Comments</strong> folder.
-				</description>
-			</vbox>
+
 		</groupbox>
 
 		<groupbox orient="vertical">
@@ -149,6 +149,8 @@
 					</menulist>
 				</hbox>
 
+				<checkbox id="placesNewline" prefid="autocode.places.newline" preftype="boolean" label="Add a new line to insertions which are already on a blank line" />
+
 				<description>
 					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong>AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>
 					<p>Within the snippet, use the following tabstops ( i.e. [[%tabstop:<strong>path</strong>]] ) to customise the insertion:</p>
@@ -178,6 +180,7 @@
 					<label value="Use default formats for extensions:"/>
 					<textbox class="indent" id="placesDefaultFormats" prefid="autocode.places.defaultFormats" preftype="string" value="rdf manifest" />
 				</vbox>
+
 			</vbox>
 		</groupbox>
 

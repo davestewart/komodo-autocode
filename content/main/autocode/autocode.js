@@ -45,7 +45,7 @@ if( ! window.autocode )
 				var container = (ko.views.manager ? ko.views.manager.topView : window)
 				container.addEventListener('keypress', onKeyPress, true);
 				document.getElementById("placesViewbox").addEventListener('click', onClick);
-					
+
 			// initialize
 				autocode.initialize();
 		},
@@ -72,17 +72,17 @@ autocode.initialize = function()
 		this.settings.enabled.snippets		= prefs.get('autocode.snippets', true);
 
 	// console
-		if(this.settings.console)
+		if(this.settings.enabled.console)
 		{
 			autocode.console.initialize();
 		}
 
 	// places
-		if(this.settings.places)
+		if(this.settings.enabled.places)
 		{
 			autocode.places.initialize();
 		}
-		
+
 	// auto-size autocomplete box
 		autocode.autocomplete.initialize();
 
