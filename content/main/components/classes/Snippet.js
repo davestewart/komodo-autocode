@@ -54,13 +54,8 @@ autocode.classes.Snippet.prototype =
 		 */
 		load:function(path)
 		{
-			// toolbox path
-				var devPath		= 'E:/05 - Commercial Projects/xJSFL/3 - development/Komodo Extensions/AutoCode/tools/';
-				var toolbox		= ko.toolbox2.getExtensionToolbox("autocode@xjsfl.com");
-				toolbox			= toolbox ? (toolbox.path + '/').replace(/\\/g, '/') + '/' : devPath;
-
 			// snippet path
-				var fullPath	= toolbox + 'Places/' + path + '.komodotool';
+				var fullPath	= autocode.settings.toolboxPath + 'Places/' + path + '.komodotool';
 				var file		= new xjsflLib.File(fullPath);
 
 			// populate snippet
