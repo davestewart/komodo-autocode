@@ -189,7 +189,7 @@ autocode.comments =
 				{
 					// convert value to string
 						value		= String(value);
-
+						
 					// default type
 						var type	= style === 'php' ? 'object' : 'Object';
 
@@ -363,7 +363,7 @@ autocode.comments =
 								{
 									// match parts
 										var name;
-										var type	= 'Object';
+										var type	= style == 'js' ? 'Object' : 'object';
 										var parts	= match.match(rxParam);
 
 									// attempt to determine data type of optional parameters
@@ -398,8 +398,9 @@ autocode.comments =
 						 */
 						function processReturn(type)
 						{
-							var tabstop = style == 'js' ? '{' + createTabstop(type || 'Object') + '}' : createTabstop(type || 'Object');
-							var name	= style == 'js' ? 'returns' : 'return';
+							type			= type || (style == 'js' ? 'Object' : 'object');
+							var tabstop 	= style == 'js' ? '{' + createTabstop(type) + '}' : createTabstop(type || 'Object');
+							var name		= style == 'js' ? 'returns' : 'return';
 							return new Param(name, tabstop, '');
 						}
 
@@ -410,6 +411,7 @@ autocode.comments =
 						// (params & returns need to be processed first as they all contribute towards setting the global column widths)
 							var params	= processParams(matches[1]);
 							var returns	= processReturn(matches[2]);
+							returns		= '[[%tabstop:' +returns+ ']]';
 
 						// process user components
 							var common	= processSnippet('Common');
