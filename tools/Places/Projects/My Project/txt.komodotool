@@ -1,8 +1,8 @@
 {
   "keyboard_shortcut": "", 
-  "name": "rdf", 
+  "name": "txt", 
   "value": [
-    "chrome://[[%tabstop:EXTENSIONNAME]][[%tabstop:abspath]]!@#_currentPos!@#_anchor"
+    "<[[%tabstop:path]]>!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 

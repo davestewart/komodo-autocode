@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "default", 
   "value": [
-    "\"[[%tabstop:CHROMEURI]][[%tabstop:abspath]]\"!@#_currentPos!@#_anchor"
+    "\"chrome://[[%tabstop:EXTENSION NAME]][[%tabstop:abspath]]\"!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 

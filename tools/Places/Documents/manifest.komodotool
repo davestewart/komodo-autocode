@@ -1,8 +1,8 @@
 {
   "keyboard_shortcut": "", 
-  "name": "css", 
+  "name": "manifest", 
   "value": [
-    "<?xml-stylesheet type=\"text/css\" href=\"chrome://[[%tabstop:EXTENSION NAME]][[%tabstop:abspath]]\" ?>!@#_currentPos!@#_anchor"
+    "chrome://[[%tabstop:EXTENSION NAME]][[%tabstop:abspath]]!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 
