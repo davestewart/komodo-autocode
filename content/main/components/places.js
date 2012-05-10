@@ -35,7 +35,7 @@ autocode.places =
 
 			// preferences
 				//trace('places init:2');
-				this.newline		= prefs.getBoolean('autocode.places.newline');
+				this.newline		= prefs.getBoolean('autocode.places.newline', true);
 				this.pathType		= prefs.getString('autocode.places.pathType', 'relative');
 
 			// global abbreviations
