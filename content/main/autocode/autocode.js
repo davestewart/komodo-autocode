@@ -33,6 +33,9 @@ if( ! window.autocode )
 				places			:false,
 				snippets		:false,
 			},
+
+			toolboxPath:'',
+			
 		},
 
 		onLoad:function()
@@ -45,6 +48,17 @@ if( ! window.autocode )
 				var container = (ko.views.manager ? ko.views.manager.topView : window)
 				container.addEventListener('keypress', onKeyPress, true);
 				document.getElementById("placesViewbox").addEventListener('click', onClick);
+				
+			// set up toolbox path
+				function getToolboxPath()
+				{
+					var devPath			= 'E:/05 - Commercial Projects/Komodo Extensions/AutoCode/tools/';
+					var toolbox			= ko.toolbox2.getExtensionToolbox("autocode@xjsfl.com");
+					toolboxPath			= toolbox ? (toolbox.path + '/').replace(/\\/g, '/') + '/' : devPath;
+					autocode.settings.toolboxPath = toolboxPath;
+					//alert(toolboxPath)
+				}
+				window.setTimeout(getToolboxPath, 2000);
 
 			// initialize
 				autocode.initialize();
@@ -63,29 +77,33 @@ if( ! window.autocode )
 autocode.initialize = function()
 {
 	// prefs
+		//trace('init:1');
 		var prefs = new xjsflLib.Prefs();
 
 	// settings
+		//trace('init:2');
 		this.settings.enabled.comments		= prefs.get('autocode.comments', true);
 		this.settings.enabled.console		= prefs.get('autocode.console', true);
 		this.settings.enabled.places		= prefs.get('autocode.places', true);
 		this.settings.enabled.snippets		= prefs.get('autocode.snippets', true);
 
 	// console
+		//trace('init:3');
 		if(this.settings.enabled.console)
 		{
 			autocode.console.initialize();
 		}
 
 	// places
+		//trace('init:4');
 		if(this.settings.enabled.places)
 		{
 			autocode.places.initialize();
 		}
 
 	// auto-size autocomplete box
+		//trace('init:5');
 		autocode.autocomplete.initialize();
-
 }
 
 /**
@@ -98,6 +116,11 @@ autocode.initialize = function()
  */
 autocode.events =
 {
+	onPrefsUpdated:function()
+	{
+		autocode.initialize();
+	},
+	
 	onKeyPress:function(event)
 	{
 		var object, fn, result, names = ['console', 'snippets', 'comments'];
