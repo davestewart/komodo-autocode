@@ -38,7 +38,7 @@
   <string id="tidy_errorlevel">errors</string>
   <string id="userEnvironmentStartupOverride">AUTOCODE PLACE=Kohana
 AUTOCODE PROJECT=AutoCode
-CHROMEURI=chrome://autocode
+EXTENSION NAME=autocode
 </string>
 </preference-set>
 </project>
