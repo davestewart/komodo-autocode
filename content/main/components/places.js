@@ -15,14 +15,13 @@ autocode.places =
 {
 	settings:
 	{
-		newline			:true,
-		pathType		:'relative',
-		fileTypes		:{},
-		defaultFormats	:{},
-		dirtyFlags		:
+		newline				:false,
+		pathType			:'relative',
+		fileTypes			:{},
+		dirtyFlags			:
 		{
-			environment	:false,
-			snippets	:false
+			environment		:false,
+			snippets		:false
 		},
 
 		/**
@@ -31,13 +30,16 @@ autocode.places =
 		initialize:function()
 		{
 			// preferences
+				//trace('places init:1');
 				var prefs			= new xjsflLib.Prefs();
 
 			// preferences
+				//trace('places init:2');
 				this.newline		= prefs.getBoolean('autocode.places.newline');
 				this.pathType		= prefs.getString('autocode.places.pathType', 'relative');
 
 			// global abbreviations
+				//trace('places init:3');
 				var strFileTypes	= prefs.getString('autocode.places.fileTypes', '');
 				var matches			= strFileTypes.match(/(\w+):(.+)./mg);
 				if(matches)
@@ -51,18 +53,6 @@ autocode.places =
 						{
 							this.fileTypes[part] = group;
 						}
-					}
-				}
-
-			// default extensions
-				var defaultFormats	= prefs.getString('autocode.places.defaultFormats', '');
-				var matches			= defaultFormats.toLowerCase().match(/(\w+)/g);
-				if(defaultFormats)
-				{
-					this.defaultFormats = {};
-					for each(var ext in matches)
-					{
-						this.defaultFormats[ext] = ext;
 					}
 				}
 		},
@@ -258,17 +248,22 @@ autocode.places =
 								1a - there's a document selection
 								1b - the caret is between 2 matching quotes
 
-						> VIEW FILE-TYPE OVERRIDE
+						> DOCUMENT DEFAULT
 
 							Use the settings from the Places/Defaults/<ext> files if:
 
-								2 - The view's file extension is registered as a "default format", and matches a file name
+								2 - The view's file extension matches a file name
 
-						> PROJECT NAME / PROJECT VARIABLE OVERRIDE
+						> PROJECT VARIABLE OVERRIDE
 
-							Use custom setting from Places/Project or Places/Custom folders if:
+							Use custom setting from Places/Custom folder if:
 
 								3a - The project environment variable "AUTOCODE PLACE" matches a Places/Custom/<folder>
+
+						> PROJECT NAME OVERRIDE
+
+							Use custom setting from Places/Project folder if:
+
 								3b - The project environment variable "AUTOCODE PROJECT" matches a Places/Projects/<folder>
 								3c - The project name matches a Places/Projects/<folder>
 								3d - The view's current language and the places file extension matches a Places/<language>/<ext>
@@ -296,6 +291,7 @@ autocode.places =
 					if(hasQuotes || hasSelection)
 					{
 						message = 'Adding unmodified path for "' +file+ '"';
+						snippet.value	= path;
 					}
 
 				// ----------------------------------------------------------------------------------------------------
@@ -305,9 +301,6 @@ autocode.places =
 					{
 						// ----------------------------------------------------------------------------------------------------
 						// variables
-
-							// test to see if the view extension is registered as a default extension
-								var defaultFormat	= this.settings.defaultFormats[viewExt];
 
 							// check if a project folder exists that matches the current project
 								var project			= ko.projects.manager.currentProject;
@@ -336,7 +329,7 @@ autocode.places =
 								var snippetPaths = [ ];
 
 						// ----------------------------------------------------------------------------------------------------
-						// build the search path array
+						// build the snippets search path array
 
 							// function
 								function addSnippetPaths(path)
@@ -346,18 +339,15 @@ autocode.places =
 										path + '/' + fileExt,
 										path + '/default',
 									];
-									if(group)
+									if(group) // insert after ext but before default
 									{
 										arr.splice(1, 0, path + '/' + group);
 									}
 									snippetPaths = snippetPaths.concat(arr);
 								}
 
-							// Registered formats
-								if(defaultFormat)
-								{
-									snippetPaths.push('Defaults/' + viewExt);
-								}
+							// Document overrides
+								snippetPaths.push('Documents/' + viewExt);
 
 							// Custom place
 								if(varPlace)
@@ -381,7 +371,7 @@ autocode.places =
 								addSnippetPaths('Languages/' + lang);
 
 							// global default fallback
-								snippetPaths.push('Defaults/default');
+								snippetPaths.push('default');
 
 						// ----------------------------------------------------------------------------------------------------
 						// look for snippets
@@ -392,7 +382,7 @@ autocode.places =
 							// find the first matching file
 								for each(var snippetPath in snippetPaths)
 								{
-									//trace(snippetPath)
+									//trace('snippet path:' + snippetPath)
 									snippet = new Snippet(snippetPath);
 									if(snippet.exists)
 									{
@@ -465,12 +455,9 @@ autocode.places =
 								var matches			= line.match(/^(\s*)(.+)?/);
 
 							// if there's no text on the line, add a cariage return
-								if(this.settings.newline)
+								if(this.settings.newline && ! matches[2])
 								{
-									if( ! matches[2] && this.settings.newline)
-									{
-										snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
-									}
+									snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
 								}
 					}
 
@@ -514,4 +501,4 @@ autocode.places =
 	}
 }
 
-autocode.places.initialize();
+//autocode.places.initialize();
