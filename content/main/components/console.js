@@ -101,22 +101,34 @@ autocode.console =
 
 		panel:
 		{
-			/** @type {Components.interfaces.ISciMoz} */
-			scimoz:null,
 			newline:'\n',
-			initialize:function()
+			
+			/**
+			 * Summary
+			 * @returns		{Components.interfaces.ISciMoz}				The panel's SciMoz
+			 */
+			getScimoz:function()
 			{
 				// get the panel (v7 & previous)
-					var tabpanel					= document.getElementById("runoutput-desc-tabpanel");
-					var container					= tabpanel && tabpanel.contentDocument ? tabpanel.contentDocument : document;
-					autocode.console.panel.scimoz	= container.getElementById("runoutput-scintilla").scimoz;
+					var tabpanel		= document.getElementById("runoutput-desc-tabpanel");
+					var container		= tabpanel && tabpanel.contentDocument ? tabpanel.contentDocument : document;
+					var scimoz			= container.getElementById("runoutput-scintilla").scimoz;
 
-				// panel properties
-					autocode.console.panel.newline = ["\r\n", "\n", "\r"][autocode.console.panel.scimoz.eOLMode];
-					autocode.console.panel.scimoz.tabWidth = 4;
+				// replace this function the first time it's called
+					autocode.console.panel.getScimoz = function()
+					{
+						return scimoz
+					}
 
 				// return
-					return autocode.console.panel.scimoz;
+					return scimoz;
+			},
+			
+			initialize:function()
+			{
+				var scimoz = this.getScimoz();
+				autocode.console.panel.newline = ["\r\n", "\n", "\r"][scimoz.eOLMode];
+				scimoz.tabWidth = 4;
 			}
 		},
 
@@ -166,15 +178,11 @@ autocode.console =
 					//ko.run.output.show(window, false);
 
 				// scimoz
-					var scimoz		= autocode.console.panel.scimoz;
-					if(!scimoz)
-					{
-						scimoz = autocode.console.panel.initialize();
-					}
+					var scimoz			= autocode.console.panel.getScimoz();
 
 				// scimoz variables
-					var newline		= autocode.console.panel.newline;
-					var ro			= scimoz.readOnly;
+					var newline			= autocode.console.panel.newline;
+					var ro				= scimoz.readOnly;
 
 				// text variables
 					var strOut			= strIn + newline;
@@ -207,11 +215,7 @@ autocode.console =
 		clear:function()
 		{
 			// scimoz
-				var scimoz		= autocode.console.panel.scimoz;
-				if(!scimoz)
-				{
-					scimoz = autocode.console.panel.initialize();
-				}
+				var scimoz			= autocode.console.panel.getScimoz();
 
 			// clear
 				scimoz.readOnly		= false;
