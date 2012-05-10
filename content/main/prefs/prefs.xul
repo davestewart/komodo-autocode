@@ -172,14 +172,6 @@
 					<label value="Group the following extensions (group: ext1 ext2 ext3):"/>
 					<textbox class="indent" id="placesFileTypes" prefid="autocode.places.fileTypes" preftype="string" multiline="true" rows="6" value="" />
 				</vbox>
-				<description class="spaced">
-					Finally, you can force certain documents to insert default path formats, irrespective of the path being inserted. For those documents you wish
-					to treat paths uniformly, add their extensions here, then create a corresponding snippet in <strong>AutoCode/Places/Default/&lt;ext&gt;</strong>.
-				</description>
-				<vbox class="spaced">
-					<label value="Use default formats for extensions:"/>
-					<textbox class="indent" id="placesDefaultFormats" prefid="autocode.places.defaultFormats" preftype="string" value="rdf manifest" />
-				</vbox>
 
 			</vbox>
 		</groupbox>

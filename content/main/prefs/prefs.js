@@ -58,14 +58,13 @@
 
 		function OnPreferencePageOK()
 		{
-			// save prefs
-				ui.saveGroup();
-
-			// update
-				window.setTimeout(function(){autocode.initialize.call(autocode); }, 250);
-
-			// return
-				return true;
+			ui.saveGroup();
+			return true;
+		}
+		
+		function OnPreferencePageClosing(prefset, ok)
+		{
+			autocode.events.onPrefsUpdated();
 		}
 
 		function help()
