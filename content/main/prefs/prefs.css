@@ -44,3 +44,9 @@ p{
 	display: inline-block;
 	white-space-collapse:collapse;
 }
+
+.text-link{
+	margin:0px;
+	padding:0px;
+	margin-left:3px;
+}

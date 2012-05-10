@@ -50,7 +50,8 @@
         <groupbox orient="vertical" style="padding:10px 4px;">
             <caption label="AutoCode"/>
             <description>AutoCode adds features to make in-editor development quicker and more productive.</description>
-            <description>For full information and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page. </description>
+            <description>For full information, help and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page. </description>
+            <description>Note that Komodo Edit users may need to restart for some preferences to take effect.</description>
         </groupbox>
 
 
@@ -68,6 +69,7 @@
 				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's <strong>Abbreviations</strong> folder will automatically
 				trigger it to be entered in the document.</description>
 			</vbox>
+			
 		</groupbox>
 
 		<groupbox orient="vertical">
