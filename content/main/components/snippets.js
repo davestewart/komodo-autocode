@@ -54,27 +54,18 @@ autocode.snippets =
 				/** @type {Components.interfaces.ISciMoz} */
 				var scimoz				= view.scimoz;
 
+			// Exit if the autocomplete box is already showing
+				if(view.scintilla.autocomplete.active)
+				{
+					//view.scintilla.autocomplete.close();
+					return false;
+				}
 
 			// Don't do anything if there is a selection within the document
 				if (scimoz.anchor != scimoz.currentPos)
 				{
 					return false;
 				}
-
-			// Exit if the autocomplete box is already showing
-				var autoCActive			= scimoz.autoCActive(); // doesn't seem to work in KO7rc1
-				//alert(autoCActive)
-				if(autoCActive)
-				{
-					//scimoz.autoCCancel();
-					return false;
-				}
-
-			// get the current line
-				var lineIndex			= scimoz.lineFromPosition(scimoz.currentPos);
-				var lineStart			= scimoz.positionFromLine(lineIndex);
-				var lineEnd				= scimoz.getLineEndPosition(lineIndex);
-				var line				= scimoz.getTextRange(lineStart, lineEnd);
 
 			// grab word
 				var word				= ko.interpolate.getWordUnderCursor(scimoz);
@@ -87,6 +78,7 @@ autocode.snippets =
 					{
 						scimoz.beginUndoAction();
 						scimoz.selectionStart = scimoz.currentPos - word.length;
+						scimoz.deleteBack();
 						ko.projects.snippetInsert(snippet);
 						scimoz.endUndoAction();
 						return true;
