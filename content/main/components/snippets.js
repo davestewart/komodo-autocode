@@ -76,12 +76,6 @@ autocode.snippets =
 				var lineEnd				= scimoz.getLineEndPosition(lineIndex);
 				var line				= scimoz.getTextRange(lineStart, lineEnd);
 
-			// don't add abbreviation if there are any other words on the line
-				if( ! /^\s*\w+$/.test(line))
-				{
-					return false;
-				}
-
 			// grab word
 				var word				= ko.interpolate.getWordUnderCursor(scimoz);
 
