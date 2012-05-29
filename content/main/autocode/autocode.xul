@@ -8,9 +8,10 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/classes.js" />
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/EnvVars.js" />
+	<script type="application/x-javascript" src="chrome://autocode/content/lib/File.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/Prefs.js" />
 	<script type="application/x-javascript" src="chrome://autocode/content/lib/UIManager.js" />
-	<script type="application/x-javascript" src="chrome://autocode/content/lib/EnvVars.js" />
 	
 	<script type="application/x-javascript" src="chrome://autocode/content/main/autocode/autocode.js" />
 
@@ -40,5 +41,5 @@
 			observes="cmd_autocodeConsole"
 			/>
 	</menupopup>
-
+	
 </overlay>
