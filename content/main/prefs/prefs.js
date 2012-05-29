@@ -45,6 +45,13 @@
 			// load prefs
 				ui.loadGroup();
 
+			// update snippets ignore values with default if they don't exist yet
+				var snippetsIgnore = document.getElementById('snippetsIgnore');
+				if(snippetsIgnore.value == '')
+				{
+					snippetsIgnore.value = autocode.snippets.settings.getDefaultIgnore();
+				}
+
 			// update filetypes with default if they don't exist yet
 				var fileTypes = document.getElementById('placesFileTypes');
 				if(fileTypes.value == '')

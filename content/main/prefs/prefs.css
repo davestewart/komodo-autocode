@@ -50,3 +50,12 @@ p{
 	padding:0px;
 	margin-left:3px;
 }
+
+
+ul.table *{
+	white-space: nowrap;
+}
+ul.table strong{
+	display:inline-block;
+	width:100px;
+}

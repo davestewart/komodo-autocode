@@ -68,6 +68,11 @@
 			<vbox class="indented">
 				<description>Pressing tab after typing a word that matches a snippet in your Toolbox's <strong>Abbreviations</strong> folder will automatically
 				trigger it to be entered in the document.</description>
+				<vbox>
+					<description>Ignore abbreviation if tab is pressed after a word following one of these keywords:</description>
+					<textbox id="snippetsIgnore" prefid="autocode.snippets.ignore" preftype="string" value="" />
+				</vbox>
+
 			</vbox>
 			
 		</groupbox>
@@ -156,14 +161,22 @@
 				<description>
 					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong>AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>
 					<p>Within the snippet, use the following tabstops ( i.e. [[%tabstop:<strong>path</strong>]] ) to customise the insertion:</p>
-					<ul>
-						<li>path - the item's path based on the preference above</li>
-						<li>relpath - the relative path to the item</li>
-						<li>abspath - the absolute path to the item from the project root</li>
-						<li>uri - the full URI to the item</li>
-						<li>file - the filename of the item</li>
-						<li>VARNAME - Any custom variables you have set up in Project &gt; Properties &gt; Environment</li>
+
+					<ul class="table">
+						<li><strong>file</strong> <span>the full filename, including the extension</span></li>
+						<li><strong>filename</strong> <span>the filename only (without the extension)</span></li>
+						<li><strong>fileext</strong> <span>the file extension only</span></li>
+						<li><strong>path</strong> <span>the full path to (and including) the file (as determined by preferences)</span></li>
+						<li><strong>relpath</strong> <span>the relative path to (and including) the file</span></li>
+						<li><strong>abspath</strong> <span>the absolute path to (and including) the file from the project root</span></li>
+						<li><strong>folderpath</strong> <span>the full path to the folder (as determined by preferences)</span></li>
+						<li><strong>relfolderpath</strong> <span>the relative path to the folder</span></li>
+						<li><strong>absfolderpath</strong> <span>the absolute path to the folder from the project root</span></li>
+						<li><strong>uri</strong> <span>the URI to the file</span></li>
+						<li><strong>folderuri</strong> <span>the URI to the folder</span></li>
+						<li><strong style="font-style:italic">varname</strong> <span>any variable you have set in your project's Environment Variables</span></li>
 					</ul>
+
 				</description>
 
 				<description>

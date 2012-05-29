@@ -87,6 +87,12 @@ autocode.initialize = function()
 		this.settings.enabled.places		= prefs.get('autocode.places', true);
 		this.settings.enabled.snippets		= prefs.get('autocode.snippets', true);
 
+	// snippets
+		if(this.settings.enabled.snippets)
+		{
+			autocode.snippets.initialize();
+		}
+
 	// console
 		//trace('init:3');
 		if(this.settings.enabled.console)

@@ -18,13 +18,34 @@
  *
  * Allows the user to auto-complete abbreviations by pressing tab
  *
- * Based on original code from TAB trigger for Abbreviations by Stan Angeloff
- *
  * @author	Dave Stewart (www.davestewart.co.uk)
  * @date	23rd September 2011
  */
 autocode.snippets =
 {
+	// ----------------------------------------------------------------------------------------------------
+	// Settings
+	// ----------------------------------------------------------------------------------------------------
+
+		settings:
+		{
+			ignore:[],
+			
+			/**
+			 * Grab the settings from Preferences and turn them into something meaningful for this componant
+			 */
+			initialize:function()
+			{
+				var prefs		= new xjsflLib.Prefs();
+				this.ignore 	= prefs.getBoolean('autocode.snippets.ignore', this.getDefaultIgnore()).split(/\s+/g);
+			},
+
+			getDefaultIgnore:function()
+			{
+				return 'var function return delete in instanceof new typeof';
+			}
+		},
+
 	// ----------------------------------------------------------------------------------------------------
 	// Events
 	// ----------------------------------------------------------------------------------------------------
@@ -37,9 +58,15 @@ autocode.snippets =
 				if(this.processInput())
 				{
 					return true;
+					event.preventDefault();
 				}
 			}
 			return false;
+		},
+		
+		initialize:function()
+		{
+			autocode.snippets.settings.initialize();
 		},
 
 	// ----------------------------------------------------------------------------------------------------
@@ -67,11 +94,27 @@ autocode.snippets =
 					return false;
 				}
 
-			// grab word
-				var word				= ko.interpolate.getWordUnderCursor(scimoz);
+			// get the current line
+				var lineIndex			= scimoz.lineFromPosition(scimoz.currentPos);
+				var lineStart			= scimoz.positionFromLine(lineIndex);
+				var line				= scimoz.getTextRange(lineStart, scimoz.currentPos);
 
-			// check that word is a word
-				if (word.match(/\w+/))
+			// grab word
+				//var sel					= scimoz.getStyledText(scimoz.currentPos - word.length, scimoz.currentPos);
+				var word				= ko.interpolate.getWordUnderCursor(scimoz);
+				var words				= line.match(/(\w+)\s+\w+$/);
+				var previousWord		= words ? words[1] : null;
+				
+			// prefs
+				var ignore				= autocode.snippets.settings.ignore;
+				
+			// only complete if...
+				if
+				(
+					word.match(/\w+/)							// check that word is a word
+					&& ! /^\s*(\/\/|\*\s+|#)/.test(line)		// we're currently not within a comment
+					&& ignore.indexOf(previousWord) === -1		// we're not following an ignored word
+				)
 				{
 					var snippet = ko.abbrev.findAbbrevSnippet(word);
 					if (snippet)
