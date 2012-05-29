@@ -175,6 +175,8 @@
 						<li><strong>uri</strong> <span>the URI to the file</span></li>
 						<li><strong>folderuri</strong> <span>the URI to the folder</span></li>
 						<li><strong style="font-style:italic">varname</strong> <span>any variable you have set in your project's Environment Variables</span></li>
+						<li><strong>width</strong> <span>image width</span></li>
+						<li><strong>height</strong> <span>image height</span></li>
 					</ul>
 
 				</description>
