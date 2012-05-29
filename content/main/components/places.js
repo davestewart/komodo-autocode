@@ -182,7 +182,7 @@ autocode.places =
 			// variables
 
 				// debug
-					clear();
+					//clear();
 
 				// exit if the file is not saved yet
 					var viewDoc	= (view.koDoc || view.document);
@@ -468,10 +468,29 @@ autocode.places =
 					ko.statusBar.AddMessage(message, 'autocode.places', 3000);
 
 				// insert the text
-					scimoz.beginUndoAction();
-					scimoz.gotoPos(scimoz.currentPos);
-					ko.abbrev.insertAbbrevSnippet(snippet, view);
-					scimoz.endUndoAction();
+					function insert()
+					{
+						scimoz.beginUndoAction();
+						scimoz.gotoPos(scimoz.currentPos);
+						ko.abbrev.insertAbbrevSnippet(snippet, view);
+						scimoz.endUndoAction();
+					}
+					
+				// depending on whether an image or normal file, insert now, or when loaded
+					if(/(png|jpg|jpeg|gif)/.test(fileExt))
+					{
+						var image = new Image();
+						image.src = itemURI;
+						image.onload = function()
+						{
+							snippet.populate( {width:image.width, height:image.height} );
+							insert();
+						}
+					}
+					else
+					{
+						insert();
+					}
 
 			// ----------------------------------------------------------------------------------------------------
 			// done
