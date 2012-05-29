@@ -12,4 +12,12 @@
 		]]>
 	</script>
 	
+	<!--
+	<vbox id="snippet_tabpanel">
+		<spacer height="10" />
+		<checkbox id="empty_only" label="Allow AutoCode auto-abbreviation on an empty line only" checked="" />
+	</vbox>
+	-->
+
 </overlay>
+
