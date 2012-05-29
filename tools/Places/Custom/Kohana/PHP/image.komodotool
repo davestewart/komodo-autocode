@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "image", 
   "value": [
-    "assets::add_image(\"[[%tabstop:abspath]]\");!@#_currentPos!@#_anchor"
+    "assets::add_image(\"[[%tabstop:abspath]]\", [[%tabstop:width]], [[%tabstop:height]]);!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 
