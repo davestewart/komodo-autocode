@@ -127,11 +127,13 @@
 				<description>Pressing CTRL+Enter will execute the current JavaScript file (or current selection) within
 				Komodo, or run the current .bat file; useful for both JavaScript prototyping and extension development.</description>
 				<description>The following functions will also be available when the console is enabled:
-					<ul>
-						<li>trace(value): Traces the value to the command output</li>
-						<li>inspect(value): Traces a hierarchical representation of the value to the command output</li>
-						<li>clear(): Clears the command output</li>
+
+					<ul class="table">
+						<li><strong>trace(value)</strong> <span>Traces the value to the command output</span></li>
+						<li><strong>inspect(value)</strong> <span>Traces a hierarchical representation of the value to the command output</span></li>
+						<li><strong>clear()</strong> <span>Clears the command output</span></li>
 					</ul>
+
 				</description>
 			</vbox>
 
@@ -159,8 +161,8 @@
 				<checkbox id="placesNewline" prefid="autocode.places.newline" preftype="boolean" checked="true" label="Add a new line to insertions which are already on a blank line" />
 
 				<description>
-					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong>AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>
-					<p>Within the snippet, use the following tabstops ( i.e. [[%tabstop:<strong>path</strong>]] ) to customise the insertion:</p>
+					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong> AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>
+					<p>Within the snippet, use the following tabstops ( i.e. [[%tabstop:<strong>path</strong>]] ) to customise the path insertion:</p>
 
 					<ul class="table">
 						<li><strong>file</strong> <span>the full filename, including the extension</span></li>
@@ -174,9 +176,13 @@
 						<li><strong>absfolderpath</strong> <span>the absolute path to the folder from the project root</span></li>
 						<li><strong>uri</strong> <span>the URI to the file</span></li>
 						<li><strong>folderuri</strong> <span>the URI to the folder</span></li>
+					</ul>
+
+					<p>You may also use these special variables for even more control over the generated code:</p>
+					<ul class="table">
 						<li><strong style="font-style:italic">varname</strong> <span>any variable you have set in your project's Environment Variables</span></li>
-						<li><strong>width</strong> <span>image width</span></li>
-						<li><strong>height</strong> <span>image height</span></li>
+						<li><strong>width</strong> <span>the image width</span></li>
+						<li><strong>height</strong> <span>the image height</span></li>
 					</ul>
 
 				</description>
