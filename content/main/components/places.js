@@ -15,7 +15,6 @@ autocode.places =
 {
 	settings:
 	{
-		newline				:false,
 		pathType			:'relative',
 		fileTypes			:{},
 		dirtyFlags			:
@@ -35,7 +34,6 @@ autocode.places =
 
 			// preferences
 				//trace('places init:2');
-				this.newline		= prefs.getBoolean('autocode.places.newline', true);
 				this.pathType		= prefs.getString('autocode.places.pathType', 'relative');
 
 			// global abbreviations
@@ -445,19 +443,6 @@ autocode.places =
 											snippet		:snippet
 										}, 2
 									);
-								}
-
-							// grab current line and test if there's an indent
-								var lineIndex		= scimoz.lineFromPosition(scimoz.currentPos);
-								var lineStart		= scimoz.positionFromLine(lineIndex);
-								var lineEnd			= scimoz.getLineEndPosition(lineIndex);
-								var line			= scimoz.getTextRange(lineStart, lineEnd);
-								var matches			= line.match(/^(\s*)(.+)?/);
-
-							// if there's no text on the line, add a cariage return
-								if(this.settings.newline && ! matches[2])
-								{
-									snippet.value += ["\r\n", "\n", "\r"][scimoz.eOLMode] + matches[1];
 								}
 					}
 

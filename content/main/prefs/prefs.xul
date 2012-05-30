@@ -115,7 +115,8 @@
 					<description>
 						To add custom code to class and function comments (such as @author information) edit the Snippets in the <strong>AutoCode/Comments</strong> folder.
 					</description>
-				</vbox>			</vbox>
+				</vbox>
+			</vbox>
 
 
 		</groupbox>
@@ -157,8 +158,6 @@
 						</menupopup>
 					</menulist>
 				</hbox>
-
-				<checkbox id="placesNewline" prefid="autocode.places.newline" preftype="boolean" checked="true" label="Add a new line to insertions which are already on a blank line" />
 
 				<description>
 					<p>By default, only the path is entered (and the path is ALWAYS entered if the editor caret is between two quotes) but you can also create Snippets in your toolbox under the folder <strong> AutoCode/Places/&lt;lang&gt;/&lt;extension&gt;</strong> and have the code therein added to the document instead.</p>

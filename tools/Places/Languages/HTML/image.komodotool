@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "image", 
   "value": [
-    "<img src=\"[[%tabstop:path]]\" width=\"[[%tabstop:width]]\" height=\"[[%tabstop:height!@#_currentPos!@#_anchor]]\" />"
+    "<img src=\"[[%tabstop:path]]\" width=\"[[%tabstop:width]]\" height=\"[[%tabstop:height]]\" />!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "true", 
   "version": "1.0.7", 

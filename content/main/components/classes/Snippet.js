@@ -42,6 +42,11 @@ autocode.classes.Snippet.prototype =
 		value		:'',
 
 		exists		:false,
+		
+		attributes:
+		{
+			
+		},
 
 	// ----------------------------------------------------------------------------------------------------
 	// methods
@@ -64,14 +69,21 @@ autocode.classes.Snippet.prototype =
 					// read the snippet info
 						var contents	= file.read();
 						var json		= xjsflLib.JSON.decode(contents);
-						var value		= json.value;
 
+					// grab attributes
+						for each(var attr in ['indent_relative', 'set_selection'])
+						{
+							this.attributes[attr] = json[attr];
+						}
+						
 					// update class properties
 						this.exists		= true;
 						this.path		= path;
 						this.name		= path.split('/').pop();
-						this.template	= value.join('\n');
-						this.value		= this.template.replace(/!@#\w+/g, '');
+						this.value		= json.value.join('\n');
+						
+					// update cursor position
+						this.value		= this.value.replace(/!@#\w+/g, '') + '!@#_currentPos!@#_anchor';
 
 					// return
 						return true;
@@ -100,14 +112,14 @@ autocode.classes.Snippet.prototype =
 	// utilities
 	// ----------------------------------------------------------------------------------------------------
 
-		hasAttribute:function()
+		hasAttribute:function(name)
 		{
-
+			return name in this.attributes;
 		},
 
-		getStringAttribute:function()
+		getStringAttribute:function(name)
 		{
-
+			return this.attributes[name];
 		},
 
 		toString:function()

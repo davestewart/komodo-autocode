@@ -6,7 +6,7 @@
 
         <em:id>autocode@xjsfl.com</em:id>
         <em:name>AutoCode</em:name>
-        <em:version>1.03</em:version>
+        <em:version>1.04</em:version>
         <em:description>Adds various features to the Komodo, including: JavaScript console &amp; debugging commands, TAB-completion on abbreviations, TAB-completion for class, function and variable DocComments, including optional column-layout, ALT-Click insertion of paths from the Places panel, and a larger auto-completion box. See Preferences &gt; Editor &gt; AutoCode to update settings.</em:description>
         <em:creator>Dave Stewart</em:creator>
         <em:homepageURL>http://www.xjsfl.com/support/setup/komodo/autocode</em:homepageURL>

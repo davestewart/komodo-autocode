@@ -2,10 +2,11 @@
   "keyboard_shortcut": "", 
   "name": "image", 
   "value": [
-    "assets::add_image('[[%tabstop:abspath]]', [[%tabstop:width]], [[%tabstop:height]]);!@#_currentPos!@#_anchor"
+    "assets::add_image('[[%tabstop:abspath]]', [[%tabstop:width]], [[%tabstop:height]]);", 
+    "!@#_currentPos!@#_anchor"
   ], 
-  "set_selection": "false", 
+  "set_selection": "true", 
   "version": "1.0.7", 
   "type": "snippet", 
-  "indent_relative": "false"
+  "indent_relative": "true"
 }

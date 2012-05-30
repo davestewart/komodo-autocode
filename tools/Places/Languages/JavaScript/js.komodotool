@@ -2,10 +2,11 @@
   "keyboard_shortcut": "", 
   "name": "js", 
   "value": [
-    "require('[[%tabstop:path]]');!@#_currentPos!@#_anchor"
+    "require('[[%tabstop:path]]');", 
+    "!@#_currentPos!@#_anchor"
   ], 
-  "set_selection": "false", 
+  "set_selection": "true", 
   "version": "1.0.7", 
   "type": "snippet", 
-  "indent_relative": "false"
+  "indent_relative": "true"
 }

@@ -6,11 +6,12 @@
     "\tclassid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" ", 
     "\tcodebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" ", 
     "\twidth=\"[[%tabstop:400]]\"", 
-    "\theight=\"[[%tabstop:300!@#_currentPos!@#_anchor]]\">", 
+    "\theight=\"[[%tabstop:300]]\">", 
     "\t\t<param name=\"src\" value=\"[[%tabstop:path]]\" />", 
     "\t\t<param name=\"controller\" value=\"true\" />", 
     "\t\t<param name=\"autoplay\" value=\"false\" />", 
-    "</object>"
+    "</object>", 
+    "!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "true", 
   "version": "1.0.7", 

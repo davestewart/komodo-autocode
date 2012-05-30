@@ -2,7 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "default", 
   "value": [
-    "<a href=\"[[%tabstop:path]]\" />[[%tabstop:filename!@#_currentPos!@#_anchor]]</a>"
+    "<a href=\"[[%tabstop:path]]\" />[[%tabstop:filename]]</a>!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "true", 
   "version": "1.0.7", 
