@@ -83,7 +83,7 @@ autocode.classes.Snippet.prototype =
 						this.value		= json.value.join('\n');
 						
 					// update cursor position
-						this.value		= this.value.replace(/!@#\w+/g, '') + '!@#_currentPos!@#_anchor';
+						this.value		= this.value.replace(/!@#(_currentPos|_anchor)/g, '') + '!@#_currentPos!@#_anchor';
 
 					// return
 						return true;
