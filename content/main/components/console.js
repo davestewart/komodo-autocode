@@ -28,7 +28,7 @@ autocode.console =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-		onEvent:function(event)
+		onKeyboardEvent:function(event)
 		{
 			if (event.keyCode === 13 && event.ctrlKey)
 			{

@@ -50,7 +50,7 @@ autocode.snippets =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-		onEvent:function(event)
+		onKeyboardEvent:function(event)
 		{
 			// Only trap when TAB pressed with no modifiers
 			if (event.keyCode === 9 &&  ( ! event.ctrlKey && ! event.altKey && ! event.shiftKey ) )

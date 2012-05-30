@@ -34,7 +34,7 @@ autocode.comments =
 	// Events
 	// ----------------------------------------------------------------------------------------------------
 
-		onEvent:function(event)
+		onKeyboardEvent:function(event)
 		{
 			// Only trap when ENTER or TAB pressed with no modifiers
             //ko.statusBar.AddMessage(event.keyCode, '', 500)

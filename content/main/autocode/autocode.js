@@ -45,9 +45,9 @@ if( ! window.autocode )
 				function onKeyPress(event) { autocode.events.onKeyPress.call(autocode, event); }
 
 			// event handlers
-				var container = (ko.views.manager ? ko.views.manager.topView : window)
+				var container			= (ko.views.manager ? ko.views.manager.topView : window)
 				container.addEventListener('keypress', onKeyPress, true);
-				document.getElementById("placesViewbox").addEventListener('click', onClick);
+				document.getElementById('placesViewbox').addEventListener('click', onClick);
 				
 			// set up toolbox path
 				function getToolboxPath()
@@ -135,7 +135,7 @@ autocode.events =
 			if(autocode.settings.enabled[name])
 			{
 				object	= autocode[name];
-				result	= object.onEvent.call(object, event);
+				result	= object.onKeyboardEvent.call(object, event);
 				if(result)
 				{
 					event.preventDefault();
@@ -151,15 +151,7 @@ autocode.events =
 	{
 		if(autocode.settings.enabled.places)
 		{
-			//var result = autocode.places.onEvent.call(autocode.places, event);
-			autocode.places.onEvent(event);
-			/*
-			if(result)
-			{
-				event.preventDefault();
-				event.stopPropagation();
-			}
-			*/
+			autocode.places.onMouseEvent(event);
 		}
 	},
 

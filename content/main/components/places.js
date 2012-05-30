@@ -485,9 +485,9 @@ autocode.places =
 		return false;
 	},
 
-	onEvent:function(event)
+	onMouseEvent:function(event)
 	{
-		if(event.altKey)
+		if(event.altKey || event.button == 1)
 		{
 			return this.insertPath();
 		}
