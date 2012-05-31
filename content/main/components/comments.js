@@ -474,20 +474,20 @@ autocode.comments =
 						if (style == 'js')
 						{
 							template = multiline
-										? '\n * @type {{tabstop}}\t{desc}\n */'
+										? '\n * {desc}\n * @type {{tabstop}}\n */'
 										: ' @type {{tabstop}}\t{desc} */';
 						}
 						else
 						{
 							template = multiline
-										? '\n * @var {tabstop}\t{desc}\n */'
+										? '\n * {desc}\n * @var {tabstop}\n */'
 										: ' @var {tabstop}\t{desc} */';
 						}
 
 					// return
 						return populate(template, values);
 				}
-
+				
 				function processSnippet(type)
 				{
 					// grab snippet value
