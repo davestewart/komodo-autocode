@@ -184,12 +184,6 @@ autocode.places =
 
 				// exit if the file is not saved yet
 					var viewDoc	= (view.koDoc || view.document);
-					if( ! viewDoc.file )
-					{
-						alert('You need to save the file before a path can be added');
-						return false;
-					}
-
 				// elements
 					var scimoz			= view.scimoz;
 					var tree			= document.getElementById("placesViewbox").contentDocument.getElementById('places-files-tree');
@@ -197,7 +191,7 @@ autocode.places =
 				// work out the URI
 					var baseURI			= tree.view.currentPlace;
 					var itemURI			= tree.view.getURIForRow(tree.currentIndex);
-					var viewURI			= viewDoc.file.URI;
+					var viewURI			= viewDoc.file ? viewDoc.file.URI : view.koDoc.baseName;
 
 				// get the paths
 					var basePath		= ko.uriparse.URIToPath(baseURI).replace(/\\/g, '/');
