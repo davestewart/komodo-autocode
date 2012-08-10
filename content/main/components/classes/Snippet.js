@@ -60,7 +60,7 @@ autocode.classes.Snippet.prototype =
 		load:function(path)
 		{
 			// snippet path
-				var fullPath	= autocode.settings.toolboxPath + 'Places/' + path + '.komodotool';
+				var fullPath	= autocode.settings.toolboxPath + path + '.komodotool';
 				var file		= new xjsflLib.File(fullPath);
 
 			// populate snippet
@@ -106,6 +106,22 @@ autocode.classes.Snippet.prototype =
 				this.value	= this.value.replace(rx, data[name]);
 			}
 			return this;
+		},
+		
+		insert:function(view)
+		{
+			ko.abbrev.insertAbbrevSnippet(this, view);
+		},
+		
+		getText:function()
+		{
+			return String(this.value).replace(/!@#\w+/g, '');
+		},
+		
+		hasTabStops:function()
+		{
+			var rx = new RegExp('\[\[%tabstop\d*:[\\w\\s]+\]\]', 'i');
+			return rx.test(this.value);
 		},
 
 	// ----------------------------------------------------------------------------------------------------
