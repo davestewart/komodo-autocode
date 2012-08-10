@@ -74,12 +74,25 @@ if( ! window.autocode )
 	window.addEventListener('load',  autocode.onLoad, false);
 }
 
+autocode.checkPrefs = function()
+{
+	if( ! ko.prefs.hasBooleanPref('autocode.prefs.set') )
+	{
+		if(confirm('The AutoCode extension needs configuring before it can be used.\n\nOpen Preferences > Editor > AutoCode now?'))
+		{
+			ko.commands.doCommand('cmd_editPrefs');
+		}
+		return ko.prefs.hasBooleanPref('autocode.prefs.set');
+	}
+	return true;
+}
+
 autocode.initialize = function()
 {
 	// prefs
 		//trace('init:1');
 		var prefs = new xjsflLib.Prefs();
-
+		
 	// settings
 		//trace('init:2');
 		this.settings.enabled.comments		= prefs.get('autocode.comments', true);
