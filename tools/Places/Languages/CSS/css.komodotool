@@ -1,0 +1,11 @@
+{
+  "keyboard_shortcut": "", 
+  "name": "css", 
+  "value": [
+    "@import url('[[%tabstop:path]]');", 
+    "!@#_currentPos!@#_anchor"
+  ], 
+  "set_selection": "true", 
+  "type": "snippet", 
+  "indent_relative": "true"
+}
