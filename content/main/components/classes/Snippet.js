@@ -118,7 +118,7 @@ autocode.classes.Snippet.prototype =
 			return String(this.value).replace(/!@#\w+/g, '');
 		},
 		
-		hasTabStops:function()
+		hasTabstops:function()
 		{
 			var rx = new RegExp('\[\[%tabstop\d*:[\\w\\s]+\]\]', 'i');
 			return rx.test(this.value);
