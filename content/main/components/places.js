@@ -219,7 +219,9 @@ autocode.places =
 					var selStart		= scimoz.selectionStart > 1 ? scimoz.selectionStart - 1 : 0;
 					var selEnd			= scimoz.selectionEnd + 1;
 					var text			= scimoz.getTextRange(selStart, selEnd);
+					
 					var hasQuotes		= /^(["']).*\1$/.test(text);
+					var hasBrackets		= /^\(.*\)$/.test(text) || /^\[.*\]$/.test(text);
 					var hasSelection	= scimoz.anchor != scimoz.currentPos;
 
 				// defaults
@@ -280,9 +282,27 @@ autocode.places =
 				// ----------------------------------------------------------------------------------------------------
 				// if there are quotes either side, or there is an existing selection, just add the snippet (just the path) as-is
 
-					if(hasQuotes || hasSelection)
+					if(hasQuotes)
 					{
-						message = 'Adding unmodified path for "' +file+ '"';
+						message			= 'Adding unmodified path for "' +file+ '" (as the caret/selection is between quotes)';
+						snippet.value	= path;
+					}
+					
+					else if(hasBrackets)
+					{
+						message			= 'Adding snippet "Places/default" for "' +file+ '" (as the caret/seletion is between brackets)';
+						snippet			= new Snippet('Places/default');
+						if( ! snippet.exists )
+						{
+							message			= 'Adding quoted path \'' +file+ '\' (as the caret/seletion is between brackets)';
+							snippet		= new Snippet();
+							snippet.value = "'" + path + "'";
+						}
+					}
+
+					else if(hasSelection)
+					{
+						message			= 'Adding unmodified path for "' +file+ '" (as the document has a selection)';
 						snippet.value	= path;
 					}
 
@@ -451,8 +471,8 @@ autocode.places =
 					function insert()
 					{
 						scimoz.beginUndoAction();
-						scimoz.gotoPos(scimoz.currentPos);
 						snippet.insert(view);
+						scimoz.gotoPos(scimoz.currentPos);
 						scimoz.endUndoAction();
 					}
 					
