@@ -99,9 +99,13 @@ autocode.snippets =
 				var lineStart			= scimoz.positionFromLine(lineIndex);
 				var line				= scimoz.getTextRange(lineStart, scimoz.currentPos);
 
-			// grab word
+			// grab word, plus next character, so we can tell if we're in the middle of a word or not
+				var matches				= line.match(/(\w+)$/)
+				var word				= matches ? matches[1] : null;
+				var nextChar			= scimoz.getTextRange(scimoz.currentPos, scimoz.currentPos + 1);
+				
+			// check to see what words come before this word
 				//var sel					= scimoz.getStyledText(scimoz.currentPos - word.length, scimoz.currentPos);
-				var word				= ko.interpolate.getWordUnderCursor(scimoz);
 				var words				= line.match(/(\w+)\s+\w+$/);
 				var previousWord		= words ? words[1] : null;
 				
@@ -111,9 +115,10 @@ autocode.snippets =
 			// only complete if...
 				if
 				(
-					word.match(/\w+/)							// check that word is a word
-					&& ! /^\s*(\/\/|\*\s+|#)/.test(line)		// we're currently not within a comment
+					word										// check that word is a word
+					&& !nextChar.match(/\w/)					// the next character is not part of this word
 					&& ignore.indexOf(previousWord) === -1		// we're not following an ignored word
+					&& ! /^\s*(\/\/|\*\s+|#)/.test(line)		// we're currently not within a comment
 				)
 				{
 					var snippet = ko.abbrev.findAbbrevSnippet(word);
@@ -129,7 +134,7 @@ autocode.snippets =
 				}
 
 			// return false
-				return false;
+				//return false;
 		},
 
 		toString:function()
