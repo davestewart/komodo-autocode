@@ -66,6 +66,7 @@
 		function OnPreferencePageOK()
 		{
 			ui.saveGroup();
+			ko.prefs.setBooleanPref('autocode.prefs.set', true);
 			return true;
 		}
 		
