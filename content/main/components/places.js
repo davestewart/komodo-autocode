@@ -38,7 +38,7 @@ autocode.places =
 
 			// global abbreviations
 				//trace('places init:3');
-				var strFileTypes	= prefs.getString('autocode.places.fileTypes', '');
+				var strFileTypes	= prefs.getString('autocode.places.fileTypes', this.getDefaultPrefFileTypes());
 				var matches			= strFileTypes.match(/(\w+):(.+)./mg);
 				if(matches)
 				{
@@ -339,36 +339,37 @@ autocode.places =
 								}
 
 							// Document overrides
-								snippetPaths.push('Documents/' + viewExt);
+								snippetPaths.push('Places/Documents/' + viewExt);
 
 							// Custom place
 								if(varPlace)
 								{
-									addSnippetPaths('Custom/' + varPlace + '/' + lang);
+									addSnippetPaths('Places/Custom/' + varPlace + '/' + lang);
 								}
 
 							// Custom Project
 								if(varProject)
 								{
-									addSnippetPaths('Custom/' + varProject + '/' + lang);
+									addSnippetPaths('Places/Custom/' + varProject + '/' + lang);
 								}
 
 							// Project name
 								if(projectName)
 								{
-									addSnippetPaths('Projects/' + projectName + '/' + lang);
+									addSnippetPaths('Places/Projects/' + projectName + '/' + lang);
 								}
 
 							// Language combo
-								addSnippetPaths('Languages/' + lang);
+								addSnippetPaths('Places/Languages/' + lang);
 
 							// global default fallback
-								snippetPaths.push('default');
+								snippetPaths.push('Places/default');
 
-						// ----------------------------------------------------------------------------------------------------
+						// ----------------------------------------------------------------------------------------------------'../../../_development/test/file types/image.jpg'
 						// look for snippets
 
 							// debug
+								//clear();
 								//inspect(snippetPaths);
 
 							// find the first matching file
@@ -451,7 +452,7 @@ autocode.places =
 					{
 						scimoz.beginUndoAction();
 						scimoz.gotoPos(scimoz.currentPos);
-						ko.abbrev.insertAbbrevSnippet(snippet, view);
+						snippet.insert(view);
 						scimoz.endUndoAction();
 					}
 					
@@ -483,6 +484,7 @@ autocode.places =
 	{
 		if(event.altKey || event.button == 1)
 		{
+			//if(autocode.checkPrefs())
 			return this.insertPath();
 		}
 		return false;
