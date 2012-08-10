@@ -113,9 +113,10 @@ autocode.classes.Snippet.prototype =
 			ko.abbrev.insertAbbrevSnippet(this, view);
 		},
 		
-		getText:function()
+		getText:function(trim)
 		{
-			return String(this.value).replace(/!@#\w+/g, '');
+			var text = String(this.value).replace(/!@#\w+/g, '');
+			return trim ? text.replace(/(^\s+|\s+$)/, '') : text;
 		},
 		
 		hasTabstops:function()

@@ -419,6 +419,8 @@ autocode.comments =
 							
 						// add all components to a single array
 							var lines	= [].concat(common, user, params, returns);
+							
+							inspect(user);
 
 						// output
 							var output = '\n';
@@ -497,7 +499,7 @@ autocode.comments =
 						if(snippet.exists)
 						{
 							// exit early if snippet is empty
-								if(snippet.getText() == '')
+								if(snippet.getText(true) == '')
 								{
 									return [];
 								}
