@@ -2,8 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "Common", 
   "value": [
-    " @author Dave Stewart", 
-    " @date [[%date]]!@#_currentPos!@#_anchor"
+    "!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 
