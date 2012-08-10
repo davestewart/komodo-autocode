@@ -416,7 +416,7 @@ autocode.comments =
 						// process user components
 							var common	= processSnippet('Common');
 							var user	= processSnippet('Function');
-
+							
 						// add all components to a single array
 							var lines	= [].concat(common, user, params, returns);
 
@@ -491,23 +491,28 @@ autocode.comments =
 				function processSnippet(type)
 				{
 					// grab snippet value
-						var snippet			= ko.abbrev.findAbbrevSnippet(type, 'AutoCode', 'Snippets');
-						var value			= snippet ? snippet.value.replace(/!@#\w+/g, '') : '';
+						var snippet			= new autocode.classes.Snippet('Comments/' + type);
 
 					// if we get a snippet, break the snippet into lines and process
-						if(value)
+						if(snippet.exists)
 						{
-							// replace any placeholders with environment and project variables
-								var vars		= new xjsflLib.EnvVars();
-								var data		= vars.getAll();
-								for(var name in data)
+							// exit early if snippet is empty
+								if(snippet.getText() == '')
 								{
-									var rx = new RegExp('\\[\\[%tabstop:' +name+ '\\]\\]', 'g');
-									value = value.replace(rx, data[name]);
+									return [];
 								}
-
+							
+							// replace any placeholders with environment and project variables
+								if(snippet.hasTabstops())
+								{
+									var vars		= new xjsflLib.EnvVars();
+									var data		= vars.getAll();
+									snippet.populate(data);
+								}
+								
 							// create parameters
-								var lines	= value.split(/\r\n|\r|\n/g);
+								var text	= snippet.getText();
+								var lines	= text.split(/\r\n|\r|\n/g);
 								var params	= [];
 								for each(var line in lines)
 								{
