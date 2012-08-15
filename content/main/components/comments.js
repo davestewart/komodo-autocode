@@ -420,8 +420,6 @@ autocode.comments =
 						// add all components to a single array
 							var lines	= [].concat(common, user, params, returns);
 							
-							inspect(user);
-
 						// output
 							var output = '\n';
 							output += ' * [[%tabstop:Summary]]\n';
@@ -438,7 +436,7 @@ autocode.comments =
 							return output;
 				}
 
-				function processClass(a, b)
+				function processClass()
 				{
 					// process user components
 						var common	= processSnippet('Common');
@@ -454,11 +452,11 @@ autocode.comments =
 						{
 							for each(var line in lines)
 							{
-								output += line.toString(this.settings.padding);
+								output += line.toString(settings.padding);
 							}
 						}
 						output += ' */';
-
+						
 						return output;
 				}
 
