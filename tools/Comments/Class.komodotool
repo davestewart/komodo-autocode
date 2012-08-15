@@ -2,7 +2,8 @@
   "keyboard_shortcut": "", 
   "name": "Class", 
   "value": [
-    " !@#_currentPos!@#_anchor"
+    "[[%tabstop:Summary]]", 
+    "[[%tabstop:Common]]!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 

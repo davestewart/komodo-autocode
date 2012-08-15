@@ -2,7 +2,9 @@
   "keyboard_shortcut": "", 
   "name": "Function", 
   "value": [
-    " !@#_currentPos!@#_anchor"
+    "[[%tabstop:Summary]]", 
+    "[[%tabstop:Common]]", 
+    "[[%tabstop:Params]]!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "false", 
   "version": "1.0.7", 
