@@ -1,9 +1,8 @@
 {
   "keyboard_shortcut": "", 
-  "name": "css", 
+  "name": "jsfl", 
   "value": [
-    "@import url('[[%tabstop:path]]');", 
-    "!@#_currentPos!@#_anchor"
+    "fl.runScript!@#_currentPos!@#_anchor('[[%tabstop:path]]');"
   ], 
   "set_selection": "true", 
   "version": "1.0.11", 

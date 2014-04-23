@@ -22,6 +22,7 @@
  */
 if( ! window.autocode )
 {
+	
 	autocode =
 	{
 		settings:
@@ -33,9 +34,10 @@ if( ! window.autocode )
 				places			:false,
 				snippets		:false,
 			},
-
+			
 			toolboxPath:'',
 			
+			isKO8:!!ko.widgets.getWidgetAsync,
 		},
 
 		onLoad:function()
@@ -43,20 +45,24 @@ if( ! window.autocode )
 			// handler proxies
 				function onClick(event) { autocode.events.onClick.call(autocode, event); }
 				function onKeyPress(event) { autocode.events.onKeyPress.call(autocode, event); }
-
-			// event handlers
+				
+			// main container event handler
 				var container			= (ko.views.manager ? ko.views.manager.topView : window)
 				container.addEventListener('keypress', onKeyPress, true);
-				document.getElementById('placesViewbox').addEventListener('click', onClick);
+				
+			// places event handler
+				function onPlacesReady(){ document.getElementById('placesViewbox').addEventListener('click', onClick); }
+				autocode.settings.isKO8
+					? ko.widgets.getWidgetAsync('placesViewbox', onPlacesReady) // KO8
+					: onPlacesReady(); // KO7
 				
 			// set up toolbox path
 				function getToolboxPath()
 				{
-					var devPath			= 'E:/05 - Commercial Projects/Komodo Extensions/AutoCode/tools/';
+					var devPath			= 'E:/05 - Commercial/Komodo Extensions/AutoCode/tools/';
 					var toolbox			= ko.toolbox2.getExtensionToolbox("autocode@xjsfl.com");
 					toolboxPath			= toolbox ? (toolbox.path + '/').replace(/\\/g, '/') + '/' : devPath;
 					autocode.settings.toolboxPath = toolboxPath;
-					//alert(toolboxPath)
 				}
 				window.setTimeout(getToolboxPath, 2000);
 
@@ -169,3 +175,6 @@ autocode.events =
 	},
 
 }
+
+//setTimeout(function(){ alert(1); }, 3000);
+//autocode.onLoad();

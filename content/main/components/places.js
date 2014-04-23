@@ -36,10 +36,10 @@ autocode.places =
 				//trace('places init:2');
 				this.pathType		= prefs.getString('autocode.places.pathType', 'relative');
 
-			// global abbreviations
+			// file types
 				//trace('places init:3');
 				var strFileTypes	= prefs.getString('autocode.places.fileTypes', this.getDefaultPrefFileTypes());
-				var matches			= strFileTypes.match(/(\w+):(.+)./mg);
+				var matches			= strFileTypes.match(/(\w+)\s*:(.+)./mg);
 				if(matches)
 				{
 					this.fileTypes = {};
@@ -326,11 +326,13 @@ autocode.places =
 							// get the language & group
 								var group			= fileExt ? this.settings.fileTypes[fileExt] : null;
 								var lang			= view.koDoc.languageForPosition(scimoz.currentPos);
+								var isHTML5			= false;
 
 							// massage languages into better-known types
 								if(lang == 'HTML5')
 								{
 									lang = 'HTML';
+									isHTML5 = true;
 								}
 								if(lang == 'XML' && viewExt == 'xul')
 								{
@@ -430,9 +432,17 @@ autocode.places =
 											uri				:itemURI,
 											folderuri		:itemURI.substr(0, absPath.length - file.length),
 										}
+											
+									// if the snippet is HTML5, update any self-closing tags
+										if(isHTML5)
+										{
+											snippet.value = snippet.value.replace(/\s*\/>/g, '>');
+										}
 
 									// replace variables
-										snippet.populate(envData).populate(pathData);
+										snippet
+											.populate(envData)
+											.populate(pathData);
 								}
 
 							// if there's still no snippet, just add the path in
@@ -465,7 +475,7 @@ autocode.places =
 			// insert the text
 
 				// update user
-					ko.statusBar.AddMessage(message, 'autocode.places', 3000);
+					ko.statusBar.AddMessage(message, 'autocode.places', 5000);
 
 				// insert the text
 					function insert()

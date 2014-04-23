@@ -88,7 +88,7 @@ autocode.console =
 
 					else if(/\.bat$/.test(url))
 					{
-						var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+						var file = Components.classes['@mozilla.org/file/local;1'].createInstance(Components.interfaces.nsILocalFile);
 						file.initWithPath(ko.uriparse.URIToPath(url));
 						file.launch();
 						return true;
@@ -109,26 +109,34 @@ autocode.console =
 			 */
 			getScimoz:function()
 			{
-				// get the panel (v7 & previous)
-					var tabpanel		= document.getElementById("runoutput-desc-tabpanel");
-					var container		= tabpanel && tabpanel.contentDocument ? tabpanel.contentDocument : document;
-					var scimoz			= container.getElementById("runoutput-scintilla").scimoz;
-
-				// replace this function the first time it's called
-					autocode.console.panel.getScimoz = function()
-					{
-						return scimoz
-					}
-
-				// return
-					return scimoz;
+				// placeholder function
 			},
 			
 			initialize:function()
 			{
-				var scimoz = this.getScimoz();
-				autocode.console.panel.newline = ["\r\n", "\n", "\r"][scimoz.eOLMode];
-				scimoz.tabWidth = 4;
+				// callback
+					function onPanel(tabpanel)
+					{
+						// variables
+							var container		= tabpanel && tabpanel.contentDocument ? tabpanel.contentDocument : document;
+							var scimoz			= container.getElementById('runoutput-scintilla').scimoz;
+		
+						// set up scimoz
+							autocode.console.panel.newline = ['\r\n', '\n', '\r'][scimoz.eOLMode];
+							scimoz.tabWidth		= 4;
+							
+						// assign getScimoz()
+							autocode.console.panel.getScimoz = function()
+							{
+								return scimoz
+							}
+					}
+				
+				// get the panel
+					autocode.settings.isKO8
+						? ko.widgets.getWidgetAsync("runoutput-desc-tabpanel", onPanel)	// KO8
+						: onPanel(document.getElementById('runoutput-desc-tabpanel'));	// KO7
+
 			}
 		},
 
@@ -143,11 +151,11 @@ autocode.console =
 				// temp path
 					var path = Components.classes['@mozilla.org/file/directory_service;1']
 						.getService(Components.interfaces.nsIProperties)
-						.get("TmpD", Components.interfaces.nsIFile)
+						.get('TmpD', Components.interfaces.nsIFile)
 						.path + '/' + 'autocode.txt';
 
 				// write file
-					var file	= Components.classes["@activestate.com/koFileEx;1"].createInstance(Components.interfaces.koIFileEx);
+					var file	= Components.classes['@activestate.com/koFileEx;1'].createInstance(Components.interfaces.koIFileEx);
 					file.path	= path;
 					file.open('w');
 					file.puts(data);
@@ -160,7 +168,7 @@ autocode.console =
 			copyString:function(str)
 			{
 				Components
-					.classes["@mozilla.org/widget/clipboardhelper;1"]
+					.classes['@mozilla.org/widget/clipboardhelper;1']
 					.getService(Components.interfaces.nsIClipboardHelper)
 					.copyString(str);
 			}
@@ -208,7 +216,7 @@ autocode.console =
 			}
 			catch(err)
 			{
-				alert("Problems tracing [" + strIn + "]: " + err);
+				alert('Problems tracing [' + strIn + ']: ' + err);
 			}
 		},
 
@@ -336,7 +344,7 @@ autocode.console =
 							}
 							else
 							{
-								output(' ' + key + ": [ SKIPPING! ]");
+								output(' ' + key + ': [ SKIPPING! ]');
 							}
 						}
 						up();
@@ -398,7 +406,7 @@ autocode.console =
 								}
 								catch(err)
 								{
-									output(' ' + key + ": [ UNABLE TO GET VALUE ]");
+									output(' ' + key + ': [ UNABLE TO GET VALUE ]');
 									return false;
 								}
 
@@ -423,12 +431,12 @@ autocode.console =
 									{
 										stats.objects++;
 										var className = getType(value[key], true);
-										output("[" + key + "] => " +className);
+										output('[' + key + '] => ' +className);
 										type == 'object' ? processObject(value[key]) : processArray(value[key]);
 									}
 									else
 									{
-										output(' ' + key + ": [ RECURSION! ]");
+										output(' ' + key + ': [ RECURSION! ]');
 									}
 								}
 
@@ -436,7 +444,7 @@ autocode.console =
 								else
 								{
 									stats.values++;
-									output(' ' + key + ": " + getValue(value[key]));
+									output(' ' + key + ': ' + getValue(value[key]));
 								}
 
 							// return

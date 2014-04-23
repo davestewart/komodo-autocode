@@ -1,1 +1,1 @@
-E:\05 - Commercial Projects\Komodo Extensions\AutoCode\
+E:\05 - Commercial\Komodo Extensions\AutoCode\

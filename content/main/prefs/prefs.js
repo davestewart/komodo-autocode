@@ -58,6 +58,12 @@
 				{
 					fileTypes.value = autocode.places.settings.getDefaultPrefFileTypes();
 				}
+				
+			// hide autocomplete height for KO8+
+				if(autocode.settings.isKO8)
+				{
+					document.getElementById('autocompleteHeightGroup').style.display = 'none';
+				}
 
 			// tell parent we've loaded
 				parent.hPrefWindow.onpageload();

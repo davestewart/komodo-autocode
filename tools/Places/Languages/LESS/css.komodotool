@@ -2,8 +2,7 @@
   "keyboard_shortcut": "", 
   "name": "css", 
   "value": [
-    "@import url('[[%tabstop:path]]');", 
-    "!@#_currentPos!@#_anchor"
+    "@import '[[%tabstop:path]]';!@#_currentPos!@#_anchor"
   ], 
   "set_selection": "true", 
   "version": "1.0.11", 

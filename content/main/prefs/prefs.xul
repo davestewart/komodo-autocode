@@ -49,13 +49,18 @@
 
         <groupbox orient="vertical" style="padding:10px 4px;">
             <caption label="AutoCode"/>
-            <description>AutoCode adds features to make in-editor development quicker and more productive.</description>
-            <description>For full information, help and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page. </description>
-            <description>Note that Komodo Edit users may need to restart for some preferences to take effect.</description>
+			<box>
+				<label style="padding:0; margin:0; text-align:center;" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode"><image src="chrome://autocode/skin/logo.png" width="250" height="100" /></label>
+			</box>
+			<vbox>
+				<description>AutoCode adds features to make in-editor development quicker and more productive.</description>
+				<description>For full information, help and examples, see the <label style="padding:0; margin:0" class="text-link" href="http://www.xjsfl.com/support/setup/komodo/autocode">AutoCode</label> home page. </description>
+				<description>Note that Komodo Edit users may need to restart for some preferences to take effect.</description>
+			</vbox>
         </groupbox>
 
 
-		<groupbox orient="vertical">
+		<groupbox orient="vertical" id="autocompleteHeightGroup">
 			<caption label="Auto-Complete"/>
 			<hbox align="baseline" style="padding:10px 0px 0px 0px">
 				<label>Auto-Complete height: <textbox id="autocompleteHeight" prefid="autocode.autocomplete.height" preftype="long" value="10" width="50" type="number" min="5" max="25" /></label>
@@ -91,7 +96,7 @@
 
 					<description>
 						To make comments easier to read, you can force comment blocks to be laid out in columns.
-						Column widths are set automatically based on the width of tags, but you can update the values manbelow to customise the layout.
+						Column widths are set automatically based on the width of tags, but you can update the values below to customise the layout.
 					</description>
 
 					<hbox align="baseline" style="padding:10px 0px 0px 0px">
